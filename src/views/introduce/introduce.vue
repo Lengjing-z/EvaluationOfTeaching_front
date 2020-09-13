@@ -24,7 +24,7 @@
         >
           <el-row>
             <el-col :span='2'>
-              <span class="iconfont">&#xe654;</span>
+              <span class="el-icon-user-solid"></span>
             </el-col>
             <el-col :span='22'>
               <el-input
@@ -150,7 +150,7 @@
         let now = new Date();
         if (params) {
           //初始化星星
-          for(var i = 0; i < 60; i++) {
+          for(var i = 0; i < 40; i++) {
             const radius = Math.random() * 3 + 2;
             let star = new this.Ball(radius);
             star.x = Math.random() * this.canvas.width + 1;
@@ -164,13 +164,13 @@
               ];
             this.stars.push(star);
           }
-        } else if (!params && now - this.last_star_created_time > 3000) {
-          //每隔3秒重绘修改颜色其中30个球阴影颜色
+        } else if (!params && now - this.last_star_created_time > 3000000) {
+         /* //每隔3秒重绘修改颜色其中30个球阴影颜色
           for (var i = 0; i < 30; i++) {
             this.stars[i].shadowColor = this.shadowColorList[
               Math.floor(Math.random() * this.shadowColorList.length)
               ];
-          }
+          } */
           this.last_star_created_time = now;
         }
       },
@@ -238,7 +238,7 @@
     padding: 0;
     margin: 0;
     height: 100vh;
-    font-size: 16px;
+    font-size: 18px;
     background-repeat: no-repeat;
     background-position: left top;
     background-color: #242645;
@@ -256,6 +256,7 @@
       width: 240px;
       height: 280px;
       position: absolute;
+      border-radius: 15px;
       top: 0;
       left: 0;
       right: 0;
@@ -263,12 +264,13 @@
       margin: auto;
       padding: 50px 40px 40px 40px;
       box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
-      opacity: 1;
+      opacity: 0.9;
       background: linear-gradient(
         230deg,
-        rgba(53, 57, 74, 0) 0%,
+        rgba(53, 57, 74, 0) 20%,
         rgb(0, 0, 0) 100%
       );
+      background-color: #EAEAEA;
       /deep/ .inps input {
         border: none;
         color: #fff;
@@ -276,9 +278,9 @@
         font-size: 12px;
       }
       .submitBtn {
-        background-color: transparent;
-        color: #39f;
-        width: 200px;
+        width: 100%;
+        background: #505458;
+        border: none;
       }
       .iconfont {
         color: #fff;
