@@ -43,12 +43,9 @@ export default {
 
 <style scoped>
     #poster {
-     /* background:url("./src/assets/login-background.jpg") no-repeat;*/
       background-position: center;
       height: 100%;
       width: 100%;
-      margin-left: 100px;
-      margin-top: -100px;
       background-size: cover;
       position: fixed;
     }

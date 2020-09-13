@@ -1,6 +1,5 @@
 <template id="index">
   <div id="app">
-    <login></login>
     <introduce></introduce>
   </div>
 </template>
