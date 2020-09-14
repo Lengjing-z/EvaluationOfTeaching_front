@@ -36,7 +36,9 @@ export default {
       //     }
       //   })
       //   .catch(failResponse => {});
+      this.$router.push('/index');
     }
+
   }
 };
 </script>
