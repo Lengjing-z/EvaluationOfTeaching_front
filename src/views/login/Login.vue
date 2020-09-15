@@ -15,7 +15,6 @@
             <li><i class="el-icon-s-promotion"></i> 教师互评</li>
             <li><i class="el-icon-s-open"></i> 四位一体</li>
           </ul>
-          <strong id="login" style="display: none">已有账号？ <a href="javascript:" onclick="changeItem('login');return false;">立即登录&raquo;</a></strong>
           <strong id="register">想了解更多？ <a href="javascript:" onclick="changeItem('register');return false;">点击这里&raquo;</a></strong>
         </div>
       </div>
@@ -71,56 +70,56 @@
 <style scoped>
   #register{
     display: block;
-    margin-top: 40px;
+    margin-top: 2.5rem  /* 40/16 */;
   }
   .no-margins,.m-t-md{color: white}
   .el-icon-s-custom,.el-icon-s-goods {
     color: black;
-    font-size: 17px;
-    margin-left: -40px;
+    font-size: 1.0625rem  /* 17/16 */;
+    margin-left: -2.5rem  /* -40/16 */;
   }
   .signinpanel {
-    font-size: 12px;
-    margin-top: -23px;
+    font-size: 0.75rem  /* 12/16 */;
+    margin-top: -1.4375rem  /* -23/16 */;
     letter-spacing: 2px;
     background: url("~@/assets/login-background.jpg") no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    height:700px;
+    height:58rem  /* 800/16 */;
     color: rgba(255, 255, 255, .95);
   }
   .signup-footer{
-    margin-left: 250px;
-    margin-top: 30px;
+    margin-left: 27%/* 300/16 */;
+    margin-top: 1.875rem  /* 30/16 */;
     letter-spacing: 0px;
   }
   .line_ti{
-    width: 800px;
+    width: 50% /* 850/16 */;
   }
   .row{
-    padding-top: -100px;
-    margin-left: 250px;
-    margin-top: -115px;
+    padding-top: -6.25rem  /* -100/16 */;
+    margin-left:  27% /* 250/16 */;
+    margin-top: -7.1875rem  /* -115/16 */;
   }
   .col-sm-7{
-    margin-top: 250px;
+    margin-top: 15.625rem  /* 250/16 */;
     float: left;
   }
   ul > li{
-    padding-left: 0px;
-    margin-left: -40px;
-    margin-top: 5px;
-    list-style: none;
-  }
+     padding-left: 0px;
+     margin-left: -2.5rem  /* -40/16 */;
+     margin-top: 5px;
+     list-style: none;
+   }
   input{
     border: 1px solid #ccc;
-    width: 250px;
-    height: 25px;
+    width: 15.625rem  /* 250/16 */;
+    height: 1.5625rem  /* 25/16 */;
     padding: 7px 0px;
     border-radius: 5px;
-    padding-left:10px;
-    padding-right: 30px;
-    margin-top: 15px;
+    padding-left:0.625rem  /* 10/16 */;
+    padding-right: 1.875rem  /* 30/16 */;
+    margin-top: 0.9375rem  /* 15/16 */;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
@@ -134,8 +133,8 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
   }
   #btn { /* 按钮美化 */
-    width: 290px; /* 宽度 */
-    height: 34px; /* 高度 */
+    width: 18.125rem  /* 290/16 */; /* 宽度 */
+    height:2.5rem  /* 40/16 */  /* 30/16 */ /* 34/16 */; /* 高度 */
     border-width: 0px; /* 边框宽度 */
     border-radius: 3px; /* 边框半径 */
     background: #1E90FF; /* 背景颜色 */
@@ -152,18 +151,19 @@
   }
   .logopanel h1{
     font-weight: normal;
-    font-size: 25px;
+    font-size: 1.5625rem  /* 25/16 */;
   }
   .col-sm-5 {
-    width: 350px;
-    height: 250px;
+    width: 21.875rem  /* 350/16 */;
+    height: 18.75rem  /* 300/16 */;
     background: rgba(255, 255, 255, .2);
     float: right;
-    margin-top: -235px;
-    margin-right: 250px;
+    margin-top: -15.625rem  /* -250/16 */;
+    /*margin-right: 250px;*/
+    margin-right: 30%;
   }
   .self{
-    margin-left: 30px;
+    margin-left: 1.875rem  /* 30/16 */;
   }
 
 

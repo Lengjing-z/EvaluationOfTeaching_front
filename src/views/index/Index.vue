@@ -5,8 +5,10 @@
       <el-main>Main</el-main>
       <el-aside width="200px">Aside</el-aside>
     </div>
+    <el-footer>
 
-    <el-footer>Footer</el-footer>
+    </el-footer>
+
   </el-container>
 </template>
 
@@ -18,6 +20,7 @@ export default {
 </script>
 
 <style scoped>
+
 body {
   min-height: 100%;
 }
@@ -31,6 +34,7 @@ body {
 }
 .el-footer {
    flex: 1;
+   line-height: 12.5rem  /* 200/16 */;
 }
 
 .el-aside {
