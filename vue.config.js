@@ -9,6 +9,7 @@ module.exports={
         config.resolve.alias
         //set第一个参数：设置的别名，第二个参数：设置的路径
         .set('@',resolve('./src'))
+          .set('',resolve(''))
         .set('components',resolve('./src/components'))
         .set('assets',resolve('./src/assets'))
         .set('views',resolve('./src/views'))
