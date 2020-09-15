@@ -1,0 +1,49 @@
+body {
+  min-height: 100%;
+}
+.el-header{
+  margin-bottom: 1.25rem  /* 20/16 */;
+}
+.el-header,
+.el-footer {
+  width: 100%;
+  color: #333;
+  text-align: left;
+  line-height: 60px;
+  padding: 0;
+}
+
+.el-footer {
+  flex: 1;
+}
+
+.el-main {
+  background-color: #f357db;
+  text-align: center;
+  line-height: 160px;
+  padding: 0;
+}
+
+.el-aside {
+  margin-left: 20px;
+  background-color: #e63752;
+  color: #333;
+  height: 400px;
+  text-align: center;
+  line-height: 200px;
+}
+
+body > .el-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 68.75rem  /* 1100/16 */;
+  height: 75rem  /* 1200/16 */;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+
