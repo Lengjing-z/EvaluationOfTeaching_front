@@ -43,11 +43,15 @@
       <div class="pull-left">
         &copy; 2019 All Rights Reserved.
       </div>
+      <button @click="test">test</button>
+      <button @click="test1">test</button>
     </div>
   </div>
+
 </template>
 
 <script>
+
   export default {
     name: "login",
     data() {
@@ -62,12 +66,19 @@
     methods : {
       login() {
         this.$router.push('/index');
+      },
+      test(){
+        this.$router.push('./manager');
+      },
+      test1(){
+        this.$router.push('./mess');
       }
     }
   }
 </script>
 
 <style scoped>
+
   #register{
     display: block;
     margin-top: 2.5rem  /* 40/16 */;
@@ -85,7 +96,7 @@
     background: url("~@/assets/login-background.jpg") no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    height:58rem  /* 800/16 */;
+    height:75rem  /* 1200/16 */;
     color: rgba(255, 255, 255, .95);
   }
   .signup-footer{
