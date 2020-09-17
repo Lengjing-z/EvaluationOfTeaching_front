@@ -1,5 +1,6 @@
 body {
   min-height: 100%;
+  background-color: #eeeeee;
 }
 .el-header{
   margin-bottom: 1.25rem  /* 20/16 */;
@@ -16,16 +17,20 @@ body {
 .el-footer {
   flex: 1;
 }
-
+#main {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
 .el-main {
-  background-color: #f357db;
+  background-color: #ffffff;
   text-align: center;
   line-height: 160px;
   padding: 0;
+
 }
 
 .el-aside {
-  margin-left: 20px;
   background-color: #e63752;
   color: #333;
   height: 400px;
@@ -38,12 +43,6 @@ body > .el-container {
   flex-direction: column;
 }
 
-.container {
-  width: 68.75rem  /* 1100/16 */;
-  height: 75rem  /* 1200/16 */;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 30px;
-}
+
 
 
