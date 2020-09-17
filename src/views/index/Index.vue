@@ -1,12 +1,14 @@
 <template>
   <el-container>
     <el-header><Nav></Nav></el-header>
-    <div>
+    <div class="d-none d-md-block">
       <pic-slide></pic-slide>
     </div>
-    <div class="el-container container">
-      <el-main>Main</el-main>
-      <el-aside width="200px">Aside</el-aside>
+    <div id="main" class="container row">
+      <el-main class="container col-sm-12 col-md-12 col-lg-9">
+        <function-list></function-list>
+      </el-main>
+      <el-aside  class="d-sm-none d-lg-block col-lg-2 offset-md-1"></el-aside>
     </div>
     <el-footer><Footer></Footer></el-footer>
   </el-container>
@@ -16,13 +18,17 @@
   import Nav from "components/content/nav/Nav.vue";
   import PicSlide from "components/content/index/slide/PicSlide";
   import Footer from "../../components/content/footer/Footer";
+  import Function from "components/common/function/Function";
+  import FunctionList from "../../components/content/index/funlist/FunctionList";
 
   export default {
     name: 'Index',
     components: {
       Nav,
       PicSlide,
-      Footer
+      Footer,
+      Function,
+      FunctionList
     }
   };
 </script>
