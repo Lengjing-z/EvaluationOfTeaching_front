@@ -19,5 +19,7 @@
 
 <style>
 @import url("./assets/css/base.css");
-
+.el-header{
+  padding: 0;
+}
 </style>
