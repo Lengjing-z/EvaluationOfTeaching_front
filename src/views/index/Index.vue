@@ -26,13 +26,13 @@
     components: {
       Nav,
       PicSlide,
+      Footer,
       Function,
-      FunctionList,
-      Footer
+      FunctionList
     }
   };
 </script>
 
 <style scoped>
-  @import url("~@/assets/css/index.css");
+  @import url('~@/assets/css/index.css');
 </style>
