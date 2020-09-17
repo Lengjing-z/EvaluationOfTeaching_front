@@ -1,27 +1,18 @@
 <template>
     <div>
       <Nav></Nav>
-      <table class="msg" border="1">
+      <table class="msg">
         <tr>
-          <th>11</th>
-          <th>111</th>
-          <th>111</th>
+          <th><span>姓名:</span>{{tableData.name}}</th>
+          <th><span>性别:</span>{{tableData.sex}}</th>
+          <th><span>年龄:</span>{{tableData.age}}</th>
         </tr>
         <tr>
-          <th>22</th>
-          <th>222</th>
-          <th>2222</th>
+          <th><span>学号:</span>{{tableData.code}}</th>
+          <th><span>身高:</span>{{tableData.height}}</th>
+          <th><span>地址:</span>{{tableData.address}}</th>
         </tr>
-        <tr>
-          <th>33</th>
-          <th>333</th>
-          <th>3333</th>
-        </tr>
-        <tr>
-          <th>44</th>
-          <th>444</th>
-          <th>4444</th>
-        </tr>
+
       </table>
     </div>
 </template>
@@ -32,6 +23,20 @@
     name: "Mess",
     components:{
       Nav,
+    },
+    data() {
+      return {
+        tableData:{
+          id:1,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000505',
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }
+      }
     }
   }
 </script>
@@ -40,8 +45,17 @@
   table {
     width: 70%;
     margin: 0.625rem  /* 10/16 */ auto;
+    font-weight: normal;
   }
   table th{
     width: 33.3%;
+    height: 50px;
+    text-align: left;
+  }
+  table tr{
+    margin-top: 3.125rem  /* 50/16 */;
+  }
+  .msg tr th span{
+    color: #b1b1b1;
   }
 </style>
