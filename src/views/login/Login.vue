@@ -1,5 +1,5 @@
 <template>
-  <div class="signinpanel">
+  <div id="signinpanel">
     <div class="row">
       <div class="col-sm-7">
         <div class="signin-info">
@@ -89,7 +89,7 @@
     font-size: 1.0625rem  /* 17/16 */;
     margin-left: -2.5rem  /* -40/16 */;
   }
-  .signinpanel {
+  #signinpanel {
     font-size: 0.75rem  /* 12/16 */;
     margin-top: -1.4375rem  /* -23/16 */;
     letter-spacing: 2px;
