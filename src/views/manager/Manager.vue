@@ -88,8 +88,8 @@
 </template>
 
 <script>
-  import Nav from "../../components/content/nav/Nav";
-  import Footer from "../../components/content/footer/Footer";
+import Nav from "components/content/nav/NavBar";
+  import Footer from "components/content/footer/Footer";
   export default {
     name: "Manager",
     components:{

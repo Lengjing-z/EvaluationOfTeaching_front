@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import Nav from "../../components/content/nav/Nav";
+import Nav from "components/content/nav/NavBar";
   export default {
     name: "Mess",
     components:{

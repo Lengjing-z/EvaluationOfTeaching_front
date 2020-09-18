@@ -1,38 +1,55 @@
 <template>
-  <el-container>
-    <el-header><Nav></Nav></el-header>
-    <div class="d-none d-md-block">
+  <div>
+<!--    导航栏-->
+    <header>
+      <NavBar></NavBar>
+    </header>
+    <aside class="slide d-none d-md-block">
+      <!--  图片轮播   -->
       <pic-slide></pic-slide>
-    </div>
-    <div id="main" class="container row">
-      <el-main class="container col-sm-12 col-md-12 col-lg-9">
-        <function-list></function-list>
-      </el-main>
-      <el-aside  class="d-sm-none d-lg-block col-lg-2 offset-md-1"></el-aside>
-    </div>
-    <el-footer><Footer></Footer></el-footer>
-  </el-container>
+    </aside>
+    <!--  main start  -->
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="span10 col-md-9">
+            <!--主体内容-->
+            <function-list></function-list>
+          </div>
+          <div class="span2 d-none d-md-block col-md-3">
+            <!--边栏内容-->
+          </div>
+        </div>
+      </div>
+      <aside></aside>
+    </main>
+    <!--    main end -->
+    <!--    footer stard -->
+    <Footer></Footer>
+
+  </div>
+
 </template>
 
 <script>
-  import Nav from "components/content/nav/Nav.vue";
-  import PicSlide from "components/content/index/slide/PicSlide";
-  import Footer from "../../components/content/footer/Footer";
-  import Function from "components/common/function/Function";
-  import FunctionList from "../../components/content/index/funlist/FunctionList";
+import NavBar from "components/content/nav/NavBar";
+import PicSlide from "components/content/index/slide/PicSlide";
+import Footer from "../../components/content/footer/Footer";
+import Function from "components/common/function/Function";
+import FunctionList from "../../components/content/index/funlist/FunctionList";
 
-  export default {
-    name: 'Index',
-    components: {
-      Nav,
-      PicSlide,
-      Footer,
-      Function,
-      FunctionList
-    }
-  };
+export default {
+  name: 'Index',
+  components: {
+    NavBar,
+    PicSlide,
+    Footer,
+    Function,
+    FunctionList
+  }
+};
 </script>
 
 <style scoped>
-  @import url('~@/assets/css/index.css');
+@import url('~@/assets/css/index.css');
 </style>
