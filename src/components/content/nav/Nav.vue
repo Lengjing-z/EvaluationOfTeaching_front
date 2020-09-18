@@ -1,7 +1,7 @@
 <template>
-  <div id="nav">
-    <el-row class="navel">
-      <el-col :span="8">
+  <div id="nav" >
+    <el-row class="container">
+      <el-col :span="8" class="d-none d-md-block">
         <div class="grid-content bg-logo">
           <img src="~assets/img/logo.png" alt="">
           <div>MAX评教系统</div>
@@ -43,7 +43,7 @@
   }
 
   .navel {
-    width: 68.75rem /* 1100/16 */;
+    /*width: 68.75rem !* 1100/16 *!;*/
     margin: 0 auto;
     user-select: none;
   }
