@@ -4,28 +4,28 @@
       <p>服务</p>
     </div>
     <div id="list" class="row container">
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
       </div>
 
@@ -42,6 +42,7 @@ export default {
 <style scoped>
 #functionlist{
   padding: 10px;
+  background-color: #ffffff;
 }
 
 .title {
