@@ -60,7 +60,7 @@
   .log{
     position:absolute;
     left:15%;
-    top:50%;
+    top:30%;
     transform:translate(-50%,-50%);
     line-height: 12.5rem  /* 200/16 */;
     height: 7.5rem  /* 120/16 */;
@@ -91,7 +91,7 @@
   .QR{
     position:absolute;
     left:85%;
-    top:50%;
+    top:30%;
     transform:translate(-50%,-50%);
     line-height: 12.5rem  /* 200/16 */;
     height: 8.125rem  /* 130/16 */  /* 180/16 */  /* 150/16 */;

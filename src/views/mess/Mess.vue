@@ -1,7 +1,10 @@
+
 <template>
     <div>
-      <Nav></Nav>
-      <table class="msg">
+      <header>
+        <Nav></Nav>
+      </header>
+      <!--<table class="msg">
         <tr>
           <th><span>姓名:</span>{{tableData.name}}</th>
           <th><span>性别:</span>{{tableData.sex}}</th>
@@ -13,7 +16,7 @@
           <th><span>地址:</span>{{tableData.address}}</th>
         </tr>
 
-      </table>
+      </table>-->
     </div>
 </template>
 
@@ -42,6 +45,10 @@ import Nav from "components/content/nav/NavBar";
 </script>
 
 <style scoped>
+header{
+  background-color: #0a408a;
+  margin-bottom: 20px;
+}
   table {
     width: 70%;
     margin: 0.625rem  /* 10/16 */ auto;

@@ -33,6 +33,7 @@ Vue.use(VueRouter)
       name: 'Mess',
       component: Mess
     }
+
 ]
 
 const router = new VueRouter({
