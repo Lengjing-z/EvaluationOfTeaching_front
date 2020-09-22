@@ -10,7 +10,7 @@
     name:'app',
     components: {
       Login,
-      Introduce
+          Introduce
     }
   }
 </script>
