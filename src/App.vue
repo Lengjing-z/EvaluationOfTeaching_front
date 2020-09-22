@@ -5,12 +5,10 @@
 </template>
 <script>
   import Login from 'views/login/Login.vue';
-  import Introduce from 'views/introduce/introduce.vue'
   export default {
     name:'app',
     components: {
-      Login,
-          Introduce
+      Login
     }
   }
 </script>
@@ -18,8 +16,6 @@
 
 <style>
 @import url("./assets/css/base.css");
-.el-header{
-  padding: 0;
-}
+
 
 </style>

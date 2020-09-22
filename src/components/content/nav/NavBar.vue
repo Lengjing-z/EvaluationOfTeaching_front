@@ -1,8 +1,8 @@
 <template>
   <header>
-  <div id="navbar" class="container">
+  <div id="navbar" class="container-fluid">
     <b-navbar toggleable="lg" type="dark">
-      <b-navbar-brand href="#" class="logo ">
+      <b-navbar-brand href="#" class="logo ml-sm-5">
         <img src="~assets/img/logo.png" class="d-inline-block align-top" alt="Kitten">
         MAX教务系统
       </b-navbar-brand>

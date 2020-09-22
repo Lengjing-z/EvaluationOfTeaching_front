@@ -1,6 +1,6 @@
 <template>
 
-  <div class="test">
+  <div class="messcord">
     <header>
       <h3>学生信息管理</h3>
     </header>
@@ -205,9 +205,9 @@ body{
 .Uname{
   color: #2a8bcb;
 }
-.test {
+.messcord {
   width: 80%;
-  height: 1300px;
+  /*height: 1300px;*/
   margin:0 auto;
 }
 /*= common css to all effects =*/

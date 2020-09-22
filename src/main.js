@@ -13,6 +13,14 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
+// primevue  primeicons
+import Dialog from 'primevue/dialog';
+import 'primevue/resources/themes/saga-blue/theme.css '
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css '
+Vue.prototype.$primevue = {ripple: true};
+Vue.component('Dialog', Dialog);
+
 new Vue({
   router,
   store,

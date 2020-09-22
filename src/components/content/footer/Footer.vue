@@ -1,30 +1,31 @@
 <template>
-  <div class="box">
-    <div id="footer">
-      <div class="log">
+  <div>
+    <div class="clear"></div>
+    <div id="footer" class="d-none d-sm-block">
+      <div class="log ">
         <img src="~@/assets/img/logo.png" width="120" height="120" alt="">
-
       </div>
       <div class="introduce1">
-        <div class="test">
+        <div class="footerinfo">
           <div class="title1">重庆工程学院南泉校区</div>
           <div class="title2">地&#12288址:重庆工程学院巴南区白鹤村</div>
           <div class="title2">电&#12288话:58581234</div>
         </div>
       </div>
       <div class="introduce2">
-        <div class="test">
+        <div class="footerinfo">
           <div class="title1">重庆工程学院双桥校区</div>
           <div class="title2">地&#12288址:重庆工程学院大足区通桥镇</div>
           <div class="title2">电&#12288话:58581234</div>
         </div>
       </div>
-      <div class="QR">
+      <div class="QR  ">
         <img src="~@/assets/img/QRcode.png" width="120" height="120" alt="">
       </div>
       <div style="clear: both"></div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -42,7 +43,7 @@
     color: #6a90c4;
     margin-top: -10px;
   }
-  .test {
+  .footerinfo {
     width: 18.75rem  /* 300/16 */ /* 150/16 */;
     height: 4.6875rem  /* 75/16 */  /* 100/16 */;
     line-height: 3.125rem  /* 50/16 */ /* 100/16 */;

@@ -41,7 +41,7 @@
     <DepartmentCard v-if="isDepartment"></DepartmentCard>
     <Examination v-if="isExamination"></Examination>
   </div>
-  <div class="show"></div>
+<!--  <div class="show"></div>-->
   <footer>
     <Footer></Footer>
   </footer>

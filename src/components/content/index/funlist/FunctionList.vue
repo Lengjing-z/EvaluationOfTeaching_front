@@ -5,7 +5,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6 col-6" v-b-modal.function>
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="limits">
         <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6">
@@ -38,6 +38,11 @@ export default {
   name: "FunctionList",
   components:{
     Function
+  },
+  methods:{
+    limits(){
+      // this.$router.push('/limits');
+    }
   }
 }
 </script>
