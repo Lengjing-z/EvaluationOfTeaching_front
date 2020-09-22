@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// vxe-table
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 
 // Vue ui
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -13,13 +17,12 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-// primevue  primeicons
-import Dialog from 'primevue/dialog';
-import 'primevue/resources/themes/saga-blue/theme.css '
-import 'primevue/resources/primevue.min.css';
-import 'primeicons/primeicons.css '
-Vue.prototype.$primevue = {ripple: true};
-Vue.component('Dialog', Dialog);
+
+
+Vue.use(VXETable)
+// import 'plugins/utils'
+// import 'plugins/table'
+
 
 new Vue({
   router,

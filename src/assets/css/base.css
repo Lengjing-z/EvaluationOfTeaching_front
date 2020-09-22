@@ -1,9 +1,6 @@
 /* public css */
 @import url("./normalize.css");
 
-.el-header{
-  padding: 0;
-}
 a{ text-decoration:none;}/*清除a标签下划线*/
 ul,li,ol{ list-style:none;}/*清除列表样式*/
 
@@ -11,9 +8,7 @@ a:visited{ text-decoration:none; color:inherit;}/*定义已访问过链接的样
 a:active{ text-decoration:none; color:inherit;}/*定义鼠标点击链接时的样式*/
 a:link{ text-decoration:none; color:inherit;}/*定义正常链接的样式*/
 a:hover{ text-decoration:none;}/*清除a标签下划线*/
-div{
-  outline: none;
-}
+
 .clear{
   clear: both;
 }
