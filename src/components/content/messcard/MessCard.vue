@@ -1,5 +1,9 @@
 <template>
+
   <div class="test">
+    <header>
+      <h3>学生信息管理</h3>
+    </header>
     <div class="single-member effect-3" v-for="(item,index) in tableData">
       <div class="member-image">
         <img src="" alt="">
@@ -10,8 +14,8 @@
         <p>年龄:{{tableData[index].age}}&nbsp&nbsp身高:{{tableData[index].height}}</p>
         <p>家庭住址:{{tableData[index].address}}</p>
         <b-button-group id="dosomeThing">
-          <b-button style="width: 60px" variant="outline-primary">
-            <b-icon @click="change(index)"  icon="tools"></b-icon>
+          <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary"@click="showModal(index)">
+            <b-icon  icon="tools"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
@@ -22,12 +26,39 @@
         </b-button-group>
       </div>
     </div>
+    <b-modal id="my-modal" title="修改用户信息">
+      <b-input-group  prepend="姓     名" class="mt-3">
+        <b-form-input id="username"></b-form-input>
+      </b-input-group>
+      <b-input-group id="code" prepend="学     号" class="mt-3">
+        <b-form-input></b-form-input>
+      </b-input-group>
+      <b-input-group prepend="修改密码" class="mt-3">
+        <b-form-input></b-form-input>
+      </b-input-group>
+      <b-input-group prepend="确认密码" class="mt-3">
+      <b-form-input></b-form-input>
+    </b-input-group>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
+  methods:{
+    showModal(index) {
+      document.querySelector("#username").value = this.tableData[index].name;
+    },
+    hideModal() {
+     /* this.$refs['my-modal'].hide()*/
+    },
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+     /* this.$refs['my-modal'].toggle('#toggle-btn')*/
+    }
 
+  },
 name: "MessCard",
   data() {
     return {
@@ -49,7 +80,8 @@ name: "MessCard",
         date: '2016-05-04',
         name: '任然',
         address: '上海市普陀区金沙江路 1517 弄'
-      }, {
+      },
+        {
         id:3,
         sex:"男",
         age: 18,
@@ -115,7 +147,8 @@ name: "MessCard",
           date: '2016-05-04',
           name: '李宇蔚',
           address: '上海市普陀区金沙江路 1517 弄'
-        }, {
+        },
+        {
           id:4,
           sex:"男",
           age: 18,
@@ -144,10 +177,12 @@ name: "MessCard",
           date: '2016-05-04',
           name: '黄天亮',
           address: '上海市普陀区金沙江路 1517 弄'
-        }],
+        }]
 
     }
+
   },
+
 }
 </script>
 
@@ -254,13 +289,15 @@ a:hover,a:focus{color:#74777b;text-decoration: none;}
 /*= effect-3 css =*/
 .effect-3{max-height: 270px; min-height: 260px; width: 20%; overflow: hidden;}
 .effect-3 h3{padding-top: 7px; line-height: 33px;}
-.effect-3 .member-image{border-bottom: 5px solid #e5642b; transition: 0.4s; background-color: rebeccapurple; height: 200px; width: 100%; display: inline-block; float: none; vertical-align: middle;}
+.effect-3 .member-image{border-bottom: 5px solid #e5642b; transition: 0.5s; background-color: rebeccapurple; height: 200px; width: 100%; display: inline-block; float: none; vertical-align: middle;}
 .effect-3 .member-info{transition: 0.4s;}
 .effect-3 .member-image img{width: 100%; vertical-align: bottom;}
-.effect-3 .social-touch{background-color: #e5642b; float: left; left: 0; bottom: 0; overflow: hidden; padding: 5px 0; width: 100%; transition: 0.4s;}
+.effect-3 .social-touch{background-color: #e5642b; float: left; left: 0; bottom: 0; overflow: hidden; padding: 5px 0; width: 100%; transition: 0.5s;}
 .effect-3:hover .member-image{border-bottom: 0; border-radius: 0 0 50px 50px; height: 81px; display: inline-block; overflow: hidden; width: 109px; transition: 0.5s;}
 /*= effect-3 css end =*/
-
+.effect-3:hover{
+  height: 270px;
+}
 /*= Media Query
 =============== */
 @media only screen and (max-width: 980px){

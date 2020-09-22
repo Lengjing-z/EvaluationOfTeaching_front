@@ -34,14 +34,7 @@
 </script>
 
 <style scoped>
-  .box{
-    /*position:fixed;
-    left:0px;
-    bottom:0px;
-    width:100%;
-    z-index:9999;*/
-    margin-bottom: -120px;
-  }
+
   .title1{
     color: white;
   }
@@ -87,7 +80,6 @@
     height: 8.125rem  /* 130/16 */  /* 180/16 */  /* 150/16 */;
     width: 20%;
   }
-
   .QR{
     position:absolute;
     left:85%;
@@ -98,7 +90,7 @@
     width: 7.5rem  /* 150/16 */;
   }
   #footer {
-    margin-top: 6.25rem /* 100/16 */ /* 250/16 */ /* 300/16 */;
+    /*margin-top: 6.25rem !* 100/16 *! !* 250/16 *! !* 300/16 *!;*/
     /*background-color: #0a3f89;*/
     background-color: rgba(10,63,137,1);
     height: 10.3125rem  /* 165/16 */  /* 170/16 */ /* 150/16 */;
