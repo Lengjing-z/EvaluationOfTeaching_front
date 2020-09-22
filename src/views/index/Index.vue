@@ -1,9 +1,7 @@
 <template>
   <div>
 <!--    导航栏-->
-    <header>
-      <NavBar></NavBar>
-    </header>
+    <NavBar></NavBar>
     <aside class="slide d-none d-md-block">
       <!--  图片轮播   -->
       <pic-slide></pic-slide>
