@@ -1,17 +1,26 @@
-
 <template>
     <div>
       <header>
         <Nav></Nav>
       </header>
-      <div class="text-center my-3">
+      <div class="container111">
+        {{ upload_file || "导入" }}
+        <input
+          type="file"
+          accept=".xls,.xlsx"
+          class="upload_file"
+          @change="readExcel($event)"
+        />
+      </div>
+
+     <!-- <div class="text-center my-3">
         <b-button id="tooltip-target-1">
           Hover Me
         </b-button>
         <b-tooltip target="tooltip-target-1" triggers="hover" placement="Tooltip on the right">
           I am tooltip  content!
         </b-tooltip>
-      </div>
+      </div>-->
      <!-- <div>
         <b-button id="show-btn" @click="showModal">Open Modal</b-button>
         <b-button id="toggle-btn" @click="toggleModal">Toggle Modal</b-button>
@@ -39,10 +48,11 @@
       </table>-->
     </div>
 </template>
-
 <script>
 import Nav from "components/content/nav/NavBar";
+import XLSX from "xlsx";
   export default {
+
     methods:{
         showModal() {
           this.$refs['my-modal'].show()
@@ -54,7 +64,8 @@ import Nav from "components/content/nav/NavBar";
           // We pass the ID of the button that we want to return focus to
           // when the modal has hidden
           this.$refs['my-modal'].toggle('#toggle-btn')
-        }
+        },
+
 
     },
     name: "Mess",
@@ -63,6 +74,8 @@ import Nav from "components/content/nav/NavBar";
     },
     data() {
       return {
+        upload_file: "",
+        lists: [],
         tableData:{
           id:1,
           sex:"男",
@@ -99,4 +112,5 @@ header{
   .msg tr th span{
     color: #b1b1b1;
   }
+
 </style>

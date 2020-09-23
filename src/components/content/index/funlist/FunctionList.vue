@@ -41,7 +41,7 @@ export default {
   },
   methods:{
     limits(){
-      this.$router.push('/limits');
+      // this.$router.push('/limits');
     }
   }
 }

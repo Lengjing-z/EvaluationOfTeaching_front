@@ -2,12 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-// vxe-table
-import 'xe-utils'
-import VXETable from 'vxe-table'
-import 'vxe-table/lib/style.css'
-
+import XLXS from "xlsx";
 // Vue ui
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -16,13 +11,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(XLXS)
 
-
-
-Vue.use(VXETable)
-// import 'plugins/utils'
-// import 'plugins/table'
-
+// primevue  primeicons
+import Dialog from 'primevue/dialog';
+/*import 'primevue/resources/themes/saga-blue/theme.css '*/
+import 'primevue/resources/primevue.min.css';
+/*import 'primeicons/primeicons.css '*/
+Vue.prototype.$primevue = {ripple: true};
+Vue.component('Dialog', Dialog);
 
 new Vue({
   router,

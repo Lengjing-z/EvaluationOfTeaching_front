@@ -12,6 +12,14 @@
       <b-breadcrumb-item href="#foo">管理员</b-breadcrumb-item>
       <b-breadcrumb-item href="#bar">教师</b-breadcrumb-item>
       <b-breadcrumb-item active>学生</b-breadcrumb-item>
+
+      <b-breadcrumb-item id="UserManager_right" @click="Examination1" href="#home">
+        <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
+        测试
+      </b-breadcrumb-item>
+      <b-breadcrumb-item href="#foo">题目管理</b-breadcrumb-item>
+      <b-breadcrumb-item href="#bar">老师管理</b-breadcrumb-item>
+      <b-breadcrumb-item active>班级管理</b-breadcrumb-item>
     </b-breadcrumb>
   </div>
   <div id="nav_manager-department">
@@ -34,6 +42,8 @@
       <b-breadcrumb-item href="#foo">题目管理</b-breadcrumb-item>
       <b-breadcrumb-item href="#bar">老师管理</b-breadcrumb-item>
       <b-breadcrumb-item active>班级管理</b-breadcrumb-item>
+
+
     </b-breadcrumb>
   </div>
   <div>
@@ -109,5 +119,9 @@ header{
   width: 80%;
   color: black;
   margin:0 auto;
+}
+#UserManager_right{
+  text-align: right;
+  margin-left: 250px;
 }
 </style>

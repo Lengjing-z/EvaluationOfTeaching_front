@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-auto">
    <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
-    <p class="mt-3">题目</p>
+    <!--<p class="mt-3">题目</p>-->
     <b-table
       id="my-table"
       :items="items"
