@@ -1,14 +1,21 @@
 <template>
 
-  <div class="messcord">
+  <div class="messcord" >
       <div>
         <h3>学生信息管理</h3>
         <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
+        <b-input-group  prepend="请输入姓名或者学号" class="mt-31">
+          <b-form-input id="username"></b-form-input>
+          <b-input-group-append >
+            <b-button @click="seach()" variant="outline-success"><span style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>
+          </b-input-group-append>
+        </b-input-group>
       </div>
 
-    <div class="single-member effect-3" v-for="(item,index) in tableData">
+    <div v-if="isAll" class="single-member effect-3" v-for="(item,index) in tableData">
       <div class="member-image">
         <img src="" alt="">
+        <div style="opacity: 0">{{index}}</div>
       </div>
       <div class="member-info" >
         <h3 class="Uname">{{tableData[index].name}}</h3>
@@ -28,20 +35,83 @@
         </b-button-group>
       </div>
     </div>
-    <b-modal id="my-modal" size="xl" title="修改用户信息">
-      <b-input-group  prepend="姓     名" class="mt-3">
-        <b-form-input id="username"></b-form-input>
-      </b-input-group>
-      <b-input-group id="code" prepend="学     号" class="mt-3">
-        <b-form-input></b-form-input>
-      </b-input-group>
-      <b-input-group prepend="修改密码" class="mt-3">
-        <b-form-input></b-form-input>
-      </b-input-group>
-      <b-input-group prepend="确认密码" class="mt-3">
-      <b-form-input></b-form-input>
-    </b-input-group>
-    </b-modal>
+
+    <div v-if="isOne" class="single-member effect-3">
+      <div class="member-image">
+        <img src="" alt="">
+      </div>
+      <div class="member-info" >
+        <h3 class="Uname">{{Uname}}</h3>
+        <h5>{{Ucode}}</h5>
+        <p>年龄:{{Uage}}&nbsp&nbsp身高:{{Uheight}}</p>
+        <p>家庭住址:{{Uaddr}}</p>
+        <b-button-group id="dosomeThing1">
+          <b-button  v-b-modal.my-modal id="show-btn1" style="width: 60px" variant="outline-primary" @click="showModal(Uindex)">
+            <b-icon  icon="tools"></b-icon>
+          </b-button>
+          <b-button style="width: 60px" variant="outline-primary">
+            <b-icon icon="person-fill"></b-icon>
+          </b-button>
+          <b-button style="width: 60px" variant="outline-primary">
+            <b-icon @click="test()" icon="inbox-fill"></b-icon>
+          </b-button>
+        </b-button-group>
+      </div>
+    </div>
+
+    <div>
+
+
+      <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+        <div class="d-block text-center">
+          <vxe-form
+            ref="xForm"
+            class="my-form2"
+            title-align="right"
+            title-width="100"
+            :data="formData2"
+            :rules="formRules2"
+            :loading="loading2"
+            @submit="submitEvent2(index)"
+            @reset="resetEvent">
+            <vxe-form-item title="名称" field="name" span="24">
+              <template v-slot="scope">
+                <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item title="学号" field="code" span="24">
+              <template v-slot="scope">
+                <vxe-input v-model="formData2.code" placeholder="请输入学号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              </template>
+            </vxe-form-item>
+
+            <vxe-form-item title="年龄" field="age" span="24">
+              <template v-slot>
+                <vxe-input v-model="formData2.age" type="integer" placeholder="请输入年龄" clearable></vxe-input>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item title="密码" field="password" span="24">
+              <template v-slot>
+                <vxe-input v-model="formData2.password"  placeholder="请输入密码" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item title="地址" field="address" span="24">
+              <template v-slot>
+                <vxe-textarea v-model="formData2.address" placeholder="请输入地址" clearable></vxe-textarea>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item align="center" span="24">
+              <template v-slot>
+                <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+                <vxe-button type="reset">重置</vxe-button>
+              </template>
+            </vxe-form-item>
+          </vxe-form>
+        </div>
+        <b-button class="mt-3" variant="outline-danger" block @click="hideModal111">Close Me</b-button>
+      </b-modal>
+    </div>
+
     <b-modal scrollable="true" id="my-modal1" size="xl" title="导入用户信息">
       <div class="container111">
         {{ upload_file || "导入" }}
@@ -85,19 +155,57 @@ export default {
     }
   },
   methods:{
-    test(){
-      console.log(this.userMessage[3].name);
+    showModal111() {
+      this.$refs['my-modal'].show()
     },
-    showModal(index) {
-      document.querySelector("#username").value = this.tableData[index].name;
+    hideModal111() {
+      this.$refs['my-modal'].hide()
     },
-    hideModal() {
-     /* this.$refs['my-modal'].hide()*/
-    },
-    toggleModal() {
+    toggleModal111() {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden
-     /* this.$refs['my-modal'].toggle('#toggle-btn')*/
+
+    },
+    submitEvent2 (index) {
+      this.loading2 = true
+      setTimeout(() => {
+        this.loading2 = false;
+        this.$refs['my-modal'].toggle('#toggle-btn')
+        this.$XModal.message({ message: '保存成功', status: 'success' })
+        console.log(index);
+      }, 1000)
+    },
+    searchEvent () {
+      this.$XModal.message({ message: '查询事件', status: 'info' })
+    },
+    resetEvent () {
+      this.$XModal.message({ message: '重置事件', status: 'info' })
+    },
+    seach(){
+      let valueInput = document.querySelector("#username").value;
+      for(let i = 0 ; i < this.tableData.length; i++){
+        if(this.tableData[i].name == valueInput || this.tableData[i].code == valueInput){
+          this.isAll = false;
+          this.isOne = true;
+          this.Uaddr = this.tableData[i].address;
+          this.Uage = this.tableData[i].age;
+          this.Ucode = this.tableData[i].code;
+          this.Uheight = this.tableData[i].height;
+          this.Uname = this.tableData[i].name;
+          this.Uindex = i;
+        }
+
+      }
+    },
+    showModal(index) {
+      console.log(index);
+      this.$refs['my-modal'].show();
+      this.formData2.name = this.tableData[index].name;
+      this.formData2.age = this.tableData[index].age;
+      this.formData2.address = this.tableData[index].address;
+      this.formData2.code = this.tableData[index].code;
+      this.formData2.password = this.tableData[index].password;
+      this.formData2.index = index;
     },
     submit_form() {
       // 给后端发送请求，更新数据
@@ -151,13 +259,43 @@ export default {
 name: "MessCard",
   data() {
     return {
+      Uindex:'',
+      Uname:'',
+      Ucode:'',
+      Uage:'',
+      Uaddr:'',
+      Uheight:'',
+      isOne:false,
+      isAll : true,
       perPage: 15,//每页数据条数
       currentPage: 1,
       userMessage:[],//存放导入的数据
+      formData2 : {
+        name: '',
+        code: '',
+        password: '',
+        age: '26',
+        address: '',
+        index:''
+      },
+      formRules2: {
+        name: [
+          { required: true, message: '请输入名称' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+        ],
+        code: [
+          { required: true, message: '请输入学号' }
+        ],
+        password: [
+          { required: true, message: '请输入密码' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+        ]
+      },
       tableData: [{
         id:1,
         sex:"男",
         age: 18,
+        password:'123456',
         height: 175,
         code: '179000505',
         date: '2016-05-04',
@@ -167,6 +305,7 @@ name: "MessCard",
         id:2,
         sex:"男",
         age: 18,
+        password:'123456',
         height: 175,
         code: '179000506',
         date: '2016-05-04',
@@ -175,6 +314,7 @@ name: "MessCard",
       },
         {
         id:3,
+          password:'123456',
         sex:"男",
         age: 18,
         height: 175,
@@ -185,24 +325,27 @@ name: "MessCard",
       }, {
         id:4,
         sex:"男",
+        password:'123456',
         age: 18,
         height: 175,
         code: '179000520',
         date: '2016-05-04',
-        name: '张文',
+        name: '张老师',
         address: '上海市普陀区金沙江路 1517 弄'
       },
         {
           id:5,
+          password:'123456',
           sex:"男",
           age: 18,
           height: 175,
           code: '179000520',
           date: '2016-05-04',
-          name: '杨林',
+          name: '杨老师',
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:6,
           sex:"男",
           age: 18,
@@ -213,34 +356,38 @@ name: "MessCard",
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:1,
           sex:"男",
           age: 18,
           height: 175,
           code: '179000505',
           date: '2016-05-04',
-          name: '周海洋',
+          name: '周老师',
           address: '上海市普陀区金沙江路 1517 弄'
         }, {
+          password:'123456',
           id:2,
           sex:"男",
           age: 18,
           height: 175,
           code: '179000506',
           date: '2016-05-04',
-          name: '任然',
+          name: '任老师',
           address: '上海市普陀区金沙江路 1517 弄'
         }, {
+          password:'123456',
           id:3,
           sex:"男",
           age: 18,
           height: 175,
           code: '179000507',
           date: '2016-05-04',
-          name: '李宇蔚',
+          name: '李老师',
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:4,
           sex:"男",
           age: 18,
@@ -251,6 +398,7 @@ name: "MessCard",
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:5,
           sex:"男",
           age: 18,
@@ -261,13 +409,14 @@ name: "MessCard",
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:6,
           sex:"男",
           age: 18,
           height: 175,
           code: '179000520',
           date: '2016-05-04',
-          name: '黄天亮',
+          name: '黄老师',
           address: '上海市普陀区金沙江路 1517 弄'
         }]
 
@@ -279,6 +428,14 @@ name: "MessCard",
 </script>
 
 <style scoped>
+.mt-31{
+  margin-top: 20px;
+  width: 500px;
+}
+.mt-3{
+  margin: 0 auto;
+  width: 400px;
+}
 .container111 {
   border: none;
   border-radius: 4px;
@@ -369,9 +526,15 @@ p {
   opacity: 1;
   transition: 0.3s;
 }
-.icon-colored .fb-touch{background-position: 0 -27px;}
-.icon-colored .tweet-touch{background-position: -35px -27px;}
-.icon-colored .linkedin-touch{background-position: -71px -27px;}
+.icon-colored .fb-touch{
+  background-position: 0 -27px;
+}
+.icon-colored .tweet-touch{
+  background-position: -35px -27px;
+}
+.icon-colored .linkedin-touch{
+  background-position: -71px -27px;
+}
 /*= common css to all effects end =*/
 
 *,
@@ -395,19 +558,72 @@ p {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, html { font-size: 100%; 	padding: 0; margin: 0;}
-a{ color: rgba(255, 255, 255, 0.6);outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
-a:hover,a:focus{color:#74777b;text-decoration: none;}
+body, html {
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+}
+a{
+  color: rgba(255, 255, 255, 0.6);
+  outline: none;
+  text-decoration: none;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+a:hover,a:focus{
+  color:#74777b;
+  text-decoration: none;
+}
 
 
 /*= effect-3 css =*/
-.effect-3{max-height: 270px; min-height: 260px; width: 20%; border-radius: 15px; overflow: hidden;}
-.effect-3 h3{padding-top: 7px; line-height: 33px;}
-.effect-3 .member-image{border-bottom: 5px solid #e5642b; transition: 0.5s; background-color: rebeccapurple; height: 200px; width: 100%; display: inline-block; float: none; vertical-align: middle;}
-.effect-3 .member-info{transition: 0.4s;}
-.effect-3 .member-image img{width: 100%; vertical-align: bottom;}
-.effect-3 .social-touch{background-color: #e5642b; float: left; left: 0; bottom: 0; overflow: hidden; padding: 5px 0; width: 100%; transition: 0.5s;}
-.effect-3:hover .member-image{border-bottom: 0; border-radius: 0 0 50px 50px; height: 81px; display: inline-block; overflow: hidden; width: 109px; transition: 0.5s;}
+.effect-3{
+  max-height: 270px;
+  min-height: 260px;
+  width: 20%;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.effect-3 h3{
+  padding-top: 7px;
+  line-height: 33px;
+}
+.effect-3 .member-image{
+  border-bottom: 5px solid #e5642b;
+  transition: 0.5s;
+  background-color: rebeccapurple;
+  height: 200px;
+  width: 100%;
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
+}
+.effect-3 .member-info{
+  transition: 0.4s;
+}
+.effect-3 .member-image img{
+  width: 100%;
+  vertical-align: bottom;
+}
+.effect-3 .social-touch{
+  background-color: #e5642b;
+  float: left;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 5px 0;
+  width: 100%;
+  transition: 0.5s;
+}
+.effect-3:hover .member-image{
+  border-bottom: 0;
+  border-radius: 0 0 50px 50px;
+  height: 81px;
+  display: inline-block;
+  overflow: hidden;
+  width: 109px;
+  transition: 0.5s;
+}
 /*= effect-3 css end =*/
 .effect-3:hover{
   height: 270px;
@@ -426,4 +642,5 @@ a:hover,a:focus{color:#74777b;text-decoration: none;}
     width: 250px;
   }
 }/*宽度小于500px时 绿色*/
+
 </style>
