@@ -3,7 +3,9 @@
       <header>
         <Nav></Nav>
       </header>
-      <div class="container111">
+
+      <Questionnaire v-if="true"></Questionnaire>
+     <!-- <div class="container111">
         {{ upload_file || "导入" }}
         <input
           type="file"
@@ -11,7 +13,7 @@
           class="upload_file"
           @change="readExcel($event)"
         />
-      </div>
+      </div>-->
 
      <!-- <div class="text-center my-3">
         <b-button id="tooltip-target-1">
@@ -50,6 +52,7 @@
 </template>
 <script>
 import Nav from "components/content/nav/NavBar";
+import Questionnaire from "components/content/questionnaire/Questionnaire";
 import XLSX from "xlsx";
   export default {
 
@@ -71,6 +74,7 @@ import XLSX from "xlsx";
     name: "Mess",
     components:{
       Nav,
+      Questionnaire,
     },
     data() {
       return {
