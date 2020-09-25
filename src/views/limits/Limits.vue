@@ -1,14 +1,6 @@
 <template>
  <div class="container mt-5">
-<!--   <vxe-toolbar>-->
-<!--     <template v-slot:buttons>-->
-<!--       <vxe-button @click="filterNameEvent">筛选 Name</vxe-button>-->
-<!--       <vxe-button @click="filterAgeEvent">筛选 Age</vxe-button>-->
-<!--       <vxe-button @click="updateNameFilterEvent">更改 Name 的筛选条件</vxe-button>-->
-<!--       <vxe-button @click="$refs.xTable.clearFilter($refs.xTable.getColumnByField('age'))">清除 Age 的筛选条件</vxe-button>-->
-<!--       <vxe-button @click="$refs.xTable.clearFilter()">清除所有的筛选条件</vxe-button>-->
-<!--     </template>-->
-<!--   </vxe-toolbar>-->
+<!--   工具栏开始-->
    <div>
      <p>工具栏位置随意放</p>
        <vxe-toolbar
@@ -17,49 +9,27 @@
          ref="xToolbar"
          :refresh="{query: findList}"  >
          <template v-slot:buttons>
-           <vxe-button @click="value8 = true">插入</vxe-button>
-           <vxe-button >保存</vxe-button>
-           <vxe-modal v-model="value8" title="记忆功能的窗口" width="600" height="400" resize remember>
-             <template v-slot>
-               <vxe-form :data="formData3" :rules="formRules3" title-align="right" title-width="60">
-                 <vxe-form-item title="基本信息" span="24" title-align="left" title-width="200px" :title-prefix="{icon: 'fa fa-address-card-o'}"></vxe-form-item>
-                 <vxe-form-item title="名称" field="name" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入名称'}}"></vxe-form-item>
-                 <vxe-form-item title="昵称" field="nickname" span="12" :item-render="{name: 'input', attrs: {placeholder: '请输入昵称'}}"></vxe-form-item>
-                 <vxe-form-item title="性别" field="sex" span="12" >
-<!--                   :item-render="{name: '$select', options: sexList}"-->
-                   <vxe-pulldown ref="xDown1">
-                     <template v-slot>
-                       <vxe-input v-model="value1" placeholder="可搜索的下拉框" @focus="focusEvent1" @keyup="keyupEvent1"></vxe-input>
-                     </template>
-                     <template v-slot:dropdown>
-                       <div class="my-dropdown1">
-                         <div class="list-item1" v-for="item in list1" :key="item.value" @click="selectEvent1(item)">
-                           <i class="fa fa-user-o"></i>
-                           <span>{{ item.label }}</span>
-                         </div>
-                       </div>
-                     </template>
-                   </vxe-pulldown>
+<!--           添加权限-->
+           <vxe-button circle @click="addlimit = true"><i class="vxe-icon--plus"></i></vxe-button>
+           <vxe-modal v-model="addlimit" title="新建权限" width="600" height="400" resize remember mask-closable>
+             <add-limit :nodelist="tableData"></add-limit>
+           </vxe-modal>
 
-                 </vxe-form-item>
-
-
-                 <vxe-form-item title="年龄" field="age" span="12" :item-render="{name: 'input', attrs: {type: 'number', placeholder: '请输入年龄'}}"></vxe-form-item>
-                 <vxe-form-item title="其他信息" span="24" title-align="left" title-width="200px" :title-prefix="{icon: 'fa fa-info-circle'}"></vxe-form-item>
-                 <vxe-form-item title="地址" field="address" span="24" :item-render="{name: 'textarea', attrs: {placeholder: '请输入地址'}}"></vxe-form-item>
-                 <vxe-form-item align="center" span="24">
-                   <template v-slot>
-                     <vxe-button type="submit" status="primary">提交</vxe-button>
-                     <vxe-button type="reset">重置</vxe-button>
-                   </template>
-                 </vxe-form-item>
-               </vxe-form>
-             </template>
+<!--           修改权限-->
+           <vxe-button circle @click="updatelimit = true"><i class="vxe-icon--remove"></i></vxe-button>
+           <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>
+             <update-limit :nodelist="tableData"></update-limit>
+           </vxe-modal>
+           <vxe-button circle @click="target = true"><i class="vxe-icon--arrow-top"></i></vxe-button>
+           <vxe-modal v-model="target" title="设置指标" width="600" height="400" resize remember>
+             <target-value :nodelist="tableData"></target-value>
            </vxe-modal>
          </template>
 
        </vxe-toolbar>
    </div>
+<!--   工具栏结束-->
+<!--   权限列表-->
    <vxe-table
      show-overflow
      row-key
@@ -72,8 +42,9 @@
      @checkbox-change="selectChangeEvent">
      <vxe-table-column type="checkbox" title="ID" width="180" tree-node></vxe-table-column>
      <vxe-table-column field="name" title="Name" show-overflow="tooltip"></vxe-table-column>
-     <vxe-table-column field="sex" title="Sex"></vxe-table-column>
-     <vxe-table-column field="date" title="Date"></vxe-table-column>
+     <vxe-table-column field="is_role" title="is_role"></vxe-table-column>
+     <vxe-table-column field="p_node" title="p_node"></vxe-table-column>
+     <vxe-table-column field="is_end" title="is_end"></vxe-table-column>
      <template v-slot:empty>
             <span style="color: red;">
               <img src="@/assets/img/img1.gif">
@@ -86,6 +57,11 @@
 </template>
 
 <script>
+import AddLimit from "components/content/limits/AddLimit";
+import updateLimit from "components/content/limits/updateLimit";
+
+import TargetValue from "components/content/target/TargetValue";
+
 export default {
   name: "Limits",
   data () {
@@ -93,39 +69,16 @@ export default {
       loading: false,
       allAlign: null,
       tableData: null,
-      value1: '',
-      value8: false,
+      addlimit: false,
+      updatelimit:false,
+      target:false,
       list1: [],
-      formData3: {
-        name: '',
-        nickname: '',
-        sex: '',
-        age: 26,
-        address: null
-      },
-      formRules3: {
-        name: [
-          { required: true, message: '请输入名称' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
-        ],
-        nickname: [
-          { required: true, message: '请输入昵称' }
-        ],
-        sex: [
-          { required: true, message: '请选择性别' }
-        ]
-      },
-      toolbarButtons: [
-        { code: 'btn1', name: 'app.body.button.insert' },
-        {
-          name: '下拉按钮',
-          dropdowns: [
-            { name: '按钮111', code: 'btn2' },
-            { name: '按钮222', code: 'btn3' }
-          ]
-        }
-      ]
     }
+  },
+  components:{
+    AddLimit,
+    updateLimit,
+    TargetValue
   },
   created () {
     const list1 = []
@@ -138,132 +91,85 @@ export default {
     this.loading = true
     setTimeout(() => {
     this.tableData = [{
-      name: 'test111111111111111111111111111111111111111',
-      sex: '男',
-      date: '2019-08',
+      id: 1,
+      name: 'student',
+      is_role: 0,
+      p_node: null,
+      is_end: 0,
       children: [
         {
-          name: 'test2',
-          sex: '女',
-          date: '2019-08',
+          id: 1,
+          name: 'student',
+          is_role: 0,
+          p_node: 1,
+          is_end: 0,
           children: [
             {
-              name: 'test3',
-              sex: '男',
-              date: '2019-08',
+              id: 2,
+              name: '查看课程',
+              is_role: 0,
+              p_node: 1,
+              is_end: 1
             },
             {
-              name: 'test11',
-              sex: '男',
-              date: '2019-08',
+              id: 3,
+              name: '查看评教信息',
+              is_role: 0,
+              p_node: 1,
+              is_end: 1
             }
           ]
         },
         {
-          name: 'test7',
-          sex: '女',
-          date: '2019-08',
+          id: 4,
+          name: 'teacher',
+          is_role: 1,
+          p_node: 1,
+          is_end: 0,
           children: [
             {
-              name: 'test9',
-              sex: '男',
-              date: '2019-08',
+              id: 5,
+              name: '大姐夫的数据',
+              is_role: 0,
+              p_node: 4,
+              is_end: 1,
             }
           ]
         }
       ]
     },
       {
-        name: 'test4',
-        sex: '男',
-        date: '2019-08',
+        id: 5,
+        name: '大姐夫的数据',
+        is_role: 0,
+        p_node: 4,
+        is_end: 1,
         children: [
           {
-            name: 'test5',
-            sex: '女',
-            date: '2019-08',
-          },
-          {
-            name: 'test15',
-            sex: '女',
-            date: '2019-08',
+            id: 5,
+            name: '大姐夫的数据',
+            is_role: 0,
+            p_node: 4,
+            is_end: 1,
           }
         ]
-      }]
+      }
+      ]
       this.loading = false
     }, 1000)
       },
   methods: {
     findList () {
-
       this.loading = true
       // return new Promise(resolve => {
         setTimeout(() => {
-          this.tableData =[{
-            name: 'test111111111111111111111111111111111111111',
-            sex: '男',
-            date: '2019-08',
-            children: [
-              {
-                name: 'test2',
-                sex: '女',
-                date: '2019-08',
-                children: [
-                  {
-                    name: 'test3',
-                    sex: '男',
-                    date: '2019-08',
-                  },
-                  {
-                    name: 'test11',
-                    sex: '男',
-                    date: '2019-08',
-                  }
-                ]
-              },
-              {
-                name: 'test7',
-                sex: '女',
-                date: '2019-08',
-                children: [
-                  {
-                    name: 'test9',
-                    sex: '男',
-                    date: '2019-08',
-                  }
-                ]
-              }
-            ]
-          },
-            {
-              name: 'test4',
-              sex: '男',
-              date: '2019-08',
-              children: [
-                {
-                  name: 'test5',
-                  sex: '女',
-                  date: '2019-08',
-                },
-                {
-                  name: 'test15',
-                  sex: '女',
-                  date: '2019-08',
-                }
-              ]
-            }]
+          this.tableData =[]
           this.loading = false
           // resolve()
         }, 300)
       // })
     },
-    focusEvent1 () {
-      this.$refs.xDown1.showPanel()
-    },
-    keyupEvent1 () {
-      const { value1 } = this
-      this.list1 = value1 ? this.data1.filter(item => item.label.indexOf(value1) > -1) : this.data1
-    },
+
     selectEvent1 (item) {
       this.value1 = item.label
       this.$refs.xDown1.hidePanel().then(() => {
@@ -279,10 +185,7 @@ export default {
 </script>
 
 <style scoped>
-.tree-node-icon {
-  width: 24px;
-  text-align: center;
-}
+
 button{
   border: 0;
   outline: none;
@@ -319,4 +222,5 @@ button{
   border: 1px solid #dcdfe6;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
 }
+
 </style>
