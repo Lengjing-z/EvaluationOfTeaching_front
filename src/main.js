@@ -4,10 +4,7 @@ import router from './router'
 import store from './store'
 import XLXS from "xlsx";
 
-// vxe-table
-import 'xe-utils'
-import VXETable from 'vxe-table'
-import 'vxe-table/lib/style.css'
+
 
 // Vue ui
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -21,9 +18,9 @@ Vue.use(XLXS)
 
 
 
-Vue.use(VXETable)
-// import 'plugins/utils'
-// import 'plugins/table'
+// vxe-table
+import 'plugins/utils'
+import 'plugins/table'
 
 
 new Vue({
