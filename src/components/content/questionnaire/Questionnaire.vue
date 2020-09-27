@@ -5,13 +5,8 @@
     </header>
     <vxe-toolbar>
       <template v-slot:buttons>
-        <vxe-button icon="fa fa-plus" @click="insertEvent()">新增</vxe-button>
+        <!--<vxe-button icon="fa fa-plus" @click="insertEvent()">新增</vxe-button>-->
         <vxe-button v-b-modal.my-modal1>导入问卷</vxe-button>
-       <!-- <vxe-input v-model="value603" class="my-search" placeholder="自定义后缀模板">
-          <template v-slot:suffix>
-            <i class="fa fa-search"></i>
-          </template>
-        </vxe-input>-->
       </template>
     </vxe-toolbar>
 
@@ -25,17 +20,16 @@
       :align="allAlign"
       :data="tableData"
       @cell-dblclick="cellDBLClickEvent">
-      <vxe-table-column type="seq" width="60"></vxe-table-column>
+      <vxe-table-column type="seq"  width="60"></vxe-table-column>
       <vxe-table-column field="name" title="课程名"></vxe-table-column>
       <vxe-table-column field="status" title="状态"></vxe-table-column>
-      <!--<vxe-table-column field="sex" title="Sex" :formatter="formatterSex"></vxe-table-column>
-      <vxe-table-column field="age" title="Age"></vxe-table-column>
-      <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>-->
       <vxe-table-column title="操作"  width="200" show-overflow>
         <template v-slot="{ row }">
           <!--<vxe-button type="text"  @click="editEvent(row)">111</vxe-button>
           type="text"  @click="editEvent(row)-->
-          <vxe-button @click="editEvent(row)">修改</vxe-button>
+         <!-- <vxe-button @click="editEvent(row)">启用</vxe-button>-->
+          <vxe-button v-if="isTeaching" @click="End(this.tableData[index].name)">关闭问卷</vxe-button>
+          <vxe-button v-if="notTeaching" @click="Start()">启用问卷</vxe-button>
          <!-- <vxe-button type="text" icon="fa fa-trash-o" @click="removeEvent(row)"></vxe-button>-->
           <vxe-button @click="removeEvent(row)">删除</vxe-button>
         </template>
@@ -59,24 +53,6 @@
         />
 
       </div>
-      <!--<div class="overflow-auto">
-        &lt;!&ndash; <p class="mt-3">问卷总数: {{ currentPage }}</p>&ndash;&gt;
-        &lt;!&ndash;<p class="mt-3">题目</p>&ndash;&gt;
-        <b-table
-          id="my-table"
-          :items="userMessage"
-          :per-page="perPage"
-          :current-page="currentPage"
-          small
-        ></b-table>
-
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-table"
-        ></b-pagination>
-      </div>-->
       <vxe-table
         border
         resizable
@@ -130,6 +106,8 @@ export default {
   return {
     loading: false,
     sexList1: [],
+    isTeaching:true,/*状态：正在评教*/
+    notTeaching:false,
     submitLoading: false,
     perPage: 15,//每页数据条数
     currentPage: 1,
@@ -137,7 +115,21 @@ export default {
     tableData: [
       {
         id:1,
-        name: '软件工程',
+        name: '软件工程1',
+        code: '179000505',
+        status:'正在评教',
+        teacher:'王麻子'
+      },
+      {
+        id:1,
+        name: '软件工程2',
+        code: '179000505',
+        status:'正在评教',
+        teacher:'王麻子'
+      },
+      {
+        id:1,
+        name: '软件工程3',
         code: '179000505',
         status:'正在评教',
         teacher:'王麻子'
@@ -192,6 +184,11 @@ export default {
   }
 },
 methods: {
+  End(name){
+
+    this.isTeaching = false;
+    console.log(name);
+  },
   findSexList () {
     return XEAjax.get('/api/conf/sex/list').then(data => {
       this.sexList = data

@@ -1,8 +1,8 @@
 <template>
   <div class="test">
     <header>
-      <h3>班级管理</h3>
-      <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
+      <h3>课程管理</h3>
+      <b-button style="margin-top: 20px;padding-left: 10px;padding-right: 10px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加课程</b-button>
     </header>
 
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -69,9 +69,9 @@
                <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
              </template>
            </vxe-form-item>-->
-          <vxe-form-item title="班级名" field="code" span="24">
+          <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.classname" id="classId" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="formData2.classname" id="classId" placeholder="请输入课程名" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
 
@@ -99,11 +99,11 @@
           :loading="loading2"
           @submit="submitEvent2(index)"
           @reset="resetEvent">
-         <!-- <vxe-form-item title="班级id" field="name" span="24">
-            <template v-slot="scope">
-              <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
-            </template>
-          </vxe-form-item>-->
+          <!-- <vxe-form-item title="班级id" field="name" span="24">
+             <template v-slot="scope">
+               <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+             </template>
+           </vxe-form-item>-->
           <vxe-form-item title="班级名" field="code" span="24">
             <template v-slot="scope">
               <vxe-input v-model="formData2.name" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
@@ -122,237 +122,239 @@
       <b-button class="mt-3" variant="outline-danger" block @click="hideModal111">Close Me</b-button>
     </b-modal>
   </div>
-
-
 </template>
 
 <script>
 export default {
-  name: "ClassManager",
+name: "Curriculum",
   methods:{
     showModal3(index) {
       this.$refs['my-modal2'].show();
     },
-  showModal2(index) {
-    this.$refs['my-modal1'].show();
-  },
-  showModal(index) {
-    console.log(index);
-    this.$refs['my-modal'].show();
-    this.formData2.name = this.ClassData[index].classname;
-  },
-  submitEvent2 (index) {
-    this.loading2 = true
-    setTimeout(() => {
-      this.loading2 = false;
-      this.$refs['my-modal'].toggle('#toggle-btn')
-      this.$XModal.message({ message: '保存成功', status: 'success' })
-
+    showModal2(index) {
+      this.$refs['my-modal1'].show();
+    },
+    showModal(index) {
       console.log(index);
-    }, 1000)
-  },
+      this.$refs['my-modal'].show();
+      this.formData2.name = this.ClassData[index].classname;
+    },
+    submitEvent2 (index) {
+      this.loading2 = true
+      setTimeout(() => {
+        this.loading2 = false;
+        this.$refs['my-modal'].toggle('#toggle-btn')
+        this.$XModal.message({ message: '保存成功', status: 'success' })
+
+        console.log(index);
+      }, 1000)
+    },
     hideModal111() {
       this.$refs['my-modal'].hide()
     },
-  submitEvent3 (index) {
-    this.loading2 = true
-    setTimeout(() => {
-      this.loading2 = false;
-      this.$refs['my-modal1'].toggle('#toggle-btn')
-      this.$XModal.message({ message: '保存成功', status: 'success' })
-      this.formData2.id= this.ClassData.length+1;
-      console.log(this.ClassData.length);
-      this.ClassData.push(this.formData2);
+    submitEvent3 (index) {
+      this.loading2 = true
+      setTimeout(() => {
+        this.loading2 = false;
+        this.$refs['my-modal1'].toggle('#toggle-btn')
+        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.formData2.id= this.ClassData.length+1;
+        console.log(this.ClassData.length);
+        this.ClassData.push(this.formData2);
 
-    }, 1000)
+      }, 1000)
+    },
+    searchEvent () {
+      this.$XModal.message({ message: '查询事件', status: 'info' })
+    },
+    resetEvent () {
+      this.$XModal.message({ message: '重置事件', status: 'info' })
+    },
+    test(index){
+      console.log(this.ClassData[index].code[0]);
+    }
   },
-  searchEvent () {
-    this.$XModal.message({ message: '查询事件', status: 'info' })
-  },
-  resetEvent () {
-    this.$XModal.message({ message: '重置事件', status: 'info' })
-  },
-  test(index){
-    console.log(this.ClassData[index].code[0]);
-  }
-},
 
-data(){
-  return{
-    formData2 : {
-      classname: '',
-      id: '',
-    },
-    formRules2: {
-      name: [
-        { required: true, message: '请输入名称' },
-        { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
-      ],
-      /*code: [
-        { required: true, message: '请输入学号' }
-      ],*/
-      password: [
-        { required: true, message: '请输入密码' },
-        { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
-      ]
-    },
-    tableData: [{
-      id:1,
-      sex:"男",
-      age: 18,
-      password:'123456',
-      height: 175,
-      code: '179000505',
-      date: '2016-05-04',
-      name: '周海洋',
-      address: '上海市普陀区金沙江路 1517 弄'
-    }, {
-      id:2,
-      sex:"男",
-      age: 18,
-      password:'123456',
-      height: 175,
-      code: '179000506',
-      date: '2016-05-04',
-      name: '任然',
-      address: '上海市普陀区金沙江路 1517 弄'
-    },
-      {
-        id:3,
-        password:'123456',
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000507',
-        date: '2016-05-04',
-        name: '李宇蔚',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:4,
-        sex:"男",
-        password:'123456',
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '张三',
-        address: '上海市普陀区金沙江路 1517 弄'
+  data(){
+    return{
+      formData2 : {
+        classname: '',
+        id: '',
       },
-      {
-        id:5,
-        password:'123456',
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '杨过',
-        address: '上海市普陀区金沙江路 1517 弄'
+      formRules2: {
+        name: [
+          { required: true, message: '请输入名称' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+        ],
+        /*code: [
+          { required: true, message: '请输入学号' }
+        ],*/
+        password: [
+          { required: true, message: '请输入密码' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+        ]
       },
-      {
-        password:'123456',
-        id:6,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '黄天亮',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
+      tableData: [{
         id:1,
         sex:"男",
         age: 18,
+        password:'123456',
         height: 175,
         code: '179000505',
         date: '2016-05-04',
-        name: '周搜索',
+        name: '周海洋',
         address: '上海市普陀区金沙江路 1517 弄'
       }, {
-        password:'123456',
         id:2,
         sex:"男",
         age: 18,
+        password:'123456',
         height: 175,
         code: '179000506',
         date: '2016-05-04',
-        name: '任天',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        password:'123456',
-        id:3,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000507',
-        date: '2016-05-04',
-        name: '李小龙',
+        name: '任然',
         address: '上海市普陀区金沙江路 1517 弄'
       },
-      {
-        password:'123456',
-        id:4,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '张文',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:5,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '杨林',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:6,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '黄撒旦',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }],
-    ClassData:[
-      {
-        id:1,
-        classname: '1790001',
-      },
-      {
-        id:2,
-        classname: '1790002',
-      },
-      {
-        id:3,
-        classname: '1790003',
-      },
-      {
-        id:4,
-        classname: '1790004',
-      },
-      {
-        id:5,
-        classname: '1790005',
+        {
+          id:3,
+          password:'123456',
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000507',
+          date: '2016-05-04',
+          name: '李宇蔚',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          id:4,
+          sex:"男",
+          password:'123456',
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '张三',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          id:5,
+          password:'123456',
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '杨过',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          password:'123456',
+          id:6,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '黄天亮',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          password:'123456',
+          id:1,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000505',
+          date: '2016-05-04',
+          name: '周搜索',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          password:'123456',
+          id:2,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000506',
+          date: '2016-05-04',
+          name: '任天',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+          password:'123456',
+          id:3,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000507',
+          date: '2016-05-04',
+          name: '李小龙',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          password:'123456',
+          id:4,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '张文',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          password:'123456',
+          id:5,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '杨林',
+          address: '上海市普陀区金沙江路 1517 弄'
+        },
+        {
+          password:'123456',
+          id:6,
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '黄撒旦',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }],
+      ClassData:[
+        {
+          id:1,
+          classname: '数据库从删库到跑路',
+        },
+        {
+          id:2,
+          classname: 'Android从入门到改行',
+        },
+        {
+          id:3,
+          classname: 'C#从入门到放弃',
+        },
+        {
+          id:4,
+          classname: 'Java从精通到陌生',
+        },
+        {
+          id:5,
+          classname: 'JS全栈从入门到单身狗',
 
-      },
-      {
-        id:6,
-        classname: '1790006',
-      }
-    ],
+        },
+        {
+          id:6,
+          classname: 'SQl Serve从没入门就放弃',
+        },
+        {
+          id:7,
+          classname: 'C语言从入门到看开',
+        }
+      ],
+    }
   }
-}
 }
 </script>
 
@@ -412,8 +414,9 @@ body{
 /*= common css to all effects =*/
 .single-member{
   width: 280px;
+  height: 250px;
   float: left;
-  margin: 30px 2.5%;
+  margin: 10px 2.5%;
   background-color: #fff;
   text-align: center;
   position: relative;

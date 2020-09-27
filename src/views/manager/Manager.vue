@@ -18,7 +18,7 @@
         指标管理
       </b-breadcrumb-item>
       <b-breadcrumb-item href="#foo">题目管理</b-breadcrumb-item>
-      <b-breadcrumb-item active>班级管理</b-breadcrumb-item>
+      <b-breadcrumb-item active @click="ClassMana">班级管理</b-breadcrumb-item>
     </b-breadcrumb>
   </div>
   <div id="nav_manager-department">
@@ -27,10 +27,9 @@
         <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
         院系管理
       </b-breadcrumb-item>
-      <b-breadcrumb-item href="#foo">学院管理</b-breadcrumb-item>
       <!--<b-breadcrumb-item href="#bar">老师管理</b-breadcrumb-item>-->
       <b-breadcrumb-item @click="ClassMana">班级管理</b-breadcrumb-item>
-      <b-breadcrumb-item @click="ClassMana">课程管理</b-breadcrumb-item>
+      <b-breadcrumb-item @click="Curriculum">课程管理</b-breadcrumb-item>
     </b-breadcrumb>
   </div>
   <div id="nav_manager_subject">
@@ -49,6 +48,7 @@
     <Examination v-if="isExamination"></Examination>
     <Questionnaire v-if="isQuestion"></Questionnaire>
     <ClassManager v-if="isClassManager"></ClassManager>
+    <Curriculum v-if="isCurriculum"></Curriculum>
   </div>
 <!--  <div class="show"></div>-->
   <footer>
@@ -65,6 +65,7 @@
   import Examination from "components/content/examination/Examination";
   import Questionnaire from "components/content/questionnaire/Questionnaire";
   import ClassManager from "components/content/classmanager/ClassManager";
+  import Curriculum from "components/content/curriculum/Curriculum";
   export default {
     name: "Manager",
     components:{
@@ -75,7 +76,8 @@
       DepartmentCard,
       Examination,
       Questionnaire,
-      ClassManager
+      ClassManager,
+      Curriculum
     },
     data() {
       return {
@@ -83,7 +85,8 @@
         isDepartment:false,
         isExamination:false,
         isQuestion:false,
-        isClassManager:false
+        isClassManager:false,
+        isCurriculum:false,
       }
     },
     methods: {
@@ -99,6 +102,7 @@
         this.isExamination = false;
         this.isQuestion = false;
         this.isClassManager = false;
+        this.isCurriculum = false;
       },
       department(){
         this.isUser = false;
@@ -106,6 +110,7 @@
         this.isExamination = false;
         this.isQuestion = false;
         this.isClassManager = false;
+        this.isCurriculum = false;
       },
       Examination1(){
         this.isUser = false;
@@ -113,6 +118,7 @@
         this.isExamination = true;
         this.isQuestion = false;
         this.isClassManager = false;
+        this.isCurriculum = false;
       },
       Question(){
         this.isUser = false;
@@ -120,14 +126,24 @@
         this.isExamination = false;
         this.isQuestion = true;
         this.isClassManager = false;
+        this.isCurriculum = false;
       },
       ClassMana(){
         this.isUser = false;
         this.isDepartment = false;
         this.isExamination = false;
         this.isQuestion = false;
-        this.isClassManager = true
+        this.isClassManager = true;
+        this.isCurriculum = false;
       },
+      Curriculum(){
+        this.isUser = false;
+        this.isDepartment = false;
+        this.isExamination = false;
+        this.isQuestion = false;
+        this.isClassManager = false;
+        this.isCurriculum = true;
+      }
 
     }
   }

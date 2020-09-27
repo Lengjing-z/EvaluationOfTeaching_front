@@ -17,7 +17,7 @@
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover title="修改学院信息" v-b-modal.my-modal style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover title="查看所辖班级" v-b-modal.my-modal2 @click="showModal3(index)" style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
 
@@ -26,6 +26,21 @@
           </b-button>
         </b-button-group>
       </div>
+    </div>
+
+    <div>
+      <b-modal  ref="my-modal2" hide-footer title="ALl Class Message">
+        <vxe-table
+          border
+          show-footer
+          class="mytable-scrollbar"
+          height="400"
+          :footer-method="footerMethod"
+          :data="ClassData">
+          <vxe-table-column type="seq" width="50%" fixed="left"></vxe-table-column>
+          <vxe-table-column field="classname"  title="ClassName" width="50%"></vxe-table-column>
+        </vxe-table>
+      </b-modal>
     </div>
 
     <b-modal ref="my-modal" hide-footer title="学院信息管理">
@@ -51,7 +66,7 @@
             </template>
           </vxe-form-item>
 
-          <vxe-form-item title="年龄" field="age" span="24">
+        <!--  <vxe-form-item title="年龄" field="age" span="24">
             <template v-slot>
               <vxe-input v-model="formData2.age" type="integer" placeholder="请输入年龄" clearable></vxe-input>
             </template>
@@ -65,7 +80,7 @@
             <template v-slot>
               <vxe-textarea v-model="formData2.address" placeholder="请输入地址" clearable></vxe-textarea>
             </template>
-          </vxe-form-item>
+          </vxe-form-item>-->
           <vxe-form-item align="center" span="24">
             <template v-slot>
               <vxe-button type="submit"  status="primary">基本表单</vxe-button>
@@ -107,23 +122,52 @@
 export default {
 name: "DepartmentCard",
   methods:{
-    showModal(){
+    showModal(index){
+      this.formData2.name = this.DepartmentData[index].name;
       this.$refs['my-modal'].show();
+    },
+    showModal3(){
+      this.$refs['my-modal2'].show();
     },
     test(index){
       console.log(this.DepartmentData[index].code[0]);
-    }
+    },
+
+
   },
 
   data(){
     return{
+      ClassData:[
+        {
+          id:1,
+          classname: '1790001',
+        },
+        {
+          id:2,
+          classname: '1790002',
+        },
+        {
+          id:3,
+          classname: '1790003',
+        },
+        {
+          id:4,
+          classname: '1790004',
+        },
+        {
+          id:5,
+          classname: '1790005',
+
+        },
+        {
+          id:6,
+          classname: '1790006',
+        }
+      ],
       formData2 : {
         name: '',
-        code: '',
-        password: '',
-        age: '26',
-        address: '',
-        index:''
+
       },
       formRules2: {
         name: [
@@ -173,20 +217,7 @@ name: "DepartmentCard",
           teacher:'张三'
 
         },
-        {
-          id:4,
-          name: '数据库从删库到跑路',
-          code: ['1790001'],
-          teacher:'张三'
 
-        },
-        {
-          id:5,
-          name: 'Linux开发从入门到入狱',
-          code: ['1790005'],
-          teacher:'张三'
-
-        },
         {
           id:6,
           name: '数字媒体艺术',
