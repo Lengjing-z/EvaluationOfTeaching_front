@@ -10,16 +10,16 @@
     <main>
       <div class="container">
         <div class="row">
-          <div class="span10 col-md-9">
+          <div class="span10 col-md-9 col-lg-9">
             <!--主体内容-->
             <function-list></function-list>
           </div>
-          <div class="span2 d-none d-md-block col-md-3">
+          <div class="span2 d-none d-lg-block ">
             <!--边栏内容-->
           </div>
         </div>
       </div>
-      <aside></aside>
+      <aside class="w-25"></aside>
     </main>
     <!--    main end -->
     <!--    footer stard -->

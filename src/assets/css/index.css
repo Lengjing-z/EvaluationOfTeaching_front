@@ -7,8 +7,12 @@ body {
 }
 
 .span2{
+  width: 270px;
   height: 400px;
   background-color: #e63752;
+}
+main{
+  margin-bottom: 10px;
 }
 
 
