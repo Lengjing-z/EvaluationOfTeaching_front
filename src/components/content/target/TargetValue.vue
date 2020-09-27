@@ -1,40 +1,33 @@
 <template>
   <div class="container mt-5">
     <p>指标</p>
-    <vxe-toolbar
-      ref="xToolbar"
-      :refresh="{query: findList}"  >
-      <template v-slot:buttons>
-        <!--           添加权限-->
-        <vxe-button circle @click="targetmanagement = true"><i class="vxe-icon--plus"></i></vxe-button>
-        <vxe-modal v-model="targetmanagement" title="添加指标" width="1000" height="400" resize remember>
+    <!--           添加权限-->
+    <b-button variant="success" v-b-modal.modal-xl>指标管理</b-button>
 
-        </vxe-modal>
+    <b-modal id="modal-xl" size="xl" title="指标管理">
+      <target-management :target-data="targetData"></target-management>
+      <!--          <target-mana :target-data="targetData"></target-mana>-->
+    </b-modal>
 
-        <vxe-button loading circle></vxe-button>
 
-      </template>
-
-    </vxe-toolbar>
     <vxe-table
       show-overflow
       row-key
-      border
       resizable
+      round
       :loading="loading"
-      :tree-config="{children: 'children',line: true}"
+      :tree-config="{children: 'children'}"
       :data="targetData"
-      :checkbox-config="{labelField: 'id', highlight: true,expandAll:true}"
-      @checkbox-change="selectChangeEvent">
+      :checkbox-config="{labelField: 'id', highlight: true}"
+    >
       <vxe-table-column title="ID" field="id" width="180" tree-node></vxe-table-column>
       <vxe-table-column field="name" title="Name" show-overflow="tooltip" tree-node></vxe-table-column>
       <vxe-table-column field="weight" title="Weight"></vxe-table-column>
       <vxe-table-column title="Setting" width="160" :resizable="false" show-overflow>
         <template v-slot="{ row }">
-          <vxe-button @click="showDetailEvent(row)">添加指标</vxe-button>
-<!--          <vxe-button @click="showDetailEvent(row)">添加{{ row.name }}</vxe-button>-->
+          <vxe-button @click="">添加指标</vxe-button>
 
-<!--          选择指标弹出-->
+          <!--          <vxe-button @click="showDetailEvent(row)">添加{{ row.name }}</vxe-button>-->
         </template>
       </vxe-table-column>
       <template v-slot:empty>
@@ -47,20 +40,26 @@
 </template>
 
 <script>
+import TargetManagement from "components/content/target/TargetManagement";
+import TargetMana from "components/content/target/TargetMana";
+
 export default {
-name: "TargetValue",
-  data () {
+  name: "TargetValue",
+  data() {
     return {
       loading: false,
-      targetmanagement:false,
       targetData: [{
-        id:1,
+        id: 1,
         name: 'root',
-        weight:1,
+        weight: 100,
         children: []
       }],
     }
-    }
+  },
+  components: {
+    TargetManagement,
+    TargetMana
+  }
 }
 </script>
 

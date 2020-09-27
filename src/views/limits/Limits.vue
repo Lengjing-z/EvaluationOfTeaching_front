@@ -20,10 +20,10 @@
            <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>
              <update-limit :nodelist="tableData"></update-limit>
            </vxe-modal>
-           <vxe-button circle @click="target = true"><i class="vxe-icon--arrow-top"></i></vxe-button>
-           <vxe-modal v-model="target" title="设置指标" width="600" height="400" resize remember>
+           <vxe-button circle  v-b-modal.modal-xl><i class="vxe-icon--arrow-top"></i></vxe-button>
+           <b-modal id="modal-xl" v-model="target" size="lg" title="设置指标" >
              <target-value :nodelist="tableData"></target-value>
-           </vxe-modal>
+           </b-modal>
          </template>
 
        </vxe-toolbar>
