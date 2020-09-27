@@ -5,18 +5,20 @@
       row-key
       border
       resizable
-      ref="xTree"
+      ref="xTable"
       :loading="loading"
       :tree-config="{children: 'children',line: true}"
       :data="targetData"
-      :edit-config="{trigger: 'click', mode: 'row', showStatus: true}"
+      :edit-config="{trigger: 'dblclick', mode: 'cell'}"
+      :edit-rules="validRules"
     >
-      <vxe-table-column title="ID" field="id" width="120" tree-node></vxe-table-column>
-      <vxe-table-column field="name" title="Name" show-overflow="tooltip" ></vxe-table-column>
-      <vxe-table-column field="weight" title="Weight"></vxe-table-column>
-      <vxe-table-column title="Setting" width="160" :resizable="false" show-overflow>
+      <vxe-table-column title="ID" type="seq" min-width="100" tree-node></vxe-table-column>
+      <vxe-table-column field="name" title="Name" show-overflow="tooltip" :edit-render="{name: 'input', immediate: true, attrs: {type: 'text'}}"></vxe-table-column>
+      <vxe-table-column field="weight" title="Weight(%)" :edit-render="{name: '$input', props: {type: 'int', digits: 2}}"></vxe-table-column>
+      <vxe-table-column title="Setting" :resizable="false" >
         <template v-slot="{ row }">
           <vxe-button @click="insertEvent(row)">添加指标</vxe-button>
+          <vxe-button @click="deleteTarget(row)">删除指标</vxe-button>
           <!--          <vxe-button @click="showDetailEvent(row)">添加{{ row.name }}</vxe-button>-->
 
           <!--          选择指标弹出-->
@@ -38,14 +40,12 @@ export default {
   data() {
     return {
       loading: false,
-      targetmanagement: false,
-      // targetData: {
-      //   // id: 1,
-      //   name: 'root',
-      //   weight: 1,
-      //   children: []
-      // },
-      increase: 2
+      increase: 2,
+      validRules: {
+        weight: [
+          { pattern: '/^(?:0|[1-9][0-9]?|100)$/', message: '格式不正确' }
+        ]
+      }
     }
   },
   props:{
@@ -60,22 +60,24 @@ export default {
     insertEvent(row) {
       let newData = {
         id: this.increase++,
-        name: 'root2',
-        weight: 0.5,
+        name: 'target'+this.increase,
+        weight: 50,
         children: []
       }
-
-      // this.targetData.find(item => {
-      //   return item.id == row.id
-      // }).children.push(newData)
-      //
-      // this.dps(row,newData)
-
       row.children.push(newData)
-      // window.console.log(this.targetData)
-      console.log(this.$refs.xTree.getRowIndex(row));
-      // this.$refs.xTree.setAllTreeExpand(true)
-    }
+    },
+  deleteTarget(row){
+    this.dfs(row,this.targetData)
+  },
+  dfs(row,ls){
+    ls.forEach((item,index)=>{
+      if (item===row){
+        ls.splice(index,1)
+      }else{
+        this.dfs(row,item.children)
+      }
+    })
+  }
   }
 }
 </script>

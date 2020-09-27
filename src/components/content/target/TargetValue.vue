@@ -1,8 +1,7 @@
 <template>
   <div class="container mt-5">
-    <p>指标</p>
     <!--           添加权限-->
-    <b-button variant="success" v-b-modal.modal-xl>指标管理</b-button>
+    <b-button variant="success" v-b-modal.modal-xl class="mb-4">指标管理</b-button>
 
     <b-modal id="modal-xl" size="xl" title="指标管理">
       <target-management :target-data="targetData"></target-management>
@@ -19,8 +18,9 @@
       :tree-config="{children: 'children'}"
       :data="targetData"
       :checkbox-config="{labelField: 'id', highlight: true}"
+      :edit-config="{trigger: 'dblclick', mode: 'cell'}"
     >
-      <vxe-table-column title="ID" field="id" width="180" tree-node></vxe-table-column>
+      <vxe-table-column title="ID" field="id" col-id="id" tree-node></vxe-table-column>
       <vxe-table-column field="name" title="Name" show-overflow="tooltip" tree-node></vxe-table-column>
       <vxe-table-column field="weight" title="Weight"></vxe-table-column>
       <vxe-table-column title="Setting" width="160" :resizable="false" show-overflow>

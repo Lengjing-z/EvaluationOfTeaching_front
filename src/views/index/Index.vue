@@ -10,7 +10,7 @@
     <main>
       <div class="container">
         <div class="row">
-          <div class="span10 col-md-9 col-lg-9">
+          <div class="span10 col-md-12 col-lg-9">
             <!--主体内容-->
             <function-list></function-list>
           </div>

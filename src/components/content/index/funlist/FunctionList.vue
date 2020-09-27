@@ -8,7 +8,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="limits">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="questionnaire">
         <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6">
@@ -42,6 +42,9 @@ export default {
   methods:{
     limits(){
       this.$router.push('/limits');
+    },
+    questionnaire(){
+      this.$router.push('/questionnaireList');
     }
   }
 }

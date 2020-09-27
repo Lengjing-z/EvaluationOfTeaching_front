@@ -5,6 +5,7 @@ import Mess from "views/mess/Mess";
 const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
 const Limits = () => import('views/limits/Limits.vue')
+const QuestionnaireList = () => import('components/content/questionnaire/QuestionnaireList.vue')
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,12 @@ Vue.use(VueRouter)
       path: '/limits',
       name: 'Limits',
       component: Limits
+    }
+    ,
+    {
+      path: '/questionnaireList',
+      name: 'QuestionnaireList',
+      component: QuestionnaireList
     }
 
 ]
