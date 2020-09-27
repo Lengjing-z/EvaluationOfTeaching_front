@@ -52,7 +52,7 @@
                             <span class="lbl"> 记住</span>
                           </label>
 
-                          <button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+                          <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
                             <i class="ace-icon fa fa-key"></i>
                             <span class="bigger-110">登录</span>
                           </button>
@@ -147,7 +147,15 @@
     },
     methods : {
       login() {
-        this.$router.push('/index');
+        this.$store.commit('updateLoginForm',this.loginForm)
+        this.$store
+          .dispatch('login')
+          .then(result => {
+            if (result==='success')
+              return this.$store.dispatch('info/loadMyInfo')
+          }).then(()=>{
+            this.$router.push('index')
+        })
       },
       test(){
         this.$router.push('./manager');

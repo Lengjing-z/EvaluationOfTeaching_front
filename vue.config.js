@@ -16,5 +16,18 @@ module.exports={
           .set('plugins',resolve('./src/plugins'))
         //注意 store 和 router 没必要配置
 　　　　
+    },
+    devServer:{
+      host: 'localhost',
+      port: 8080,
+      proxy:{
+        'back/':{
+          target:'http://121.89.205.249:9090',
+          changeOrigin: true,
+          pathRewrite:{
+            '^/back': ''
+          }
+        }
+      }
     }
 }

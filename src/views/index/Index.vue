@@ -44,6 +44,33 @@ export default {
     Footer,
     Function,
     FunctionList
+  },
+  data(){
+    return {
+
+    }
+  },
+  mounted() {
+    let data = [
+      {
+      name:'add1',
+      pub: true
+    },{
+      name:'add2',
+      pub: true
+    },{
+      name:'add3',
+      pub: true
+    },{
+      name:'add4',
+      pub: true
+    }]
+    this.$store.commit('admin/class/addCreations',data)
+    this.$store
+      .dispatch('admin/class/create')
+      .then(res=>{
+        window.console.log(res)
+      })
   }
 };
 </script>

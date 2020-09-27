@@ -19,7 +19,7 @@
             <template v-slot:button-content>
               <div class="">
                 <b-avatar variant="info" src="https://placekitten.com/300/300" class="mr-3"></b-avatar>
-                <span class="mr-auto">Super Kitty</span>
+                <span class="mr-auto">{{username}}</span>
               </div>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
@@ -35,7 +35,12 @@
 
 <script>
 export default {
-  name: "NavBar"
+  name: "NavBar",
+  computed:{
+    username(){
+      return this.$store.state.info.mine.name
+    }
+  }
 }
 </script>
 
