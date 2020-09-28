@@ -8,10 +8,10 @@
       <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="limits">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="questionnaire">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="studentquestionnairefinish">
         <p class="card"></p>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="questionnaireManager">
         <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6">
@@ -43,9 +43,20 @@ export default {
     limits(){
       this.$router.push('/limits');
     },
-    questionnaire(){
-      this.$router.push('/questionnaireList');
-    }
+    studentquestionnairefinish(){
+      this.$store
+        .dispatch('student/questionnaire/selectAllFinishNaire')
+        .then(result => {
+          if (result == 'true')
+            this.$router.push('/studentquestionnairefinish');
+        }).then(()=>{
+        this.$router.push('/studentquestionnairefinish');
+      })
+
+    },
+    questionnaireManager(){
+      this.$router.push('/quertionnaireManager');
+    },
   }
 }
 </script>

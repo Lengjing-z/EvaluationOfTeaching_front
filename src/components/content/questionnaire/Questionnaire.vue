@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div class="container">
     <header>
       <h3>问卷信息管理</h3>
     </header>
@@ -23,7 +23,7 @@
       <vxe-table-column type="seq"  width="60"></vxe-table-column>
       <vxe-table-column field="name" title="课程名"></vxe-table-column>
       <vxe-table-column field="status" title="状态"></vxe-table-column>
-      <vxe-table-column title="操作"  width="200" show-overflow>
+      <vxe-table-column title="操作"  show-overflow>
         <template v-slot="{ row }">
           <!--<vxe-button type="text"  @click="editEvent(row)">111</vxe-button>
           type="text"  @click="editEvent(row)-->
@@ -38,7 +38,7 @@
 
     <vxe-modal v-model="showEdit" :title="selectRow ? '编辑&保存' : '新增&保存'" width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
       <template v-slot>
-        <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>
+<!--        <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>-->
       </template>
     </vxe-modal>
 
@@ -165,25 +165,12 @@ export default {
       sex: [
         { required: true, message: '请选择性别' }
       ]
-    },
-    formItems: [
-      { title: 'Basic information', span: 24, titleAlign: 'left', titleWidth: 200, titlePrefix: { icon: 'fa fa-address-card-o' } },
-      { field: 'name', title: 'Name', span: 12, itemRender: { name: '$input', props: { placeholder: '请输入名称' } } },
-/*      { field: 'nickname', title: 'Nickname', span: 12, itemRender: { name: '$input', props: { placeholder: '请输入昵称' } } },*/
-      { field: 'role', title: 'Role', span: 12, itemRender: { name: '$input', props: { placeholder: '请输入角色' } } },
-      { field: 'sex', title: 'Sex', span: 12, itemRender: { name: '$select', options: [] } },
-      { field: 'age', title: 'Age', span: 12, itemRender: { name: '$input', props: { type: 'number', placeholder: '请输入年龄' } } },
-      { field: 'flag1', title: '是否单身', span: 12, itemRender: { name: '$radio', options: [{ label: '是', value: 'Y' }, { label: '否', value: 'N' }] } },
-      { field: 'checkedList', title: '可选信息', span: 24, visibleMethod: this.visibleMethod, itemRender: { name: '$checkbox', options: [{ label: '运动、跑步', value: '1' }, { label: '听音乐', value: '2' }, { label: '泡妞', value: '3' }, { label: '吃美食', value: '4' }] } },
-      { title: 'Other information', span: 24, titleAlign: 'left', titleWidth: 200, titlePrefix: { message: '请填写必填项', icon: 'fa fa-info-circle' } },
-      { field: 'num', title: 'Number', span: 12, itemRender: { name: '$input', props: { type: 'number', placeholder: '请输入数值' } } },
-      { field: 'date3', title: 'Date', span: 12, itemRender: { name: '$input', props: { type: 'date', placeholder: '请选择日期' } } },
-      { field: 'address', title: 'Address', span: 24, titleSuffix: { message: '提示信息！！', icon: 'fa fa-question-circle' }, itemRender: { name: '$textarea', props: { autosize: { minRows: 2, maxRows: 4 }, placeholder: '请输入地址' } } },
-      { align: 'center', span: 24, titleAlign: 'left', itemRender: { name: '$buttons', children: [{ props: { type: 'submit', content: '提交', status: 'primary' } }, { props: { type: 'reset', content: '重置' } }] } }
-    ]
+    }
   }
 },
 methods: {
+
+
   End(name){
 
     this.isTeaching = false;
@@ -333,8 +320,8 @@ methods: {
   border: none;
   border-radius: 4px;
   background-color: #409eff;
-  height: 40px;
-  width: 90px;
+  height: 35px;
+  width: 150px;
   margin-top: 8px;
   display: flex;
   align-items: center;
@@ -351,10 +338,10 @@ methods: {
   filter: alpha(opacity=0);
   width: 60px;
 }
-.test{
-  width: 80%;
-  margin: 10px auto;
-}
+/*.test{*/
+/*  width: 80%;*/
+/*  margin: 10px auto;*/
+/*}*/
 .my-red {
   color: red;
 }
