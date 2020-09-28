@@ -18,7 +18,7 @@
       ref="xTable"
       height="500"
       :align="allAlign"
-      :data="tableData"
+      :data="StoptableData4"
       @cell-dblclick="cellDBLClickEvent">
       <vxe-table-column type="seq"  width="60"></vxe-table-column>
       <vxe-table-column field="name" title="课程名"></vxe-table-column>
@@ -28,8 +28,8 @@
           <!--<vxe-button type="text"  @click="editEvent(row)">111</vxe-button>
           type="text"  @click="editEvent(row)-->
          <!-- <vxe-button @click="editEvent(row)">启用</vxe-button>-->
-          <vxe-button v-if="isTeaching" @click="End(this.tableData[index].name)">关闭问卷</vxe-button>
-          <vxe-button v-if="notTeaching" @click="Start()">启用问卷</vxe-button>
+          <vxe-button v-if="row.status" @click="End(row)">关闭问卷</vxe-button>
+          <vxe-button v-else @click="Start(row)">启用问卷</vxe-button>
          <!-- <vxe-button type="text" icon="fa fa-trash-o" @click="removeEvent(row)"></vxe-button>-->
           <vxe-button @click="removeEvent(row)">删除</vxe-button>
         </template>
@@ -88,7 +88,13 @@
 import XLSX from "xlsx";
 
 export default {
+  mounted() {
+    this.init();
+  },
   created () {
+
+
+    console.log(11111);
     this.tableData = window.MOCK_DATA_LIST.slice(0, 6)
     this.findSexList();
     this.formItems[4].itemRender.options = this.sexList
@@ -112,26 +118,29 @@ export default {
     perPage: 15,//每页数据条数
     currentPage: 1,
     userMessage:[],//存放导入的数据
+    StoptableData5:[{
+      id:'',
+      name:'',
+      status:'正在评教',
+    }],
+    StoptableData4:[],
     tableData: [
       {
         id:1,
         name: '软件工程1',
-        code: '179000505',
-        status:'正在评教',
+        status:true,
         teacher:'王麻子'
       },
       {
         id:1,
         name: '软件工程2',
-        code: '179000505',
-        status:'正在评教',
+        status:false,
         teacher:'王麻子'
       },
       {
         id:1,
         name: '软件工程3',
-        code: '179000505',
-        status:'正在评教',
+        status:true,
         teacher:'王麻子'
       }
     ],
@@ -184,10 +193,35 @@ export default {
   }
 },
 methods: {
-  End(name){
+  init(){
+    for(let i = 0; i < this.tableData.length;i++){
+      this.StoptableData4.push(this.tableData[i]);
+    }
+    for(let i = 0; i < this.StoptableData4.length; i ++){
+      if(this.tableData[i].status == true){
+        this.StoptableData4[i].status = '正在评教';
+      }else{
+        this.StoptableData4[i].status = '已关闭';
+      }
+    }
+  },
+  End(row){
+    let name = row.name;
+    console.log(this.StoptableData4);
+    for(let i = 0; i < this.StoptableData4.length; i++){
+      if(name == this.StoptableData4[i].name){
+        this.tableData[i].status = false;
+      }
+    }
 
-    this.isTeaching = false;
-    console.log(name);
+  },
+  Start(row){
+    let name = row.name;
+    for(let i = 0; i < this.tableData.length; i++){
+      if(name == this.tableData[i].name){
+        this.tableData[i].status = true;
+      }
+    }
   },
   findSexList () {
     return XEAjax.get('/api/conf/sex/list').then(data => {
