@@ -13,7 +13,6 @@
     "bootstrap-fileinput": "^5.1.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
-    "element-ui": "^2.13.2",
     "file-saver": "^2.0.2",
     "jQuery": "^1.7.4",
     "jquery": "^3.5.1",

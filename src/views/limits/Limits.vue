@@ -1,59 +1,66 @@
 <template>
- <div class="container mt-5">
-<!--   工具栏开始-->
-   <div>
-     <p>工具栏位置随意放</p>
-       <vxe-toolbar
-         custom
-         print
-         ref="xToolbar"
-         :refresh="{query: findList}"  >
-         <template v-slot:buttons>
-<!--           添加权限-->
-           <vxe-button circle @click="addlimit = true"><i class="vxe-icon--plus"></i></vxe-button>
-           <vxe-modal v-model="addlimit" title="新建权限" width="600" height="400" resize remember mask-closable>
-             <add-limit :nodelist="tableData"></add-limit>
-           </vxe-modal>
+  <div>
+<!--    Header-->
+    <nav-bar></nav-bar>
+<!--    Manager-->
+    <manager-setting></manager-setting>
 
-<!--           修改权限-->
-           <vxe-button circle @click="updatelimit = true"><i class="vxe-icon--remove"></i></vxe-button>
-           <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>
-             <update-limit :nodelist="tableData"></update-limit>
-           </vxe-modal>
-           <vxe-button circle  v-b-modal.modal-xl><i class="vxe-icon--arrow-top"></i></vxe-button>
-           <b-modal id="modal-xl" v-model="target" size="lg" title="设置指标" >
-             <target-value :nodelist="tableData"></target-value>
-           </b-modal>
-         </template>
+    <div class="container mt-5">
+      <!--   工具栏开始-->
+      <div>
+        <vxe-toolbar
+          custom
+          print
+          ref="xToolbar"
+          :refresh="{query: findList}"  >
+          <template v-slot:buttons>
+            <!--           添加权限-->
+            <vxe-button circle @click="addlimit = true"><i class="vxe-icon--plus"></i></vxe-button>
+            <vxe-modal v-model="addlimit" title="新建权限" width="600" height="400" resize remember mask-closable>
+              <add-limit :nodelist="tableData"></add-limit>
+            </vxe-modal>
+            <!--           修改权限-->
+            <vxe-button circle @click="updatelimit = true"><i class="vxe-icon--remove"></i></vxe-button>
+            <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>
+              <update-limit :nodelist="tableData"></update-limit>
+            </vxe-modal>
+            <vxe-button circle  v-b-modal.modal-xl><i class="vxe-icon--arrow-top"></i></vxe-button>
+            <b-modal id="modal-xl" v-model="target" size="lg" title="设置指标" >
+              <target-value :nodelist="tableData"></target-value>
+            </b-modal>
+          </template>
 
-       </vxe-toolbar>
-   </div>
-<!--   工具栏结束-->
-<!--   权限列表-->
-   <vxe-table
-     show-overflow
-     row-key
-     resizable
-     round
-     :loading="loading"
-     :tree-config="{children: 'children',line: true}"
-     :data="tableData"
-     :checkbox-config="{labelField: 'id', highlight: true}"
-     @checkbox-change="selectChangeEvent">
-     <vxe-table-column type="checkbox" title="ID" width="180" tree-node></vxe-table-column>
-     <vxe-table-column field="name" title="Name" show-overflow="tooltip"></vxe-table-column>
-     <vxe-table-column field="is_role" title="is_role"></vxe-table-column>
-     <vxe-table-column field="p_node" title="p_node"></vxe-table-column>
-     <vxe-table-column field="is_end" title="is_end"></vxe-table-column>
-     <template v-slot:empty>
+        </vxe-toolbar>
+      </div>
+      <!--   工具栏结束-->
+      <!--   权限列表-->
+      <vxe-table
+        show-overflow
+        row-key
+        resizable
+        round
+        :loading="loading"
+        :tree-config="{children: 'children',line: true}"
+        :data="tableData"
+        :checkbox-config="{labelField: 'id', highlight: true}"
+        @checkbox-change="selectChangeEvent">
+        <vxe-table-column type="checkbox" title="ID" width="180" tree-node></vxe-table-column>
+        <vxe-table-column field="name" title="Name" show-overflow="tooltip"></vxe-table-column>
+        <vxe-table-column field="is_role" title="is_role"></vxe-table-column>
+        <vxe-table-column field="p_node" title="p_node"></vxe-table-column>
+        <vxe-table-column field="is_end" title="is_end"></vxe-table-column>
+        <template v-slot:empty>
             <span style="color: red;">
               <img src="@/assets/img/img1.gif">
               <p>不用再看了，没有更多数据了！</p>
             </span>
-     </template>
-   </vxe-table>
+        </template>
+      </vxe-table>
 
- </div>
+    </div>
+    <Footer></Footer>
+  </div>
+
 </template>
 
 <script>
@@ -61,6 +68,10 @@ import AddLimit from "components/content/limits/AddLimit";
 import updateLimit from "components/content/limits/updateLimit";
 
 import TargetValue from "components/content/target/TargetValue";
+
+import NavBar from "components/content/nav/NavBar";
+import ManagerSetting from "components/common/Manager/ManagerSetting";
+import Footer from "components/content/footer/Footer";
 
 export default {
   name: "Limits",
@@ -76,9 +87,12 @@ export default {
     }
   },
   components:{
+    NavBar,
+    Footer,
     AddLimit,
     updateLimit,
-    TargetValue
+    TargetValue,
+    ManagerSetting
   },
   created () {
     const list1 = []
