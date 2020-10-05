@@ -5,7 +5,7 @@ import login from './login'
 import clazz from "./class";
 import admin from "./admin";
 import course from './course'
-import student from './student'
+import evaluation from './evaluation'
 
 Vue.use(Vuex)
 
@@ -16,6 +16,6 @@ export default new Vuex.Store({
     clazz,
     admin,
     course,
-    student
+    evaluation
   }
 })
