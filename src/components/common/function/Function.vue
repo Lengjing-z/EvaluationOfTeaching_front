@@ -19,10 +19,10 @@
             </tr>
             </thead>
             <tbody id = "wt">
-            <tr v-for="item in 12">
+            <tr v-for="(item,index) in finishedlist" :key="item.content">
               <td colspan="2">
-                <span>1.辅导员能叫得出全班同学的名字，熟悉每位同学的基本情况。</span>
-                <b-form-rating v-model="value" show-value variant="warning" size="md" class="choose"></b-form-rating>
+                <span>{{index+1}}.{{item.content}}</span>
+                <b-form-rating v-model="item.answer" show-value variant="warning" size="md" class="choose"></b-form-rating>
                 <!--                <span class="layui-inline">0分</span>-->
               </td>
             </tr>
@@ -42,8 +42,15 @@
     name: "Function",
     data() {
       return {
+        finishedlist:null,
         value: 0
       }
+    },
+    props:{
+    },
+    created() {
+      this.finishedlist = this.$store.state.evaluation.finishedlist
+      console.log(this.finishedlist)
     }
   }
 </script>

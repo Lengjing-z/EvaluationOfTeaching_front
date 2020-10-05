@@ -3,6 +3,7 @@ import post from "../util";
 import power from "./power";
 import clazz from './class'
 import student from './student'
+import indicator from './indicator'
 export default {
   namespaced: true,
   mutations:{
@@ -13,7 +14,8 @@ export default {
   modules:{
     power,
     'class': clazz,
-    student
+    student,
+    indicator
   },
   getters:{}
 }

@@ -6,7 +6,6 @@
     <questionnaire-list :questionnairelist="questionnairelist" ></questionnaire-list>
   </div>
   <Footer></Footer>
-
 </div>
 </template>
 
@@ -16,17 +15,21 @@ import ManagerSetting from "components/common/Manager/ManagerSetting";
 import Footer from "components/content/footer/Footer";
 import Questionnaire from "components/content/questionnaire/Questionnaire";
 import QuestionnaireList from "components/content/questionnaire/QuestionnaireList";
-
 export default {
-  name: "StudentQuestionnaireFinish",
-   data(){
+  name: "TeacherQuestionnaireFinish",
+  data(){
     return{
       manager:[{name:"评教结果"}]
     }
-   },
+  },
   computed:{
     questionnairelist() {
-      const list = this.$store.state.evaluation.questionnairefinishedList;
+      // const nairelist = [];
+      const list = this.$store.state.student.questionnaire.questionnairelist;
+      // list.forEach(item => {
+      //   nairelist.push({title:item.title,teacher:item.beEvaUsers[0].name})
+      // })
+      // console.log(list)
       return list
     }
   },
@@ -37,7 +40,6 @@ export default {
     Questionnaire,
     ManagerSetting
   },
-
 }
 </script>
 

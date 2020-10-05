@@ -3,6 +3,7 @@
     <nav-bar></nav-bar>
     <manager-setting :manager = "manager"></manager-setting>
     <Questionnaire></Questionnaire>
+
     <Footer></Footer>
   </div>
 </template>
@@ -27,7 +28,7 @@ export default {
     Questionnaire
   },
   computed:{
-    
+
   }
 }
 </script>
