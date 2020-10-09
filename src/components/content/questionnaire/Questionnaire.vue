@@ -46,13 +46,13 @@
       highlight-hover-row
       ref="xTable"
       height="500"
-      :data="tableData">
+      :data="allquestionnaire">
       <vxe-table-column type="seq" width="60"></vxe-table-column>
-      <vxe-table-column field="name" title="课程名"></vxe-table-column>
+      <vxe-table-column field="title" title="课程名"></vxe-table-column>
       <vxe-table-column field="status" title="状态"></vxe-table-column>
       <vxe-table-column title="操作" show-overflow>
         <template v-slot="{ row }">
-          <vxe-button v-if="isTeaching" @click="End(this.tableData[index].name)">关闭问卷</vxe-button>
+          <vxe-button v-if="isTeaching" @click="End(this.allquestionnaire[index].name)">关闭问卷</vxe-button>
           <vxe-button v-if="notTeaching" @click="Start()">启用问卷</vxe-button>
           <vxe-button @click="removeEvent(row)">删除</vxe-button>
         </template>
@@ -80,35 +80,49 @@
       <vxe-select v-model="targetTempName" placeholder="选择指标模板">
         <vxe-option v-for="num in targetData" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
       </vxe-select>
+      <template v-slot:modal-footer>
+        <div class="w-100" >
+          <b-button
+            variant="primary"
+            size="sm"
+            class="float-right"
+            @click="submitnaire"
+          >
+            提交
+          </b-button>
+        </div>
+      </template>
 
       <!--导入的问卷详情-->
-      <vxe-table
+      <vxe-grid
         border
         resizable
         show-overflow
         keep-source
-        ref="xTable"
+        ref="questions"
         :loading="loading"
         :data="userMessage"
         :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="title" title="问题"></vxe-table-column>
+        <vxe-table-column field="content" title="问题"></vxe-table-column>
 
         <vxe-table-column field="name" title="指标名称"></vxe-table-column>
-        <vxe-table-column field="weight" title="权重"></vxe-table-column>
+        <vxe-table-column field="rate" title="权重"></vxe-table-column>
         <vxe-table-column title="操作" width="160">
           <template v-slot="{ row,index }">
-              <vxe-button v-b-modal.targetvalue${index} >添加指标</vxe-button>
+              <vxe-button v-b-modal.targetvalue @click="addtarget(row,index)">添加指标</vxe-button>
 
           </template>
         </vxe-table-column>
-      </vxe-table>
-      <b-modal id="targetvalue${index}" size="lg" title="指标列表">
-        <target-value :target-temp-tree="targetTempTree" @choosetar="chooseTarget"></target-value>
+      </vxe-grid>
+      <b-modal id="targetvalue" size="lg" title="指标列表">
+        <target-value  :target-temp-tree="targetTempTree" :user-message="userMessage"
+                       @changeuserMessage="changeuserMessage"></target-value>
       </b-modal>
 
 
     </b-modal>
+
   </div>
 </template>
 
@@ -135,29 +149,7 @@ export default {
       perPage: 15,//每页数据条数
       currentPage: 1,
       userMessage: [],//存放导入的数据
-      tableData: [
-        {
-          id: 1,
-          name: '软件工程1',
-          code: '179000505',
-          status: '正在评教',
-          teacher: '王麻子'
-        },
-        {
-          id: 1,
-          name: '软件工程2',
-          code: '179000505',
-          status: '正在评教',
-          teacher: '王麻子'
-        },
-        {
-          id: 1,
-          name: '软件工程3',
-          code: '179000505',
-          status: '正在评教',
-          teacher: '王麻子'
-        }
-      ],
+      allquestionnaire: [],
       selectRow: null,
       showEdit: false,
       upload_file: "导入",
@@ -171,16 +163,16 @@ export default {
   },
   watch:{
     targetTempName(val,oldval){
-      console.log(val,oldval)
+      // console.log(val,oldval)
       this.$store.dispatch("admin/indicator/getTemp",val)
       .then(res =>{
-        console.log(res)
+        // console.log(res)
         this.targetTempTree = Array(this.$store.getters["admin/indicator/getTndicatorTempTree"])
-        console.log(this.targetTempTree)
+        // console.log(this.targetTempTree)
       })
 
-      // this.$store.commit("admin/indicator/updateindicatorTemp",val)
-    }
+    },
+
   },
   created:function () {
     this.$store
@@ -189,6 +181,8 @@ export default {
         this.targetData = this.$store.state.admin.indicator.indicatorAll
         console.log(res)
       })
+    console.log("=>",this.$store.state.admin.quertionnaire.questionnaireAll)
+    this.allquestionnaire = this.$store.state.admin.quertionnaire.questionnaireAll
   },
   components:{
     TargetManagement,
@@ -240,9 +234,35 @@ export default {
         console.log(res)
       })
     },
-    chooseTarget(row,data){
-      console.log("----")
-      console.log(row,data)
+    changeuserMessage(data){
+      this.userMessage = []
+      this.userMessage = data
+    },
+    addtarget(row,index){
+      this.$store.commit("admin/indicator/updateCurrentRow",row)
+      // this.$store.commit("admin/indicator/updateCurrentRowIndex",index)
+    },
+    submitnaire(){
+      let  questionnaire ={
+        title : this.upload_file,
+        indexRootId: this.targetTempTree[0].id,
+        questions:this.userMessage
+      }
+      // console.log(this.userMessage)
+      this.$store.dispatch("admin/indicator/createQuestionnaire",questionnaire)
+        .then(res =>{
+          if (res) {
+            console.log("success");
+            this.$bvModal.hide('my-modal1');
+            this.$store
+              .dispatch("admin/indicator/getAll")
+              .then(res =>{
+                console.log("="+res);
+              })
+          }
+          else
+            console.log("fail")
+        })
     },
 
 
@@ -273,8 +293,11 @@ export default {
           });
           const wsname = workbook.SheetNames[0]; //取第一张表
           const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
-          console.log(ws[1].title);
+          console.log(ws);
           this.userMessage = ws;
+          this.$store.commit("admin/indicator/clearCurrent") // 清空指标
+          console.log("---userMessage");
+          console.log(this.userMessage)
           that.lists = [];
           // 从解析出来的数据中提取相应的数据
           ws.forEach(item => {

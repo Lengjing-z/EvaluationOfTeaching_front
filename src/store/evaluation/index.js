@@ -1,14 +1,11 @@
 import myAxios from "network/request"
 import post from "../util";
-
-import student from "./student"
-import teacher from "./teacher"
 import qs from "qs";
 
 export default {
   namespaced: true,
   state: {
-    questionnairefinishedList: null,
+    questionnairefinishedList: null, // 已评教列表
     finishedlist:null
   },
   mutations: {
@@ -21,7 +18,7 @@ export default {
   },
   actions: {
     // 查询学生已评教的问卷信息
-    getfinishedList({commit}) {
+    getStudentFinishedList({commit}) {
       return myAxios
         .post('evaluation/finishedList')
         .then(res => {
@@ -34,7 +31,7 @@ export default {
         })
     },
     //  查看学生已评教的问卷信息详情
-    getdetail({commit}, id) {
+    getStudentDetail({commit}, id) {
       // console.log("id="+id)
       // return post("evaluation/student/progressing",id,res =>{
       //   return res
@@ -53,8 +50,6 @@ export default {
     }
   },
   modules: {
-    student,
-    teacher
   },
   getters: {}
 }

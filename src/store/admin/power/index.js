@@ -2,6 +2,32 @@ import myAxios from "../../../network/request";
 import post from "../../util";
 import qs from 'qs'
 const baseUrl = 'admin/power/'
+function translateTreeToList(tree) {
+  const li = [];
+  li.push(tree)
+  tree.children.forEach(child=>{
+    child.parent = tree
+    translateTreeToList(child,li)
+  })
+  return li;
+}
+
+function transalteListToTree(li) {
+  let tree = queryNodeByPa(li, null)[0]
+  dfs(tree, li)
+  return tree
+}
+
+function queryNodeByPa(li, paId) {
+  return li.filter(item => { return item.paNode === paId })
+}
+
+function dfs(node, li) {
+  node.children = queryNodeByPa(li, node.id)
+  node.children.forEach(item => dfs(item, li))
+}
+
+
 export default {
   namespaced:true,
   state:{
@@ -42,6 +68,9 @@ export default {
   },
   modules:{},
   getters:{
-    
+    getAllPowerTree(state){
+      // console.log("li>"+li);
+      return transalteListToTree(state.all);
+    },
   }
 }

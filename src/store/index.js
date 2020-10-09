@@ -6,6 +6,7 @@ import clazz from "./class";
 import admin from "./admin";
 import course from './course'
 import evaluation from './evaluation'
+import beEvaluation from './beEvaluation'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     clazz,
     admin,
     course,
-    evaluation
+    evaluation,
+    beEvaluation
   }
 })

@@ -30,7 +30,9 @@ export default {
   state:{
     indicatorAll:[],
     indicatorDetail:[],
-    indicatorTemp:[]
+    indicatorTemp:[],
+    current:{}, // 添加指标的当前指标
+    currentRow:{}, // 问题当前行
   },
   mutations:{
     updateindicatorAll(state,data){
@@ -41,6 +43,17 @@ export default {
     },
     updateindicatorTemp(state,data){
       state.indicatorTemp = data
+    },
+    addCurrent(state, data) {
+      // state.current.push(data)
+      state.current = data
+      console.log(state.current)
+    },
+    clearCurrent(state){
+      state.current = [];
+    },
+    updateCurrentRow(state,data){
+      state.currentRow = data
     }
   },
   actions:{
@@ -48,7 +61,7 @@ export default {
       return myAxios.post("admin/indicator/all")
         .then(res =>{
           commit("updateindicatorAll",res.data)
-          // console.log(res.data)
+          console.log("indicatorAll",res.data)
           return "get indicatorAll success"
         })
     },
@@ -83,13 +96,23 @@ export default {
         }).catch(err =>{
           console.log(err)
         })
+    },
+    createQuestionnaire({commit},data){
+      return myAxios.post("admin/questionnaire/create",data)
+        .then(res =>{
+          console.log(res)
+          return true
+        }).catch(err =>{
+          console.log(err);
+          return false
+        })
     }
   },
   modules:{},
   getters:{
-    getTndicatorList(state,tree){
-      return translateTreeToList(tree);
-    },
+    // getTndicatorList(state,tree){
+    //   return translateTreeToList(tree);
+    // },
     getTndicatorTree(state){
       // console.log("li>"+li);
       return transalteListToTree(state.indicatorDetail);

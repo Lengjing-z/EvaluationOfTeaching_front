@@ -4,6 +4,7 @@ import power from "./power";
 import clazz from './class'
 import student from './student'
 import indicator from './indicator'
+import quertionnaire from './quertionnaire'
 export default {
   namespaced: true,
   mutations:{
@@ -15,7 +16,8 @@ export default {
     power,
     'class': clazz,
     student,
-    indicator
+    indicator,
+    quertionnaire
   },
   getters:{}
 }

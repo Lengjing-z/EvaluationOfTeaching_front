@@ -16,7 +16,7 @@
       <vxe-table-column field="rate" title="Weight(%)"></vxe-table-column>
       <vxe-table-column title="Setting" :resizable="false">
         <template v-slot="{ row }">
-          <vxe-button @click="chooseTarget(row)">添加指标</vxe-button>
+          <vxe-button @click="chooseTarget(row)" >添加指标</vxe-button>
         </template>
       </vxe-table-column>
       <template v-slot:empty>
@@ -45,11 +45,28 @@ export default {
         return {}
       }
     },
+    userMessage:{
+      type: Array,
+      default() {
+        return {}
+      }}
   },
   methods: {
     chooseTarget(data) {
-      this.$emit('choosetar',data)
-      // console.log(row)
+      this.$store.commit("admin/indicator/addCurrent",data)
+      let row = this.$store.state.admin.indicator.currentRow;
+      row.name = data.name
+      row.indexEndId = data.id
+      row.rate = data.rate
+      this.userMessage.forEach((orow) =>{
+        if (orow.cntent == row.content)
+          orow = row
+      })
+      // 更新表格数据
+      this.$emit("changeuserMessage", this.userMessage);
+      // 关闭模态框
+      this.$bvModal.hide('targetvalue')
+
     }
   }
 }
