@@ -7,7 +7,7 @@ const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
 const Limits = () => import('views/limits/Limits.vue')
 const StudentQuestionnaireFinish = () => import('views/student/StudentQuestionnaireFinish')
-const QuertionnaireManager= () => import('views/questionnaire/QuertionnaireManager')
+const QuestionnaireManager= () => import('views/questionnaire/QuestionnaireManager')
 
 
 Vue.use(VueRouter)
@@ -55,9 +55,9 @@ const routes = [
     component: StudentQuestionnaireFinish
   },
  {
-    path: '/quertionnaireManager',
-    name: 'QuertionnaireManager',
-    component: QuertionnaireManager
+    path: '/questionnaireManager',
+    name: 'QuestionnaireManager',
+    component: QuestionnaireManager
   }
 
 ]

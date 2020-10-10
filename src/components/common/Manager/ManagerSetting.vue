@@ -3,7 +3,7 @@
 
     <div id="nav_manager-user " class="container-lg">
       <b-breadcrumb>
-        <b-breadcrumb-item href="#home">
+        <b-breadcrumb-item  @click="toIndex">
           <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
           首页
         </b-breadcrumb-item>
@@ -29,7 +29,9 @@ export default {
     manager:Array
   },
   methods: {
-
+    toIndex(){
+      this.$router.push('/index')
+    }
   }
 }
 

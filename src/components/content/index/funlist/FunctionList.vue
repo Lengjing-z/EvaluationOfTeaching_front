@@ -2,111 +2,120 @@
   <div id="functionlist">
     <h2 class="title">服务</h2>
     <div id="list" class="row container">
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-chengji"></use>
-        </svg>
-        <span>用户管理</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="limits">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-chengchang"></use>
-        </svg>
-        <span>课程管理</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="questionnaireManager">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-jiaoyan"></use>
-          </svg>
-          <span>问卷管理</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-zhizhou"></use>
-        </svg>
-        <span>权限管理</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-pingjiao"></use>
-        </svg>
-        <span>问卷评教(学生)</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="studentquestionnairefinish">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-shenpi"></use>
-        </svg>
-        <span>查看评价结果(学生)</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-pingjiao"></use>
-        </svg>
-        <span>问卷评教(老师)</span>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-shenpi"></use>
-        </svg>
-        <span>查看评价结果(老师)</span>
-      </div>
+      <Function v-for="item in functionDataList" :key="item.title" :title="item.title" :icon="item.icon" :url="item.url"></Function>
     </div>
+
     <Function></Function>
   </div>
 
 </template>
 
 <script>
+import Form from "components/common/function/Form";
 import Function from "components/common/function/Function";
 import myAxios from "network/request";
+
 export default {
   name: "FunctionList",
-  components:{
+  components: {
+    Form,
     Function
   },
-  methods:{
-    limits(){
-      this.$store.dispatch("admin/power/loadAll")
-      .then(res =>{
-        this.$router.push('/limits');
-      })
+  data(){
+    return{
+      functionDataList:[
+        {
+          "title": "用户管理",
+          "url": "",
+          "icon": "#icon-tuanxuezhaoxin"
+        },
+        {
+          "title": "课程管理",
+          "url": "",
+          "icon": "#icon-tubiaozhizuomoban28"
+        },
+        {
+          "title": "班级管理",
+          "url": "",
+          "icon": "#icon-tubiaozhizuomoban7"
+        },
+        {
+          "title": "问卷/指标管理",
+          "url": "questionnaireManager",
+          "icon": "#icon-kaowuguanligongzuo"
+        },
+        {
+          "title": "权限管理",
+          "url": "limits",
+          "icon": "#icon-kaowuguanligongzuo"
+        },
+        {
+          "title": "评教管理",
+          "url": "",
+          "icon": "#icon-gongcheguanli"
+        },
+        {
+          "title": "发布问卷",
+          "url": "",
+          "icon": "#icon-gonghuichengyuanzhuce"
+        },
+        {
+          "title": "评教老师",
+          "url": "",
+          "icon": "#icon-banxuepinggu"
+        },
+        {
+          "title": "查看评价结果(学生)",
+          "url": "",
+          "icon": "#icon-tubiaozhizuomoban26"
+        },
+        {
+          "title": "查看个人信息",
+          "url": "",
+          "icon": "#icon-xueshengdangan"
+        },
+        {
+          "title": "评教同行",
+          "url": "",
+          "icon": "#icon-banxuepinggu"
+        },
+        {
+          "title": "查看评价结果(老师)",
+          "url": "",
+          "icon": "#icon-chengjishouji"
+        },
+        {
+          "title": "正在评教问卷状态",
+          "url": "",
+          "icon": "#icon-pinggugongzuo"
+        },
+        {
+          "title": "所授班级和课程",
+          "url": "",
+          "icon": "#icon-tubiaozhizuomoban28"
+        }
+      ]
+    }
+  },
+  created() {
+  },
+  methods: {
+    limits() {
+
 
     },
-    studentquestionnairefinish(){
-      this.$store
-        .dispatch('evaluation/getfinishedList')
-        .then(result => {
-          if (result == 'true')
-            this.$router.push('/studentquestionnairefinish');
-        }).then(()=>{
-        this.$router.push('/studentquestionnairefinish');
-      })
 
-    },
-
-    questionnaireManager(){
-      this.$store
-        .dispatch("admin/quertionnaire/loadGetAllNaire")
-        .then(res =>{
-          // console.log("="+res);
-          this.$router.push('/quertionnaireManager');
-        })
-      .catch(err=>{
-        console.log(err);
-      })
-    },
   }
 }
 </script>
 
 <style scoped>
-#functionlist{
+#functionlist {
   padding: 10px;
   background-color: #ffffff;
   border-radius: 5px;
   min-height: 400px;
 }
-
 
 
 .title {
@@ -118,7 +127,8 @@ export default {
   position: relative;
   margin-bottom: 10px;
 }
-.title:after{
+
+.title:after {
   content: "";
   position: absolute;
   width: 60px;
@@ -135,30 +145,7 @@ export default {
   width: 220px;
 }
 
-.card {
-  border: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  font-size: 16px;
-}
-.card:hover{
-  box-shadow:0 0 5px #a4a4a4;
-  z-index: 2;
-}
-.card svg{
-  width: 50px;
-  height: 50px;
-  margin-bottom: 5px;
-}
-.card:hover svg{
-  width: 70px;
-  height: 70px;
-  transition: 0.4s;
-}
-.card:hover span{
-  font-size: 18px;
-}
+
 
 #list > div {
   height: 150px;

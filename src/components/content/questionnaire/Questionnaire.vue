@@ -6,7 +6,7 @@
     <vxe-toolbar>
       <template v-slot:buttons>
         <vxe-button v-b-modal.my-modal1>导入问卷</vxe-button>
-        <vxe-button v-b-modal.targetlist >指标管理</vxe-button>
+        <vxe-button v-b-modal.targetlist>指标管理</vxe-button>
         <b-modal id="targetlist" size="xl" title="指标管理" ok-only>
           <vxe-table
             :data="targetData">
@@ -15,14 +15,14 @@
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
             <vxe-table-column title="操作" show-overflow>
               <template v-slot="{ row }">
-                <vxe-button @click="showDetail(row)" v-b-modal.targetmanage >查看</vxe-button>
+                <vxe-button @click="showDetail(row)" v-b-modal.targetmanage>查看</vxe-button>
               </template>
             </vxe-table-column>
           </vxe-table>
           <b-modal id="targetmanage" size="lg" title="指标列表" ok-only>
             <target-management :target-data-children="targetDataChildren" :mid="maxid"></target-management>
             <template v-slot:modal-footer v-if="{showFooter}">
-              <div class="w-100" >
+              <div class="w-100">
                 <b-button
                   variant="primary"
                   size="sm"
@@ -44,17 +44,14 @@
       resizable
       row-key
       highlight-hover-row
-      ref="xTable"
+      ref="allques"
       height="500"
       :data="allquestionnaire">
       <vxe-table-column type="seq" width="60"></vxe-table-column>
       <vxe-table-column field="title" title="课程名"></vxe-table-column>
-      <vxe-table-column field="status" title="状态"></vxe-table-column>
       <vxe-table-column title="操作" show-overflow>
-        <template v-slot="{ row }">
-          <vxe-button v-if="isTeaching" @click="End(this.allquestionnaire[index].name)">关闭问卷</vxe-button>
-          <vxe-button v-if="notTeaching" @click="Start()">启用问卷</vxe-button>
-          <vxe-button @click="removeEvent(row)">删除</vxe-button>
+        <template v-slot="{ row ,index}">
+          <vxe-button @click="removeQuestionnaire(row)">删除</vxe-button>
         </template>
       </vxe-table-column>
     </vxe-table>
@@ -81,7 +78,7 @@
         <vxe-option v-for="num in targetData" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
       </vxe-select>
       <template v-slot:modal-footer>
-        <div class="w-100" >
+        <div class="w-100">
           <b-button
             variant="primary"
             size="sm"
@@ -105,19 +102,18 @@
         :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column type="seq" width="60"></vxe-table-column>
         <vxe-table-column field="content" title="问题"></vxe-table-column>
-
         <vxe-table-column field="name" title="指标名称"></vxe-table-column>
         <vxe-table-column field="rate" title="权重"></vxe-table-column>
         <vxe-table-column title="操作" width="160">
           <template v-slot="{ row,index }">
-              <vxe-button v-b-modal.targetvalue @click="addtarget(row,index)">添加指标</vxe-button>
+            <vxe-button v-b-modal.targetvalue @click="addtarget(row,index)">添加指标</vxe-button>
 
           </template>
         </vxe-table-column>
       </vxe-grid>
       <b-modal id="targetvalue" size="lg" title="指标列表">
-        <target-value  :target-temp-tree="targetTempTree" :user-message="userMessage"
-                       @changeuserMessage="changeuserMessage"></target-value>
+        <target-value :target-temp-tree="targetTempTree" :user-message="userMessage"
+                      @changeuserMessage="changeuserMessage"></target-value>
       </b-modal>
 
 
@@ -142,7 +138,7 @@ export default {
   data() {
     return {
       loading: false,
-      showFooter:false,
+      showFooter: false,
       isTeaching: true,/*状态：正在评教*/
       notTeaching: false,
       submitLoading: false,
@@ -154,113 +150,110 @@ export default {
       showEdit: false,
       upload_file: "导入",
       targetTempName: "",
-      targetTempTree:[],
-      fatherTarget:[],
+      targetTempTree: [],
+      fatherTarget: [],
       targetData: [],
-      targetDataChildren:[],
-      maxid:0
+      targetDataChildren: [],
+      maxid: 0
     }
   },
-  watch:{
-    targetTempName(val,oldval){
+  watch: {
+    targetTempName(val, oldval) {
       // console.log(val,oldval)
-      this.$store.dispatch("admin/indicator/getTemp",val)
-      .then(res =>{
-        // console.log(res)
-        this.targetTempTree = Array(this.$store.getters["admin/indicator/getTndicatorTempTree"])
-        // console.log(this.targetTempTree)
-      })
+      this.$store.dispatch("admin/indicator/getTemp", val)
+        .then(res => {
+          // console.log(res)
+          this.targetTempTree = Array(this.$store.getters["admin/indicator/getTndicatorTempTree"])
+          // console.log(this.targetTempTree)
+        })
 
     },
 
   },
-  created:function () {
+  created: function () {
+    // 请求所有问卷
+    this.$store
+      .dispatch("admin/questionnaire/loadGetAllNaire")
+      .then(res => {
+        this.allquestionnaire = this.$store.state.admin.questionnaire.questionnaireAll
+        console.log(res)
+      })
+    // 请求所有指标
     this.$store
       .dispatch("admin/indicator/getAll")
-      .then(res =>{
+      .then(res => {
         this.targetData = this.$store.state.admin.indicator.indicatorAll
         console.log(res)
       })
-    console.log("=>",this.$store.state.admin.quertionnaire.questionnaireAll)
-    this.allquestionnaire = this.$store.state.admin.quertionnaire.questionnaireAll
+
+
   },
-  components:{
+  components: {
     TargetManagement,
     TargetValue
   },
   methods: {
-    /*关闭问卷*/
-    End(name) {
-      this.isTeaching = false;
-      console.log(name);
-    },
     /*修改问卷*/
     editRowEvent(row) {
       this.$refs.xTable.setActiveRow(row)
     },
-    /*保存修改的问卷题目*/
-    saveRowEvent(row) {
-      this.$refs.xTable.clearActived().then(() => {
-        this.loading = true
-        setTimeout(() => {
-          this.loading = false
-          this.$XModal.message({message: '保存成功！', status: 'success'})
-        }, 300)
-      })
-    },
+
     /*删除问卷*/
-    removeEvent(row) {
+    removeQuestionnaire(row) {
       this.$XModal.confirm('您确定要删除该数据?').then(type => {
         if (type === 'confirm') {
-          this.$refs.xTable.remove(row)
+          this.$store
+            .dispatch("admin/questionnaire/deleteQuestionnaireById",row.id)
+          .then(res =>{
+            console.log(res);
+          })
+          this.$refs.allques.remove(row)
         }
       })
     },
 
     /*查看指标详细*/
-    showDetail(row){
-      // console.log(row);
-      this.$store.dispatch("admin/indicator/getDetail",row)
-      .then(res =>{
-        this.targetDataChildren = Array(this.$store.getters["admin/indicator/getTndicatorTree"])
-        this.maxid = res
-        // console.log(res,typeof res);
-      })
+    showDetail(row) {
+      this.$store.dispatch("admin/indicator/getDetail", row)
+        .then(res => {
+          this.targetDataChildren = Array(this.$store.getters["admin/indicator/getTndicatorTree"])
+          this.maxid = res
+        })
 
     },
-    submitTarget(){
-      this.$store.dispatch("admin/indicator/createIndicator",this.targetDataChildren[0])
-      .then(res =>{
-        console.log(res)
-      })
+    submitTarget() {
+      this.$store.dispatch("admin/indicator/createIndicator", this.targetDataChildren[0])
+        .then(res => {
+          console.log(res)
+        })
     },
-    changeuserMessage(data){
+    changeuserMessage(data) {
       this.userMessage = []
       this.userMessage = data
     },
-    addtarget(row,index){
-      this.$store.commit("admin/indicator/updateCurrentRow",row)
-      // this.$store.commit("admin/indicator/updateCurrentRowIndex",index)
+    // 添加指标
+    addtarget(row, index) {
+      this.$store.commit("admin/indicator/updateCurrentRow", row)
     },
-    submitnaire(){
-      let  questionnaire ={
-        title : this.upload_file,
+    // 提交问卷
+    submitnaire() {
+      let questionnaire = {
+        title: this.upload_file,
         indexRootId: this.targetTempTree[0].id,
-        questions:this.userMessage
+        questions: this.userMessage
       }
       // console.log(this.userMessage)
-      this.$store.dispatch("admin/indicator/createQuestionnaire",questionnaire)
-        .then(res =>{
+      this.$store.dispatch("admin/indicator/createQuestionnaire", questionnaire)
+        .then(res => {
           if (res) {
             console.log("success");
             this.$bvModal.hide('my-modal1');
             this.$store
               .dispatch("admin/indicator/getAll")
-              .then(res =>{
-                console.log("="+res);
+              .then(res => {
+                console.log("=" + res);
               })
-          }
-          else
+          } else
             console.log("fail")
         })
     },

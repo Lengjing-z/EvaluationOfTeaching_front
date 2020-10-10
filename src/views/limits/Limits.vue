@@ -11,22 +11,22 @@
         <vxe-toolbar
           custom
           print
-          ref="xToolbar"
+          ref="limittools"
           :refresh="{query: findList}"  >
           <template v-slot:buttons>
             <!--           添加权限-->
             <vxe-button circle @click="addlimit = true"><i class="vxe-icon--plus"></i></vxe-button>
             <vxe-modal v-model="addlimit" title="新建权限" width="600" height="400" resize remember mask-closable>
-              <add-limit :nodelist="tableData"></add-limit>
+<!--              <add-limit :nodelist="limitslist"></add-limit>-->
             </vxe-modal>
             <!--           修改权限-->
             <vxe-button circle @click="updatelimit = true"><i class="vxe-icon--remove"></i></vxe-button>
             <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>
-              <update-limit :nodelist="tableData"></update-limit>
+<!--              <update-limit :nodelist="limitslist"></update-limit>-->
             </vxe-modal>
             <vxe-button circle  v-b-modal.modal-xl><i class="vxe-icon--arrow-top"></i></vxe-button>
             <b-modal id="modal-xl" v-model="target" size="lg" title="设置指标" >
-              <target-value :nodelist="tableData"></target-value>
+<!--              <target-value :nodelist="limitslist"></target-value>-->
             </b-modal>
           </template>
 
@@ -41,17 +41,17 @@
         round
         :loading="loading"
         :tree-config="{children: 'children',line: true}"
-        :data="tableData"
+        :data="limitslist"
         :checkbox-config="{labelField: 'id', highlight: true}"
         @checkbox-change="selectChangeEvent">
         <vxe-table-column type="checkbox" title="ID" width="180" tree-node></vxe-table-column>
         <vxe-table-column field="name" title="Name" show-overflow="tooltip"></vxe-table-column>
-        <vxe-table-column field="is_role" title="is_role"></vxe-table-column>
-        <vxe-table-column field="p_node" title="p_node"></vxe-table-column>
-        <vxe-table-column field="is_end" title="is_end"></vxe-table-column>
+        <vxe-table-column field="role" title="is_role"></vxe-table-column>
+        <vxe-table-column field="pnode" title="p_node"></vxe-table-column>
+        <vxe-table-column field="end" title="is_end"></vxe-table-column>
         <template v-slot:empty>
             <span style="color: red;">
-              <img src="@/assets/img/img1.gif">
+              <img src="@/assets/img/img1.gif" alt="Bird">
               <p>不用再看了，没有更多数据了！</p>
             </span>
         </template>
@@ -79,7 +79,7 @@ export default {
     return {
       loading: false,
       allAlign: null,
-      tableData: null,
+      limitslist: null,
       addlimit: false,
       updatelimit:false,
       target:false,
@@ -102,19 +102,25 @@ export default {
     this.data1 = list1
     this.list1 = list1
 
+    // 查询所有权限
+    this.$store.dispatch("admin/power/loadAll")
+      .then(res => {
+        console.log(res)
+      })
+
     this.loading = true
     setTimeout(() => {
       console.log(this.$store.getters["admin/power/getAllPowerTree"])
-    this.tableData = this.$store.getters["admin/power/getAllPowerTree"]
+      this.limitslist = Array(this.$store.getters["admin/power/getAllPowerTree"])
       this.loading = false
-    }, 1000)
+    }, 500)
       },
   methods: {
     findList () {
       this.loading = true
       // return new Promise(resolve => {
         setTimeout(() => {
-          this.tableData =[]
+          this.limitslist =[]
           this.loading = false
           // resolve()
         }, 300)
@@ -123,7 +129,7 @@ export default {
 
     selectEvent1 (item) {
       this.value1 = item.label
-      this.$refs.xDown1.hidePanel().then(() => {
+      this.$refs.limittools.hidePanel().then(() => {
         this.list1 = this.data1
       })
     },

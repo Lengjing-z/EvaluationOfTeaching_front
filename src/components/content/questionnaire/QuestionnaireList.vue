@@ -23,7 +23,7 @@
 
 
 <script>
-import Function from "components/common/function/Function";
+import Function from "components/common/function/Form";
 
 export default {
   name: "QuestionnaireList",
