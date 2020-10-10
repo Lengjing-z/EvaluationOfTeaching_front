@@ -2,29 +2,53 @@
   <div id="functionlist">
     <h2 class="title">服务</h2>
     <div id="list" class="row container">
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6" v-b-modal.function>
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-chengji"></use>
+        </svg>
+        <span>用户管理</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="limits">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="limits">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-chengchang"></use>
+        </svg>
+        <span>课程管理</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="studentquestionnairefinish">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="questionnaireManager">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-jiaoyan"></use>
+          </svg>
+          <span>问卷管理</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="questionnaireManager">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-zhizhou"></use>
+        </svg>
+        <span>权限管理</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-pingjiao"></use>
+        </svg>
+        <span>问卷评教(学生)</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="studentquestionnairefinish">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-shenpi"></use>
+        </svg>
+        <span>查看评价结果(学生)</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-pingjiao"></use>
+        </svg>
+        <span>问卷评教(老师)</span>
       </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-        <p class="card"></p>
+      <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-shenpi"></use>
+        </svg>
+        <span>查看评价结果(老师)</span>
       </div>
     </div>
     <Function></Function>
@@ -34,6 +58,7 @@
 
 <script>
 import Function from "components/common/function/Function";
+import myAxios from "network/request";
 export default {
   name: "FunctionList",
   components:{
@@ -41,11 +66,15 @@ export default {
   },
   methods:{
     limits(){
-      this.$router.push('/limits');
+      this.$store.dispatch("admin/power/loadAll")
+      .then(res =>{
+        this.$router.push('/limits');
+      })
+
     },
     studentquestionnairefinish(){
       this.$store
-        .dispatch('student/questionnaire/selectAllFinishNaire')
+        .dispatch('evaluation/getfinishedList')
         .then(result => {
           if (result == 'true')
             this.$router.push('/studentquestionnairefinish');
@@ -54,8 +83,17 @@ export default {
       })
 
     },
+
     questionnaireManager(){
-      this.$router.push('/quertionnaireManager');
+      this.$store
+        .dispatch("admin/quertionnaire/loadGetAllNaire")
+        .then(res =>{
+          // console.log("="+res);
+          this.$router.push('/quertionnaireManager');
+        })
+      .catch(err=>{
+        console.log(err);
+      })
     },
   }
 }
@@ -66,6 +104,7 @@ export default {
   padding: 10px;
   background-color: #ffffff;
   border-radius: 5px;
+  min-height: 400px;
 }
 
 
@@ -97,25 +136,28 @@ export default {
 }
 
 .card {
-  width: 100px;
-  height: 100px;
-  background-color: rgba(211,145,171,0.7);
-  border-top-right-radius: 35px;
-  border-bottom-left-radius: 35px;
-  border: 3px deeppink solid;
-  /*border-bottom-right-radius: 20px;*/
+  border: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  font-size: 16px;
 }
-
-.card::after{
-  content: '';
-  border: 2px black solid;
-  top: 5px;
-  left: 5px;
-  position: relative;
-  height: 20px;
-  width: 20px;
-  background: #fff;
-  border-radius: 15px;
+.card:hover{
+  box-shadow:0 0 5px #a4a4a4;
+  z-index: 2;
+}
+.card svg{
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+}
+.card:hover svg{
+  width: 70px;
+  height: 70px;
+  transition: 0.4s;
+}
+.card:hover span{
+  font-size: 18px;
 }
 
 #list > div {

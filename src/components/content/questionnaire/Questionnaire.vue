@@ -5,11 +5,40 @@
     </header>
     <vxe-toolbar>
       <template v-slot:buttons>
-        <!--<vxe-button icon="fa fa-plus" @click="insertEvent()">新增</vxe-button>-->
         <vxe-button v-b-modal.my-modal1>导入问卷</vxe-button>
+        <vxe-button v-b-modal.targetlist >指标管理</vxe-button>
+        <b-modal id="targetlist" size="xl" title="指标管理" ok-only>
+          <vxe-table
+            :data="targetData">
+            <vxe-table-column type="seq" min-width="60"></vxe-table-column>
+            <vxe-table-column field="name" title="Name"></vxe-table-column>
+            <vxe-table-column field="rate" title="Rate"></vxe-table-column>
+            <vxe-table-column title="操作" show-overflow>
+              <template v-slot="{ row }">
+                <vxe-button @click="showDetail(row)" v-b-modal.targetmanage >查看</vxe-button>
+              </template>
+            </vxe-table-column>
+          </vxe-table>
+          <b-modal id="targetmanage" size="lg" title="指标列表" ok-only>
+            <target-management :target-data-children="targetDataChildren" :mid="maxid"></target-management>
+            <template v-slot:modal-footer v-if="{showFooter}">
+              <div class="w-100" >
+                <b-button
+                  variant="primary"
+                  size="sm"
+                  class="float-right"
+                  @click="submitTarget"
+                >
+                  提交
+                </b-button>
+              </div>
+            </template>
+          </b-modal>
+        </b-modal>
       </template>
     </vxe-toolbar>
 
+    <!--问卷管理-->
     <vxe-table
       border
       resizable
@@ -17,305 +46,280 @@
       highlight-hover-row
       ref="xTable"
       height="500"
-      :align="allAlign"
-      :data="StoptableData4"
-      @cell-dblclick="cellDBLClickEvent">
-      <vxe-table-column type="seq"  width="60"></vxe-table-column>
-      <vxe-table-column field="name" title="课程名"></vxe-table-column>
+      :data="allquestionnaire">
+      <vxe-table-column type="seq" width="60"></vxe-table-column>
+      <vxe-table-column field="title" title="课程名"></vxe-table-column>
       <vxe-table-column field="status" title="状态"></vxe-table-column>
-      <vxe-table-column title="操作"  show-overflow>
+      <vxe-table-column title="操作" show-overflow>
         <template v-slot="{ row }">
-          <!--<vxe-button type="text"  @click="editEvent(row)">111</vxe-button>
-          type="text"  @click="editEvent(row)-->
-         <!-- <vxe-button @click="editEvent(row)">启用</vxe-button>-->
-          <vxe-button v-if="row.status" @click="End(row)">关闭问卷</vxe-button>
-          <vxe-button v-else @click="Start(row)">启用问卷</vxe-button>
-         <!-- <vxe-button type="text" icon="fa fa-trash-o" @click="removeEvent(row)"></vxe-button>-->
+          <vxe-button v-if="isTeaching" @click="End(this.allquestionnaire[index].name)">关闭问卷</vxe-button>
+          <vxe-button v-if="notTeaching" @click="Start()">启用问卷</vxe-button>
           <vxe-button @click="removeEvent(row)">删除</vxe-button>
         </template>
       </vxe-table-column>
     </vxe-table>
 
-    <vxe-modal v-model="showEdit" :title="selectRow ? '编辑&保存' : '新增&保存'" width="800" min-width="600" min-height="300" :loading="submitLoading" resize destroy-on-close>
+    <vxe-modal v-model="showEdit" :title="selectRow ? '编辑&保存' : '新增&保存'" width="800" min-width="600" min-height="300"
+               :loading="submitLoading" resize destroy-on-close>
       <template v-slot>
-<!--        <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>-->
+        <!--        <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>-->
       </template>
     </vxe-modal>
 
-    <b-modal scrollable="true" id="my-modal1" size="xl" title="导入用户信息">
-      <div class="container111">
-        {{ upload_file || "导入" }}
+    <!--导入问卷按钮-->
+    <b-modal id="my-modal1" size="xl" title="导入用户信息" ok-only>
+      <div class="container111 mb-4">
+        {{ upload_file }}
         <input
           type="file"
           accept=".xls,.xlsx"
           class="upload_file"
           @change="readExcel($event)"
         />
-
       </div>
-      <vxe-table
+      <vxe-select v-model="targetTempName" placeholder="选择指标模板">
+        <vxe-option v-for="num in targetData" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
+      </vxe-select>
+      <template v-slot:modal-footer>
+        <div class="w-100" >
+          <b-button
+            variant="primary"
+            size="sm"
+            class="float-right"
+            @click="submitnaire"
+          >
+            提交
+          </b-button>
+        </div>
+      </template>
+
+      <!--导入的问卷详情-->
+      <vxe-grid
         border
         resizable
         show-overflow
         keep-source
-        ref="xTable"
+        ref="questions"
         :loading="loading"
         :data="userMessage"
         :edit-config="{trigger: 'manual', mode: 'row'}">
         <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="title" title="指标名称" :edit-render="{name: 'input', immediate: true, attrs: {type: 'text'}}"></vxe-table-column>
+        <vxe-table-column field="content" title="问题"></vxe-table-column>
 
-        <vxe-table-column field="date13" title="权重" :edit-render="{name: '$input', props: {type: 'week'}}"></vxe-table-column>
-        <vxe-table-column field="address" title="Address" :edit-render="{name: 'textarea', immediate: true}"></vxe-table-column>
+        <vxe-table-column field="name" title="指标名称"></vxe-table-column>
+        <vxe-table-column field="rate" title="权重"></vxe-table-column>
         <vxe-table-column title="操作" width="160">
-          <template v-slot="{ row }">
-            <template v-if="$refs.xTable.isActiveByRow(row)">
-              <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
-              <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
-            </template>
-            <template v-else>
-              <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
-            </template>
+          <template v-slot="{ row,index }">
+              <vxe-button v-b-modal.targetvalue @click="addtarget(row,index)">添加指标</vxe-button>
+
           </template>
         </vxe-table-column>
-      </vxe-table>
+      </vxe-grid>
+      <b-modal id="targetvalue" size="lg" title="指标列表">
+        <target-value  :target-temp-tree="targetTempTree" :user-message="userMessage"
+                       @changeuserMessage="changeuserMessage"></target-value>
+      </b-modal>
+
 
     </b-modal>
+
   </div>
 </template>
 
 <script>
 import XLSX from "xlsx";
+import TargetManagement from "components/content/target/TargetManagement";
+import TargetValue from "components/content/target/TargetValue";
 
 export default {
-  mounted() {
-    this.init();
-  },
-  created () {
 
-
-    console.log(11111);
-    this.tableData = window.MOCK_DATA_LIST.slice(0, 6)
-    this.findSexList();
-    this.formItems[4].itemRender.options = this.sexList
-    this.tableData = window.MOCK_DATA_LIST.slice(0, 20)
-  },
+  name: "Questionnaire",
   computed: {
     rows() {
       return this.userMessage.length
     }
   },
-  name: "Questionnaire",
+  data() {
+    return {
+      loading: false,
+      showFooter:false,
+      isTeaching: true,/*状态：正在评教*/
+      notTeaching: false,
+      submitLoading: false,
+      perPage: 15,//每页数据条数
+      currentPage: 1,
+      userMessage: [],//存放导入的数据
+      allquestionnaire: [],
+      selectRow: null,
+      showEdit: false,
+      upload_file: "导入",
+      targetTempName: "",
+      targetTempTree:[],
+      fatherTarget:[],
+      targetData: [],
+      targetDataChildren:[],
+      maxid:0
+    }
+  },
+  watch:{
+    targetTempName(val,oldval){
+      // console.log(val,oldval)
+      this.$store.dispatch("admin/indicator/getTemp",val)
+      .then(res =>{
+        // console.log(res)
+        this.targetTempTree = Array(this.$store.getters["admin/indicator/getTndicatorTempTree"])
+        // console.log(this.targetTempTree)
+      })
 
-  data () {
-
-  return {
-    loading: false,
-    sexList1: [],
-    isTeaching:true,/*状态：正在评教*/
-    notTeaching:false,
-    submitLoading: false,
-    perPage: 15,//每页数据条数
-    currentPage: 1,
-    userMessage:[],//存放导入的数据
-    tableData: [
-      {
-        id:1,
-        name: '软件工程1',
-        code: '179000505',
-        status:'正在评教',
-        teacher:'王麻子'
-      },
-      {
-        id:1,
-        name: '软件工程2',
-        code: '179000505',
-        status:'正在评教',
-        teacher:'王麻子'
-      },
-      {
-        id:1,
-        name: '软件工程3',
-        code: '179000505',
-        status:'正在评教',
-        teacher:'王麻子'
-      }
-    ],
-
-    selectRow: null,
-    showEdit: false,
-    sexList: [
-      { label: '女', value: '0' },
-      { label: '男', value: '1' }
-    ],
-    formData: {
-      name: null,
-      nickname: null,
-      role: null,
-      sex: null,
-      age: null,
-      num: null,
-      checkedList: [],
-      flag1: null,
-      date3: null,
-      address: null
     },
-    formRules: {
-      name: [
-        { required: true, message: '请输入名称' },
-        { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
-      ],
-      nickname: [
-        { required: true, message: '请输入昵称' }
-      ],
-      sex: [
-        { required: true, message: '请选择性别' }
-      ]
-    }
-  }
-},
-methods: {
-  End(name){
 
-    this.isTeaching = false;
-    console.log(name);
   },
-  findSexList () {
-    return XEAjax.get('/api/conf/sex/list').then(data => {
-      this.sexList = data
-    })
+  created:function () {
+    this.$store
+      .dispatch("admin/indicator/getAll")
+      .then(res =>{
+        this.targetData = this.$store.state.admin.indicator.indicatorAll
+        console.log(res)
+      })
+    console.log("=>",this.$store.state.admin.quertionnaire.questionnaireAll)
+    this.allquestionnaire = this.$store.state.admin.quertionnaire.questionnaireAll
   },
-  editRowEvent (row) {
-    this.$refs.xTable.setActiveRow(row)
+  components:{
+    TargetManagement,
+    TargetValue
   },
-  saveRowEvent (row) {
-    this.$refs.xTable.clearActived().then(() => {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-        this.$XModal.message({ message: '保存成功！', status: 'success' })
-      }, 300)
-    })
-  },
-  cancelRowEvent (row) {
-    const xTable = this.$refs.xTable
-    xTable.clearActived().then(() => {
-      // 还原行数据
-      xTable.revertData(row)
-    })
-  },
-  formatterSex ({ cellValue }) {
-    let item = this.sexList.find(item => item.value === cellValue)
-    return item ? item.label : ''
-  },
-  visibleMethod ({ data }) {
-    return data.flag1 === 'Y'
-  },
-  cellDBLClickEvent ({ row }) {
-    this.editEvent(row)
-  },
-  insertEvent () {
-    this.formData = {
-      name: '',
-      nickname: '',
-      role: '',
-      sex: '',
-      age: '',
-      num: '',
-      checkedList: [],
-      flag1: '',
-      date3: '',
-      address: ''
-    }
-    this.selectRow = null
-    this.showEdit = true
-  },
-  editEvent (row) {
-    this.formData = {
-      name: row.name,
-      nickname: row.nickname,
-      role: row.role,
-      sex: row.sex,
-      age: row.age,
-      num: row.num,
-      checkedList: row.checkedList,
-      flag1: row.flag1,
-      date3: row.date3,
-      address: row.address
-    }
-    this.selectRow = row
-    this.showEdit = true
-  },
-  removeEvent (row) {
-    this.$XModal.confirm('您确定要删除该数据?').then(type => {
-      if (type === 'confirm') {
-        this.$refs.xTable.remove(row)
-      }
-    })
-  },
-  submitEvent () {
-    this.submitLoading = true
-    setTimeout(() => {
-      this.submitLoading = false
-      this.showEdit = false
-      if (this.selectRow) {
-        this.$XModal.message({ message: '保存成功', status: 'success' })
-        Object.assign(this.selectRow, this.formData)
-      } else {
-        this.$XModal.message({ message: '新增成功', status: 'success' })
-        this.$refs.xTable.insert(this.formData)
-      }
-    }, 500)
-  },
-  submit_form() {
-    // 给后端发送请求，更新数据
-    console.log("假装给后端发了个请求...");
-  },
-  readExcel(e) {
-    // 读取表格文件
-    let that = this;
-    const files = e.target.files;
-    if (files.length <= 0) {
-      return false;
-    } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
-      this.$message({
-        message: "上传格式不正确，请上传xls或者xlsx格式",
-        type: "warning"
-      });
-      return false;
-    } else {
-      // 更新获取文件名
-      that.upload_file = files[0].name;
-    }
+  methods: {
+    /*关闭问卷*/
+    End(name) {
+      this.isTeaching = false;
+      console.log(name);
+    },
+    /*修改问卷*/
+    editRowEvent(row) {
+      this.$refs.xTable.setActiveRow(row)
+    },
+    /*保存修改的问卷题目*/
+    saveRowEvent(row) {
+      this.$refs.xTable.clearActived().then(() => {
+        this.loading = true
+        setTimeout(() => {
+          this.loading = false
+          this.$XModal.message({message: '保存成功！', status: 'success'})
+        }, 300)
+      })
+    },
+    /*删除问卷*/
+    removeEvent(row) {
+      this.$XModal.confirm('您确定要删除该数据?').then(type => {
+        if (type === 'confirm') {
+          this.$refs.xTable.remove(row)
+        }
+      })
+    },
 
-    const fileReader = new FileReader();
-    fileReader.onload = ev => {
-      try {
-        const data = ev.target.result;
-        const workbook = XLSX.read(data, {
-          type: "binary"
-        });
-        const wsname = workbook.SheetNames[0]; //取第一张表
-        const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
-        console.log(ws[1].title);
-        this.userMessage = ws;
-        that.lists = [];
-        // 从解析出来的数据中提取相应的数据
-        ws.forEach(item => {
-          that.lists.push({
-            username: item["name"],
-            phone_number: item["code"]
-          });
-        });
-        // 给后端发请求
-        this.submit_form();
-      } catch (e) {
+    /*查看指标详细*/
+    showDetail(row){
+      // console.log(row);
+      this.$store.dispatch("admin/indicator/getDetail",row)
+      .then(res =>{
+        this.targetDataChildren = Array(this.$store.getters["admin/indicator/getTndicatorTree"])
+        this.maxid = res
+        // console.log(res,typeof res);
+      })
+
+    },
+    submitTarget(){
+      this.$store.dispatch("admin/indicator/createIndicator",this.targetDataChildren[0])
+      .then(res =>{
+        console.log(res)
+      })
+    },
+    changeuserMessage(data){
+      this.userMessage = []
+      this.userMessage = data
+    },
+    addtarget(row,index){
+      this.$store.commit("admin/indicator/updateCurrentRow",row)
+      // this.$store.commit("admin/indicator/updateCurrentRowIndex",index)
+    },
+    submitnaire(){
+      let  questionnaire ={
+        title : this.upload_file,
+        indexRootId: this.targetTempTree[0].id,
+        questions:this.userMessage
+      }
+      // console.log(this.userMessage)
+      this.$store.dispatch("admin/indicator/createQuestionnaire",questionnaire)
+        .then(res =>{
+          if (res) {
+            console.log("success");
+            this.$bvModal.hide('my-modal1');
+            this.$store
+              .dispatch("admin/indicator/getAll")
+              .then(res =>{
+                console.log("="+res);
+              })
+          }
+          else
+            console.log("fail")
+        })
+    },
+
+
+    /*读取文件*/
+    readExcel(e) {
+      // 读取表格文件
+      let that = this;
+      const files = e.target.files;
+      if (files.length <= 0) {
         return false;
+      } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
+        this.$message({
+          message: "上传格式不正确，请上传xls或者xlsx格式",
+          type: "warning"
+        });
+        return false;
+      } else {
+        // 更新获取文件名
+        that.upload_file = files[0].name;
       }
-    };
-    fileReader.readAsBinaryString(files[0]);
+
+      const fileReader = new FileReader();
+      fileReader.onload = ev => {
+        try {
+          const data = ev.target.result;
+          const workbook = XLSX.read(data, {
+            type: "binary"
+          });
+          const wsname = workbook.SheetNames[0]; //取第一张表
+          const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
+          console.log(ws);
+          this.userMessage = ws;
+          this.$store.commit("admin/indicator/clearCurrent") // 清空指标
+          console.log("---userMessage");
+          console.log(this.userMessage)
+          that.lists = [];
+          // 从解析出来的数据中提取相应的数据
+          ws.forEach(item => {
+            that.lists.push({
+              username: item["name"],
+              phone_number: item["code"]
+            });
+          });
+          // 给后端发请求
+          /*提交数据*/
+          this.submit_form();
+        } catch (e) {
+          return false;
+        }
+      };
+      fileReader.readAsBinaryString(files[0]);
+    },
+    /*保存问卷*/
+    submit_form() {
+      console.log("假装给后端发了个请求...");
+    },
   }
-}
 }
 </script>
 
@@ -342,6 +346,7 @@ methods: {
   filter: alpha(opacity=0);
   width: 60px;
 }
+
 /*.test{*/
 /*  width: 80%;*/
 /*  margin: 10px auto;*/
@@ -349,13 +354,16 @@ methods: {
 .my-red {
   color: red;
 }
+
 .my-green {
   color: green;
 }
+
 .my-domain.vxe-input {
   height: 34px;
   width: 300px;
 }
+
 .my-domain.vxe-input >>> .vxe-input--prefix {
   width: 60px;
   height: 32px;
@@ -364,14 +372,17 @@ methods: {
   border-right: 1px solid #dcdfe6;
   background-color: #f5f7fa;
 }
+
 .my-domain.vxe-input >>> .vxe-input--inner {
   padding-left: 72px;
   border: 1px solid #dcdfe6;
 }
+
 .my-search.vxe-input {
   height: 34px;
   width: 300px;
 }
+
 .my-search.vxe-input >>> .vxe-input--suffix {
   width: 60px;
   height: 32px;
@@ -381,6 +392,7 @@ methods: {
   background-color: #f5f7fa;
   cursor: pointer;
 }
+
 .my-search.vxe-input >>> .vxe-input--inner {
   padding-right: 72px;
   border: 1px solid #dcdfe6;

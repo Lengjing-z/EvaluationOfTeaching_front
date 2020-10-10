@@ -1,33 +1,22 @@
 <template>
-  <div class="container mt-5">
-    <!--           添加权限-->
-    <b-button variant="success" v-b-modal.modal-xl class="mb-4">指标管理</b-button>
-
-    <b-modal id="modal-xl" size="xl" title="指标管理">
-      <target-management :target-data="targetData"></target-management>
-      <!--          <target-mana :target-data="targetData"></target-mana>-->
-    </b-modal>
-
-
+  <div>
     <vxe-table
       show-overflow
       row-key
+      border
       resizable
-      round
+      ref="xtargetDataChildren"
       :loading="loading"
-      :tree-config="{children: 'children'}"
-      :data="targetData"
-      :checkbox-config="{labelField: 'id', highlight: true}"
-      :edit-config="{trigger: 'dblclick', mode: 'cell'}"
+      :tree-config="{children: 'children',line:true}"
+      :expand-config="{labelField: 'name', expandAll: false}"
+      :data="targetTempTree"
     >
-      <vxe-table-column title="ID" field="id" col-id="id" tree-node></vxe-table-column>
+      <!--      <vxe-table-column title="ID" field="id"></vxe-table-column>-->
       <vxe-table-column field="name" title="Name" show-overflow="tooltip" tree-node></vxe-table-column>
-      <vxe-table-column field="weight" title="Weight"></vxe-table-column>
-      <vxe-table-column title="Setting" width="160" :resizable="false" show-overflow>
+      <vxe-table-column field="rate" title="Weight(%)"></vxe-table-column>
+      <vxe-table-column title="Setting" :resizable="false">
         <template v-slot="{ row }">
-          <vxe-button @click="">添加指标</vxe-button>
-
-          <!--          <vxe-button @click="showDetailEvent(row)">添加{{ row.name }}</vxe-button>-->
+          <vxe-button @click="chooseTarget(row)" >添加指标</vxe-button>
         </template>
       </vxe-table-column>
       <template v-slot:empty>
@@ -36,29 +25,49 @@
             </span>
       </template>
     </vxe-table>
+
   </div>
 </template>
 
 <script>
-import TargetManagement from "components/content/target/TargetManagement";
-import TargetMana from "components/content/target/TargetMana";
-
 export default {
   name: "TargetValue",
   data() {
     return {
       loading: false,
-      targetData: [{
-        id: 1,
-        name: 'root',
-        weight: 100,
-        children: []
-      }],
+      target: [],
     }
   },
-  components: {
-    TargetManagement,
-    TargetMana
+  props: {
+    targetTempTree: {
+      type: Array,
+      default() {
+        return {}
+      }
+    },
+    userMessage:{
+      type: Array,
+      default() {
+        return {}
+      }}
+  },
+  methods: {
+    chooseTarget(data) {
+      this.$store.commit("admin/indicator/addCurrent",data)
+      let row = this.$store.state.admin.indicator.currentRow;
+      row.name = data.name
+      row.indexEndId = data.id
+      row.rate = data.rate
+      this.userMessage.forEach((orow) =>{
+        if (orow.cntent == row.content)
+          orow = row
+      })
+      // 更新表格数据
+      this.$emit("changeuserMessage", this.userMessage);
+      // 关闭模态框
+      this.$bvModal.hide('targetvalue')
+
+    }
   }
 }
 </script>

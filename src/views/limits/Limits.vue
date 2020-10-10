@@ -104,71 +104,8 @@ export default {
 
     this.loading = true
     setTimeout(() => {
-    this.tableData = [{
-      id: 1,
-      name: 'student',
-      is_role: 0,
-      p_node: null,
-      is_end: 0,
-      children: [
-        {
-          id: 1,
-          name: 'student',
-          is_role: 0,
-          p_node: 1,
-          is_end: 0,
-          children: [
-            {
-              id: 2,
-              name: '查看课程',
-              is_role: 0,
-              p_node: 1,
-              is_end: 1
-            },
-            {
-              id: 3,
-              name: '查看评教信息',
-              is_role: 0,
-              p_node: 1,
-              is_end: 1
-            }
-          ]
-        },
-        {
-          id: 4,
-          name: 'teacher',
-          is_role: 1,
-          p_node: 1,
-          is_end: 0,
-          children: [
-            {
-              id: 5,
-              name: '大姐夫的数据',
-              is_role: 0,
-              p_node: 4,
-              is_end: 1,
-            }
-          ]
-        }
-      ]
-    },
-      {
-        id: 5,
-        name: '大姐夫的数据',
-        is_role: 0,
-        p_node: 4,
-        is_end: 1,
-        children: [
-          {
-            id: 5,
-            name: '大姐夫的数据',
-            is_role: 0,
-            p_node: 4,
-            is_end: 1,
-          }
-        ]
-      }
-      ]
+      console.log(this.$store.getters["admin/power/getAllPowerTree"])
+    this.tableData = this.$store.getters["admin/power/getAllPowerTree"]
       this.loading = false
     }, 1000)
       },

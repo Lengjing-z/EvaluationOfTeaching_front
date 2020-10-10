@@ -3,9 +3,8 @@ import post from "../util";
 import power from "./power";
 import clazz from './class'
 import student from './student'
-import user from './user'
-import course from './course'
-
+import indicator from './indicator'
+import quertionnaire from './quertionnaire'
 export default {
   namespaced: true,
   mutations:{
@@ -17,8 +16,8 @@ export default {
     power,
     'class': clazz,
     student,
-    user,
-    course
+    indicator,
+    quertionnaire
   },
   getters:{}
 }
