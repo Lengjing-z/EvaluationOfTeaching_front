@@ -3,6 +3,9 @@
     <header>
       <h3>课程管理</h3>
       <b-button style="margin-top: 20px;padding-left: 10px;padding-right: 10px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加课程</b-button>
+      <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
+      margin-left: 15px;
+      " variant="outline-success">批量导入</b-button>
     </header>
 
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -19,7 +22,7 @@
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有学生"  style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有班级"  style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
 
@@ -30,6 +33,35 @@
       </div>
     </div>
 
+    <b-modal scrollable="true" id="my-modal4" size="xl" title="导入用户信息">
+      <div class="container111">
+        {{ upload_file || "导入" }}
+        <input
+          type="file"
+          accept=".xls,.xlsx"
+          class="upload_file"
+          @change="readExcel($event)"
+        />
+      </div>
+      <div class="overflow-auto">
+        <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
+        <!--<p class="mt-3">题目</p>-->
+        <b-table
+          id="my-table"
+          :items="userMessage"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+        ></b-table>
+
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
+    </b-modal>
     <div>
       <b-modal size="xl" ref="my-modal2" hide-footer title="ALl Students Message">
         <vxe-table
@@ -61,7 +93,6 @@
           title-width="100"
           :data="formData2"
           :rules="formRules2"
-          :loading="loading2"
           @submit="submitEvent3(index)"
           @reset="resetEvent">
           <!-- <vxe-form-item title="班级id" field="name" span="24">
@@ -78,7 +109,7 @@
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+              <vxe-button type="submit" @click="create()" status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -113,7 +144,7 @@
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+              <vxe-button type="submit"   status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -125,9 +156,70 @@
 </template>
 
 <script>
+import XLSX from "xlsx";
+
 export default {
 name: "Curriculum",
   methods:{
+    submit_form() {
+      // 给后端发送请求，更新数据
+      console.log("假装给后端发了个请求...");
+    },
+    readExcel(e) {
+      // 读取表格文件
+      let that = this;
+      const files = e.target.files;
+      if (files.length <= 0) {
+        return false;
+      } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
+        this.$message({
+          message: "上传格式不正确，请上传xls或者xlsx格式",
+          type: "warning"
+        });
+        return false;
+      } else {
+        // 更新获取文件名
+        that.upload_file = files[0].name;
+      }
+      const fileReader = new FileReader();
+      fileReader.onload = ev => {
+        try {
+          const data = ev.target.result;
+          const workbook = XLSX.read(data, {
+            type: "binary"
+          });
+          const wsname = workbook.SheetNames[0]; //取第一张表
+          const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
+          console.log(ws);
+          this.userMessage = ws;
+          console.log(this.userMessage);
+          that.lists = [];
+          // 从解析出来的数据中提取相应的数据
+          ws.forEach(item => {
+            that.lists.push({
+              username: item["name"],
+              phone_number: item["code"]
+            });
+          });
+          // 给后端发请求
+          this.$store
+            .dispatch('admin/course/create',this.userMessage)
+            .then(result => {
+              if (result==='success')
+                console.log(3333333);
+              this.tableData = this.$store.state.admin.user.userForm;
+            }).then(()=>{
+            /*this.$router.push('index')*/
+          })
+        } catch (e) {
+          return false;
+        }
+      };
+      fileReader.readAsBinaryString(files[0]);
+    },
+  create(){
+    console.log('test');
+  },
     showModal3(index) {
       this.$refs['my-modal2'].show();
     },
@@ -158,10 +250,17 @@ name: "Curriculum",
         this.loading2 = false;
         this.$refs['my-modal1'].toggle('#toggle-btn')
         this.$XModal.message({ message: '保存成功', status: 'success' })
-        this.formData2.id= this.ClassData.length+1;
-        console.log(this.ClassData.length);
-        this.ClassData.push(this.formData2);
-
+        console.log(this.formData2.classname);
+        // 给后端发请求
+        this.$store
+          .dispatch('admin/course/create',this.userMessage)
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+            this.tableData = this.$store.state.admin.user.userForm;
+          }).then(()=>{
+          /*this.$router.push('index')*/
+        })
       }, 1000)
     },
     searchEvent () {
@@ -177,6 +276,9 @@ name: "Curriculum",
 
   data(){
     return{
+      perPage: 15,//每页数据条数
+      currentPage: 1,
+      userMessage:[],//存放导入的数据
       formData2 : {
         classname: '',
         id: '',
@@ -194,134 +296,7 @@ name: "Curriculum",
           { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
         ]
       },
-      tableData: [{
-        id:1,
-        sex:"男",
-        age: 18,
-        password:'123456',
-        height: 175,
-        code: '179000505',
-        date: '2016-05-04',
-        name: '周海洋',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:2,
-        sex:"男",
-        age: 18,
-        password:'123456',
-        height: 175,
-        code: '179000506',
-        date: '2016-05-04',
-        name: '任然',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-        {
-          id:3,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000507',
-          date: '2016-05-04',
-          name: '李宇蔚',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          id:4,
-          sex:"男",
-          password:'123456',
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '张三',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          id:5,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨过',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄天亮',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:1,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000505',
-          date: '2016-05-04',
-          name: '周搜索',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          password:'123456',
-          id:2,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000506',
-          date: '2016-05-04',
-          name: '任天',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          password:'123456',
-          id:3,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000507',
-          date: '2016-05-04',
-          name: '李小龙',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:4,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '张文',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:5,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨林',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄撒旦',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }],
+
       ClassData:[
         {
           id:1,
@@ -417,6 +392,7 @@ body{
   height: 250px;
   float: left;
   margin: 10px 2.5%;
+  margin-top:30px;
   background-color: #fff;
   text-align: center;
   position: relative;

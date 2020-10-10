@@ -9,22 +9,15 @@
       <vxe-table-column title="操作" width="200">
         <template v-slot="{ row }">
           <!--        <button type="button" class="btn btn-outline-primary">评教</button>-->
-          <button type="button" class="btn btn-outline-success" v-b-modal.function @click="showdetaol(row)">查看评价结果
-          </button>
-
+          <button type="button" class="btn btn-outline-success">查看评价结果</button>
         </template>
       </vxe-table-column>
     </vxe-table>
-
-    <Function ></Function>
-
   </div>
 </template>
 
 
 <script>
-import Function from "components/common/function/Function";
-
 export default {
   name: "QuestionnaireList",
   data() {
@@ -32,30 +25,19 @@ export default {
       // questionnairelist: null
       // name:null,
       // teacher:null
-      functionlist: null
     }
   },
-  props: {
-    "questionnairelist": Array
-  },
-  components: {
-    Function
-  },
-  methods: {
-    showdetaol(row) {
-      // console.log(row)
-      this.id = row.id
-      this.$store
-        .dispatch('evaluation/getdetail', row.id)
-        .then(result => {
-          console.log(result)
-        }).catch(err => {
-        console.log(err)
-      });
-
+  computed:{
+    questionnairelist() {
+      // const nairelist = [];
+      const list = this.$store.state.student.questionnaire.questionnairelist;
+      // list.forEach(item => {
+      //   nairelist.push({title:item.title,teacher:item.beEvaUsers[0].name})
+      // })
+      // console.log(list)
+      return list
     }
   }
-
 }
 </script>
 

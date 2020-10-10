@@ -6,7 +6,7 @@ export default {
       username: '',
       password:''
     },
-    loginStatus: ''
+    loginStatus: '',
   },
   mutations:{
     updateLoginForm(state,data){
@@ -18,10 +18,9 @@ export default {
   },
   actions:{
     login({commit,state}){
-
       let devAccount={
-        username: '2020100101',
-        password: '123456'
+        username: '10100114',
+        password: '654321'
       }
 
       return myAxios
@@ -29,9 +28,11 @@ export default {
         .then(res=>{
           commit('updateLoginStatus',res.data)
           return res.data
+          console.log('login'  + res);
         }).catch(err=>{
           return err
       })
-    }
+    },
+
   }
 }

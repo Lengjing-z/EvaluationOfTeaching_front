@@ -1,7 +1,7 @@
 import myAxios from "../../../network/request";
 import post from "../../util";
 import qs from 'qs'
-const baseUrl = 'admin/class/'
+const baseUrl = 'admin/course/'
 export default {
   namespaced:true,
   state:{

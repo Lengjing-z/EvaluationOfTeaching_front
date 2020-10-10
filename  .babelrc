@@ -2,10 +2,10 @@
   "presets": [["es2015", { "modules": false }]],
   "plugins": [
     [
-      "import",
+      "component",
       {
-          "libraryName": "vxe-table",
-          "style": true // 样式是否也按需加载
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
       }
     ]
   ]

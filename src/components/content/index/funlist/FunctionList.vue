@@ -2,7 +2,7 @@
   <div id="functionlist">
     <h2 class="title">服务</h2>
     <div id="list" class="row container">
-      <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+      <div class="col-lg-3 col-md-6 col-sm-6 col-6" v-b-modal.function>
         <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="limits">
@@ -12,7 +12,7 @@
         <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6" @click="questionnaireManager">
-        <p class="card">问卷管理</p>
+        <p class="card"></p>
       </div>
       <div class="col-lg-3 col-md-6 col-sm-6 col-6">
         <p class="card"></p>
@@ -34,7 +34,6 @@
 
 <script>
 import Function from "components/common/function/Function";
-import myAxios from "network/request";
 export default {
   name: "FunctionList",
   components:{
@@ -46,7 +45,7 @@ export default {
     },
     studentquestionnairefinish(){
       this.$store
-        .dispatch('evaluation/getfinishedList')
+        .dispatch('student/questionnaire/selectAllFinishNaire')
         .then(result => {
           if (result == 'true')
             this.$router.push('/studentquestionnairefinish');
@@ -56,15 +55,7 @@ export default {
 
     },
     questionnaireManager(){
-      this.$store
-        .dispatch("admin/indicator/getAll")
-        .then(res =>{
-          // console.log("="+res);
-          this.$router.push('/quertionnaireManager');
-        })
-      .catch(err=>{
-        console.log(err);
-      })
+      this.$router.push('/quertionnaireManager');
     },
   }
 }

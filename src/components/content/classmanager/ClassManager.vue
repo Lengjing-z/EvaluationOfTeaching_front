@@ -3,6 +3,9 @@
     <header>
       <h3>班级管理</h3>
       <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
+      <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
+      margin-left: 15px;
+      " variant="outline-success">批量导入</b-button>
     </header>
 
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -35,9 +38,7 @@
         <vxe-table
           border
           show-footer
-          class="mytable-scrollbar"
           height="400"
-          :footer-method="footerMethod"
           :data="tableData">
           <vxe-table-column type="seq" width="60" fixed="left"></vxe-table-column>
           <vxe-table-column field="name" title="Name" width="150"></vxe-table-column>
@@ -50,7 +51,35 @@
       </b-modal>
     </div>
 
+    <b-modal scrollable="true" id="my-modal4" size="xl" title="导入用户信息">
+      <div class="container111">
+        {{ upload_file || "导入" }}
+        <input
+          type="file"
+          accept=".xls,.xlsx"
+          class="upload_file"
+          @change="readExcel($event)"
+        />
+      </div>
+      <div class="overflow-auto">
+        <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
+        <!--<p class="mt-3">题目</p>-->
+        <b-table
+          id="my-table"
+          :items="userMessage"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+        ></b-table>
 
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
+    </b-modal>
     <!--添加班级-->
     <b-modal ref="my-modal1" hide-footer title="班级信息管理">
       <div class="d-block text-center">
@@ -61,7 +90,6 @@
           title-width="100"
           :data="formData2"
           :rules="formRules2"
-          :loading="loading2"
           @submit="submitEvent3(index)"
           @reset="resetEvent">
           <!-- <vxe-form-item title="班级id" field="name" span="24">
@@ -78,7 +106,7 @@
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+              <vxe-button type="submit" @click="create()" status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -96,7 +124,6 @@
           title-width="100"
           :data="formData2"
           :rules="formRules2"
-          :loading="loading2"
           @submit="submitEvent2(index)"
           @reset="resetEvent">
          <!-- <vxe-form-item title="班级id" field="name" span="24">
@@ -113,7 +140,7 @@
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+              <vxe-button type="submit"   status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -127,7 +154,9 @@
 </template>
 
 <script>
+import XLSX from "xlsx";
 export default {
+
   name: "ClassManager",
   methods:{
     showModal3(index) {
@@ -142,9 +171,7 @@ export default {
     this.formData2.name = this.ClassData[index].classname;
   },
   submitEvent2 (index) {
-    this.loading2 = true
     setTimeout(() => {
-      this.loading2 = false;
       this.$refs['my-modal'].toggle('#toggle-btn')
       this.$XModal.message({ message: '保存成功', status: 'success' })
 
@@ -154,16 +181,30 @@ export default {
     hideModal111() {
       this.$refs['my-modal'].hide()
     },
+    create(){
+      let init = [{
+        name:this.formData2.classname,
+        pub:this.formData2.pub
+      }]
+
+      this.$store
+        .dispatch('admin/class/create',init)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          this.tableData = this.$store.state.admin.user.userForm;
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
+    },
   submitEvent3 (index) {
-    this.loading2 = true
     setTimeout(() => {
-      this.loading2 = false;
       this.$refs['my-modal1'].toggle('#toggle-btn')
       this.$XModal.message({ message: '保存成功', status: 'success' })
-      this.formData2.id= this.ClassData.length+1;
+   /*   this.formData2.id= this.ClassData.length+1;
       console.log(this.ClassData.length);
       this.ClassData.push(this.formData2);
-
+*/
     }, 1000)
   },
   searchEvent () {
@@ -174,14 +215,72 @@ export default {
   },
   test(index){
     console.log(this.ClassData[index].code[0]);
-  }
+  },
+    submit_form() {
+      // 给后端发送请求，更新数据
+      console.log("假装给后端发了个请求...");
+    },
+    readExcel(e) {
+      // 读取表格文件
+      let that = this;
+      const files = e.target.files;
+      if (files.length <= 0) {
+        return false;
+      } else if (!/\.(xls|xlsx)$/.test(files[0].name.toLowerCase())) {
+        this.$message({
+          message: "上传格式不正确，请上传xls或者xlsx格式",
+          type: "warning"
+        });
+        return false;
+      } else {
+        // 更新获取文件名
+        that.upload_file = files[0].name;
+      }
+      const fileReader = new FileReader();
+      fileReader.onload = ev => {
+        try {
+          const data = ev.target.result;
+          const workbook = XLSX.read(data, {
+            type: "binary"
+          });
+          const wsname = workbook.SheetNames[0]; //取第一张表
+          const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
+          console.log(ws);
+          this.userMessage = ws;
+          that.lists = [];
+          // 从解析出来的数据中提取相应的数据
+          ws.forEach(item => {
+            that.lists.push({
+              username: item["name"],
+              phone_number: item["code"]
+            });
+          });
+          // 给后端发请求
+          this.$store
+            .dispatch('admin/class/create',this.userMessage)
+            .then(result => {
+              if (result==='success')
+                console.log(3333333);
+              this.tableData = this.$store.state.admin.user.userForm;
+            }).then(()=>{
+            /*this.$router.push('index')*/
+          })
+        } catch (e) {
+          return false;
+        }
+      };
+      fileReader.readAsBinaryString(files[0]);
+    }
 },
 
 data(){
   return{
+    perPage: 15,//每页数据条数
+    currentPage: 1,
+    userMessage:[],//存放导入的数据
     formData2 : {
       classname: '',
-      id: '',
+      pub:true,
     },
     formRules2: {
       name: [
@@ -357,6 +456,27 @@ data(){
 </script>
 
 <style scoped>
+.container111 {
+  border: none;
+  border-radius: 4px;
+  background-color: #409eff;
+  height: 40px;
+  width: 220px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  min-width: 80px;
+  *zoom: 1;
+}
+.upload_file {
+  font-size: 20px;
+  opacity: 0;
+  position: absolute;
+  filter: alpha(opacity=0);
+  width: 200px;
+}
 /*滚动条整体部分*/
 .mytable-scrollbar div::-webkit-scrollbar {
   width: 10px;

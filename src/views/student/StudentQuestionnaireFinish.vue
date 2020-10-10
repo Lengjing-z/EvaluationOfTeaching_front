@@ -3,7 +3,7 @@
   <nav-bar></nav-bar>
   <manager-setting :manager="manager"></manager-setting>
   <div class="container mb-5">
-    <questionnaire-list :questionnairelist="questionnairelist" ></questionnaire-list>
+    <questionnaire-list></questionnaire-list>
   </div>
   <Footer></Footer>
 
@@ -24,12 +24,6 @@ export default {
       manager:[{name:"评教结果"}]
     }
    },
-  computed:{
-    questionnairelist() {
-      const list = this.$store.state.evaluation.questionnairefinishedList;
-      return list
-    }
-  },
   components:{
     QuestionnaireList,
     NavBar,
