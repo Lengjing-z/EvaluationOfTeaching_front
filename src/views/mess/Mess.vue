@@ -3,8 +3,28 @@
       <header>
         <Nav></Nav>
       </header>
+      <UserMess></UserMess>
+        <b-button @click="query()">测试</b-button>
+      <b-button @click="test1()">测试</b-button>
+      <!--<Questionnaire v-if="true"></Questionnaire>-->
+      <div class="overflow-auto">
+        <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
+        <!--<p class="mt-3">题目</p>-->
+        <b-table
+          id="my-table"
+          :items="userMessage"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+        ></b-table>
 
-      <Questionnaire v-if="true"></Questionnaire>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
      <!-- <div class="container111">
         {{ upload_file || "导入" }}
         <input
@@ -54,9 +74,25 @@
 import Nav from "components/content/nav/NavBar";
 import Questionnaire from "components/content/questionnaire/Questionnaire";
 import XLSX from "xlsx";
+import UserMess from "components/content/usermess/UserMess";
   export default {
 
     methods:{
+      test1(){
+        console.log(this.$store.state.admin.userForm);
+      },
+      query() {
+        /*this.$store.commit('updateLoginForm',this.loginForm)*/
+        this.$store
+          .dispatch('admin/query')
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+          }).then(()=>{
+          /*this.$router.push('index')*/
+        })
+      },
+
         showModal() {
           this.$refs['my-modal'].show()
         },
@@ -75,9 +111,13 @@ import XLSX from "xlsx";
     components:{
       Nav,
       Questionnaire,
+      UserMess
     },
     data() {
       return {
+        perPage: 15,//每页数据条数
+        currentPage: 1,
+        userMessage:[],//存放导入的数据
         upload_file: "",
         lists: [],
         tableData:{

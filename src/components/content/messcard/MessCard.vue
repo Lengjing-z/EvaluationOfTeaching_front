@@ -5,9 +5,9 @@
         <h3>学生信息管理</h3>
         <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
         <b-input-group  prepend="请输入姓名或者学号" class="mt-31">
-          <b-form-input id="username"></b-form-input>
+          <b-form-input id="username" v-model="username"></b-form-input>
           <b-input-group-append >
-            <b-button @click="seach()" variant="outline-success"><span style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>
+            <b-button @click="query()" variant="outline-success"><span style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>
           </b-input-group-append>
         </b-input-group>
       </div>
@@ -21,7 +21,7 @@
         <h3 class="Uname">{{tableData[index].name}}</h3>
         <h5>{{ tableData[index].code }}</h5>
         <p>年龄:{{tableData[index].age}}&nbsp&nbsp身高:{{tableData[index].height}}</p>
-        <p>家庭住址:{{tableData[index].address}}</p>
+        <p>家庭住址:{{tableData[index].addr}}</p>
         <b-button-group id="dosomeThing">
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary"@click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
@@ -97,7 +97,7 @@
             </vxe-form-item>
             <vxe-form-item title="地址" field="address" span="24">
               <template v-slot>
-                <vxe-textarea v-model="formData2.address" placeholder="请输入地址" clearable></vxe-textarea>
+                <vxe-textarea v-model="formData2.addr" placeholder="请输入地址" clearable></vxe-textarea>
               </template>
             </vxe-form-item>
             <vxe-form-item align="center" span="24">
@@ -111,7 +111,7 @@
         <b-button class="mt-3" variant="outline-danger" block @click="hideModal111">Close Me</b-button>
       </b-modal>
     </div>
-
+<!--批量导入-->
     <b-modal scrollable="true" id="my-modal1" size="xl" title="导入用户信息">
       <div class="container111">
         {{ upload_file || "导入" }}
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+/*npm install xlsx*/
 import XLSX from "xlsx";
 
 export default {
@@ -155,6 +156,24 @@ export default {
     }
   },
   methods:{
+    test1(){
+      console.log(this.$store.state.admin.userForm);
+    },
+    query() {
+      let i = document.querySelector("#username").value;
+      /*this.$store.commit('updateLoginForm',this.loginForm)*/
+      console.log(this.username);
+      this.$store
+        .dispatch('admin/query',this.username)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+            this.tableData = this.$store.state.admin.user.userForm;
+
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
+    },
     showModal111() {
       this.$refs['my-modal'].show()
     },
@@ -182,7 +201,9 @@ export default {
       this.$XModal.message({ message: '重置事件', status: 'info' })
     },
     seach(){
-      let valueInput = document.querySelector("#username").value;
+
+      console.log(123);
+     /* let valueInput = document.querySelector("#username").value;
       for(let i = 0 ; i < this.tableData.length; i++){
         if(this.tableData[i].name == valueInput || this.tableData[i].code == valueInput){
           this.isAll = false;
@@ -195,14 +216,14 @@ export default {
           this.Uindex = i;
         }
 
-      }
+      }*/
     },
     showModal(index) {
       console.log(index);
       this.$refs['my-modal'].show();
       this.formData2.name = this.tableData[index].name;
       this.formData2.age = this.tableData[index].age;
-      this.formData2.address = this.tableData[index].address;
+      this.formData2.addr = this.tableData[index].addr;
       this.formData2.code = this.tableData[index].code;
       this.formData2.password = this.tableData[index].password;
       this.formData2.index = index;
@@ -227,7 +248,6 @@ export default {
         // 更新获取文件名
         that.upload_file = files[0].name;
       }
-
       const fileReader = new FileReader();
       fileReader.onload = ev => {
         try {
@@ -259,6 +279,8 @@ export default {
 name: "MessCard",
   data() {
     return {
+
+      username:'',
       Uindex:'',
       Uname:'',
       Ucode:'',
@@ -275,7 +297,7 @@ name: "MessCard",
         code: '',
         password: '',
         age: '26',
-        address: '',
+        addr: '',
         index:''
       },
       formRules2: {
@@ -299,126 +321,10 @@ name: "MessCard",
         height: 175,
         code: '179000505',
         date: '2016-05-04',
-        name: '周海洋',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:2,
-        sex:"男",
-        age: 18,
-        password:'123456',
-        height: 175,
-        code: '179000506',
-        date: '2016-05-04',
-        name: '任然',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-        {
-        id:3,
-          password:'123456',
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000507',
-        date: '2016-05-04',
-        name: '李宇蔚',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:4,
-        sex:"男",
-        password:'123456',
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '张老师',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-        {
-          id:5,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨老师',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄天亮',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:1,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000505',
-          date: '2016-05-04',
-          name: '周老师',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          password:'123456',
-          id:2,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000506',
-          date: '2016-05-04',
-          name: '任老师',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          password:'123456',
-          id:3,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000507',
-          date: '2016-05-04',
-          name: '李老师',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:4,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '张文',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:5,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨林',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄老师',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }]
+        name: this.$store.state.info.mine.name,
+        addr: '上海市普陀区金沙江路 1517 弄'
+      }
+      ]
 
     }
 
