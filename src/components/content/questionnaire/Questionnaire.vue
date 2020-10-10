@@ -202,12 +202,13 @@ export default {
     removeQuestionnaire(row) {
       this.$XModal.confirm('您确定要删除该数据?').then(type => {
         if (type === 'confirm') {
+          console.log(row.id)
           this.$store
             .dispatch("admin/questionnaire/deleteQuestionnaireById",row.id)
-          .then(res =>{
-            console.log(res);
-          })
-          this.$refs.allques.remove(row)
+            .then(res =>{
+              this.$refs.allques.remove(row)
+              console.log(res);
+            })
         }
       })
     },

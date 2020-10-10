@@ -22,10 +22,11 @@ export default {
           return false
         })
     },
-    deleteQuestionnaireById(id){
+    deleteQuestionnaireById({commit},id){
+      console.log("deleteid",id)
       return myAxios.post("admin/questionnaire/delete",id)
         .then(res =>{
-          console.log("deleteQuestionnaire success",res.data)
+          console.log("deleteQuestionnaire success",res)
           return true
         }).catch(err =>{
           console.log(err)

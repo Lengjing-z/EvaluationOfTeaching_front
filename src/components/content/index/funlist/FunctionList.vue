@@ -51,12 +51,12 @@ export default {
         },
         {
           "title": "评教管理",
-          "url": "",
+          "url": "questionnaireProgress",
           "icon": "#icon-gongcheguanli"
         },
         {
           "title": "发布问卷",
-          "url": "",
+          "url": "questionnaireIssue",
           "icon": "#icon-gonghuichengyuanzhuce"
         },
         {
