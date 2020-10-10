@@ -48,8 +48,7 @@ import Function from "components/common/function/Function";
 import FunctionList from "../../components/content/index/funlist/FunctionList";
 
 import("assets/icon/font/iconfont")
-import TagCanvas from "assets/tagcanvas.min"
-import("assets/tagcanvas.min")
+import "assets/tagcanvas.min"
 
 export default {
   name: 'Index',
