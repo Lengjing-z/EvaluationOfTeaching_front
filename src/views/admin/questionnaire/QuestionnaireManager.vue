@@ -15,11 +15,21 @@ import ManagerSetting from "components/common/Manager/ManagerSetting";
 import Questionnaire from "components/content/questionnaire/Questionnaire";
 
 export default {
-  name: "QuertionnaireManager",
+  name: "QuestionnaireManager",
   data(){
     return{
       manager: [{name:'问卷管理'}]
     }
+  },
+  created() {
+    this.$store
+      .dispatch("admin/questionnaire/loadGetAllNaire")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   },
   components: {
     NavBar,

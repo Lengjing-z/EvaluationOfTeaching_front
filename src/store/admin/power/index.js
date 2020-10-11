@@ -13,13 +13,20 @@ function translateTreeToList(tree) {
 }
 
 function transalteListToTree(li) {
-  let tree = queryNodeByPa(li, null)[0]
+  let tree = {
+    id:0,
+    name:'root',
+    end:false,
+    pnode:null,
+    role:false,
+    children:[]
+  }
   dfs(tree, li)
   return tree
 }
 
 function queryNodeByPa(li, paId) {
-  return li.filter(item => { return item.paNode === paId })
+  return li.filter(item => { return item.pnode === paId })
 }
 
 function dfs(node, li) {
@@ -48,8 +55,11 @@ export default {
   },
   actions:{
     loadAll({commit}){
+      commit('updateAll',[])
       return post(baseUrl+'all',{},res=>{
         commit('updateAll',res.data)
+        // console.log(res.data)
+        return true
       })
     },
     loadQuery({commit},condition){
@@ -70,6 +80,7 @@ export default {
   getters:{
     getAllPowerTree(state){
       // console.log("li>"+li);
+      // console.log(transalteListToTree(state.all))
       return transalteListToTree(state.all);
     },
   }

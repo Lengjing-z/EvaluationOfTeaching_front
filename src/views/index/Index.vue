@@ -44,10 +44,10 @@
 import NavBar from "components/content/nav/NavBar";
 import PicSlide from "components/content/index/slide/PicSlide";
 import Footer from "../../components/content/footer/Footer";
-import Function from "components/common/function/Function";
+import Function from "components/common/function/Form";
 import FunctionList from "../../components/content/index/funlist/FunctionList";
 
-import("assets/icon/font/iconfont")
+import("assets/icon/school/iconfont")
 import "assets/tagcanvas.min"
 
 export default {
@@ -68,7 +68,7 @@ export default {
   mounted() {
     this.$store.dispatch('admin/power/loadAll')
     this.$store.dispatch('admin/power/loadQuery', {uId: 32}).then(() => {
-      window.console.log(this.$store.state.admin.power.query)
+      // window.console.log(this.$store.state.admin.power.query)
     })
     TagCanvas.Start('myCanvas', 'tags', {
       textColour: '#ff0000',
@@ -91,5 +91,8 @@ export default {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+#tags{
+  display: none;
 }
 </style>
