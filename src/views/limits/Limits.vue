@@ -4,9 +4,9 @@
     <nav-bar></nav-bar>
     <!--    Manager-->
     <manager-setting :manager="manager"></manager-setting>
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
       <header>
-        <h3>问卷信息管理</h3>
+        <h3>权限管理</h3>
       </header>
       <!--   工具栏开始-->
       <div>
@@ -20,44 +20,54 @@
       <!--   工具栏结束-->
 
       <!--   用户列表   -->
-      <vxe-table
-        stripe
-        :loading="loading"
-        :data="people">
-        <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="name" title="Name"></vxe-table-column>
-        <vxe-table-column field="code" title="Code"></vxe-table-column>
-        <vxe-table-column field="age" title="Age"></vxe-table-column>
-        <vxe-table-column title="操作" width="160">
-          <template v-slot="{ row,index }">
-            <vxe-button v-b-modal.limits>设置权限</vxe-button>
-          </template>
-        </vxe-table-column>
-      </vxe-table>
-      <b-modal id="limits" title="权限">
-        <!--   权限列表-->
+      <div style="min-height: 400px">
         <vxe-table
-          show-overflow
           row-key
-          resizable
-          round
-          :tree-config="{children: 'children',line: true}"
-          :data="limitslist"
-          :checkbox-config="{labelField: 'id', highlight: true}"
-          @checkbox-change="selectChangeEvent">
-          <vxe-table-column type="checkbox" title="ID" width="180" tree-node></vxe-table-column>
-          <vxe-table-column field="name" title="Name" show-overflow="tooltip"></vxe-table-column>
-          <vxe-table-column field="role" title="is_role"></vxe-table-column>
-          <vxe-table-column field="pnode" title="p_node"></vxe-table-column>
-          <vxe-table-column field="end" title="is_end"></vxe-table-column>
+          show-overflow
+          stripe
+          :loading="loading"
+          :data="people"
+          height="auto"
+        >
+          <vxe-table-column type="seq" width="60"></vxe-table-column>
+          <vxe-table-column field="name" title="Name"></vxe-table-column>
+          <vxe-table-column field="code" title="Code"></vxe-table-column>
+          <vxe-table-column field="age" title="Age"></vxe-table-column>
+          <vxe-table-column title="操作" width="160">
+            <template v-slot="{ row,index }">
+              <vxe-button v-b-modal.limits >设置权限</vxe-button>
+            </template>
+          </vxe-table-column>
           <template v-slot:empty>
             <span style="color: red;">
-              <img src="@/assets/img/img1.gif" alt="Bird">
-              <p>不用再看了，没有更多数据了！</p>
+              <img src="@/assets/img/empty.gif" alt="Bird">
+              <p>目前没有数据，可以试试查询！</p>
             </span>
           </template>
         </vxe-table>
-      </b-modal>
+        <b-modal id="limits" title="权限" size="lg" >
+          <!--   权限列表-->
+          <vxe-table
+            show-overflow
+            resizable
+            :data="limitslist"
+            :tree-config="{children: 'children',line: true}"
+            row-id="id"
+            :checkbox-config="{labelField: 'name',checkRowKeys: defaultSelectLimits,highlight:true}"
+            @checkbox-change="selectChangeEvent"
+          >
+            <vxe-table-column type="checkbox" title="Name" width="180" tree-node show-overflow="tooltip"></vxe-table-column>
+            <vxe-table-column field="role" title="is_role"></vxe-table-column>
+            <vxe-table-column field="pnode" title="p_node"></vxe-table-column>
+            <vxe-table-column field="end" title="is_end"></vxe-table-column>
+
+          </vxe-table>
+
+        </b-modal>
+      </div>
+
+
+
 
 
     </div>
@@ -83,7 +93,8 @@ export default {
       manager: [{name: "权限管理"}],
       loading: false,
       code: "",
-      people: [{name:123}],
+      people: [],
+      defaultSelectLimits:['1','9','16'],
       allAlign: null,
       limitslist: null,
     }
@@ -136,7 +147,7 @@ export default {
       // })
     },
     selectChangeEvent({records}) {
-      // console.info(`勾选${records.length}个树形节点`, records)
+      console.info(`勾选${records.length}个树形节点`, records)
     }
   }
 

@@ -6,10 +6,10 @@
     <vxe-toolbar>
       <template v-slot:buttons>
         <vxe-button v-b-modal.my-modal1>导入问卷</vxe-button>
-        <vxe-button v-b-modal.targetlist>指标管理</vxe-button>
+        <vxe-button v-b-modal.targetlist @click="queryAllTarget">指标管理</vxe-button>
         <b-modal id="targetlist" size="xl" title="指标管理" ok-only>
           <vxe-table
-            :data="targetData">
+            :data="targetlist">
             <vxe-table-column type="seq" min-width="60"></vxe-table-column>
             <vxe-table-column field="name" title="Name"></vxe-table-column>
             <vxe-table-column field="rate" title="Rate"></vxe-table-column>
@@ -75,7 +75,7 @@
         />
       </div>
       <vxe-select v-model="targetTempName" placeholder="选择指标模板">
-        <vxe-option v-for="num in targetData" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
+        <vxe-option v-for="num in targetlist" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
       </vxe-select>
       <template v-slot:modal-footer>
         <div class="w-100">
@@ -107,7 +107,6 @@
         <vxe-table-column title="操作" width="160">
           <template v-slot="{ row,index }">
             <vxe-button v-b-modal.targetvalue @click="addtarget(row,index)">添加指标</vxe-button>
-
           </template>
         </vxe-table-column>
       </vxe-grid>
@@ -152,7 +151,7 @@ export default {
       targetTempName: "",
       targetTempTree: [],
       fatherTarget: [],
-      targetData: [],
+      targetlist: [],
       targetDataChildren: [],
       maxid: 0
     }
@@ -178,14 +177,6 @@ export default {
         this.allquestionnaire = this.$store.state.admin.questionnaire.questionnaireAll
         console.log(res)
       })
-    // 请求所有指标
-    this.$store
-      .dispatch("admin/indicator/getAll")
-      .then(res => {
-        this.targetData = this.$store.state.admin.indicator.indicatorAll
-        console.log(res)
-      })
-
 
   },
   components: {
@@ -222,12 +213,31 @@ export default {
         })
 
     },
-    submitTarget() {
-      this.$store.dispatch("admin/indicator/createIndicator", this.targetDataChildren[0])
+    // 查询所有指标
+    queryAllTarget(){
+      this.$store
+        .dispatch("admin/indicator/getAll")
         .then(res => {
+          this.targetlist = this.$store.state.admin.indicator.indicatorAll
           console.log(res)
         })
     },
+    // 添加、删除指标后进行提交操作
+    submitTarget() {
+      this.$store.dispatch("admin/indicator/createIndicator", this.targetDataChildren)
+        .then(res => {
+          if (res){
+            console.log("创建指标完成")
+            // 创建文件完成 查询所有问卷
+            this.queryAllTarget();
+          }else {
+            console.log("创建指标失败")
+          }
+          // 关闭模态框
+          this.$bvModal.hide('targetmanage')
+        })
+    },
+    // 更新导入问卷的表格数据
     changeuserMessage(data) {
       this.userMessage = []
       this.userMessage = data
