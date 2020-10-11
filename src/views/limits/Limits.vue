@@ -9,40 +9,28 @@
         <h3>问卷信息管理</h3>
       </header>
       <!--   工具栏开始-->
-<!--      <div>-->
-<!--        <vxe-toolbar-->
-<!--          custom-->
-<!--          print-->
-<!--          ref="limittools"-->
-<!--          :refresh="{query: findList}">-->
-<!--          <template v-slot:buttons>-->
-<!--            &lt;!&ndash;           添加权限&ndash;&gt;-->
-<!--            <vxe-button circle @click="addlimit = true"><i class="vxe-icon&#45;&#45;plus"></i></vxe-button>-->
-<!--            <vxe-modal v-model="addlimit" title="新建权限" width="600" height="400" resize remember mask-closable>-->
-<!--            </vxe-modal>-->
-<!--            &lt;!&ndash;           修改权限&ndash;&gt;-->
-<!--            <vxe-button circle @click="updatelimit = true"><i class="vxe-icon&#45;&#45;remove"></i></vxe-button>-->
-<!--            <vxe-modal v-model="updatelimit" title="修改权限" width="600" height="400" resize remember>-->
-<!--            </vxe-modal>-->
-<!--            <vxe-button circle v-b-modal.modal-xl><i class="vxe-icon&#45;&#45;arrow-top"></i></vxe-button>-->
-<!--            <b-modal id="modal-xl" v-model="target" size="lg" title="设置指标">-->
-<!--            </b-modal>-->
-<!--          </template>-->
-
-<!--        </vxe-toolbar>-->
-<!--      </div>-->
+      <div>
+        <b-input-group prepend="编号" class="mt-3 mb-3 w-50">
+          <b-form-input v-model="code"></b-form-input>
+          <b-input-group-append>
+            <b-button variant="info" @click="selectUserByCode">查询</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </div>
       <!--   工具栏结束-->
 
       <!--   用户列表   -->
       <vxe-table
         stripe
-        :data="userlist">
+        :loading="loading"
+        :data="people">
         <vxe-table-column type="seq" width="60"></vxe-table-column>
         <vxe-table-column field="name" title="Name"></vxe-table-column>
+        <vxe-table-column field="code" title="Code"></vxe-table-column>
         <vxe-table-column field="age" title="Age"></vxe-table-column>
         <vxe-table-column title="操作" width="160">
           <template v-slot="{ row,index }">
-            <vxe-button v-b-modal.limits >设置权限</vxe-button>
+            <vxe-button v-b-modal.limits>设置权限</vxe-button>
           </template>
         </vxe-table-column>
       </vxe-table>
@@ -53,7 +41,6 @@
           row-key
           resizable
           round
-          :loading="loading"
           :tree-config="{children: 'children',line: true}"
           :data="limitslist"
           :checkbox-config="{labelField: 'id', highlight: true}"
@@ -95,12 +82,10 @@ export default {
     return {
       manager: [{name: "权限管理"}],
       loading: false,
+      code: "",
+      people: [{name:123}],
       allAlign: null,
       limitslist: null,
-      addlimit: false,
-      updatelimit: false,
-      target: false,
-      list1: [],
     }
   },
   components: {
@@ -112,50 +97,46 @@ export default {
     ManagerSetting
   },
   created() {
-    const list1 = []
-    for (let index = 0; index < 20; index++) {
-      list1.push({label: `选项${index}`, value: index})
-    }
-    this.data1 = list1
-    this.list1 = list1
 
     // 查询所有权限
-    this.$store.dispatch("admin/power/loadAll")
-      .then(res => {
-        console.log(res)
-      })
+    // this.$store.dispatch("admin/power/loadAll")
+    //   .then(res => {
+    //   })
 
     // 获取所有用户
 
 
     // 加载权限树
-    this.loading = true
     setTimeout(() => {
-      console.log(this.$store.getters["admin/power/getAllPowerTree"])
+      // console.log(this.$store.getters["admin/power/getAllPowerTree"])
       this.limitslist = Array(this.$store.getters["admin/power/getAllPowerTree"])
-      this.loading = false
     }, 500)
   },
   methods: {
-    findList() {
-      this.loading = true
-      // return new Promise(resolve => {
-      setTimeout(() => {
-        this.limitslist = []
-        this.loading = false
-        // resolve()
-      }, 300)
-      // })
+    // 模糊查询用户 （code）
+    selectUserByCode() {
+      // console.log(this.people);
+      // this.loading = true
+      this.$store.dispatch("admin/users/queryUserByCode", this.code)
+        .then(res => {
+          // console.log(this.$store.state["admin/power/all"]);
+          // this.loading = false
+          // console.log(res)
+          this.people = this.$store.state.admin.users.userList
+        }).catch(err =>{
+        console.log(err)
+      })
+
+
     },
 
     selectEvent1(item) {
-      this.value1 = item.label
-      this.$refs.limittools.hidePanel().then(() => {
-        this.list1 = this.data1
-      })
+      // this.value1 = item.label
+      // this.$refs.limittools.hidePanel().then(() => {
+      // })
     },
     selectChangeEvent({records}) {
-      console.info(`勾选${records.length}个树形节点`, records)
+      // console.info(`勾选${records.length}个树形节点`, records)
     }
   }
 
