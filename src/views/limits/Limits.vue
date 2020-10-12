@@ -35,7 +35,7 @@
           <vxe-table-column field="age" title="Age"></vxe-table-column>
           <vxe-table-column title="操作" width="160">
             <template v-slot="{ row,index }">
-              <vxe-button v-b-modal.limits >设置权限</vxe-button>
+              <vxe-button  @click="queryUserLimitByid(row)">设置权限</vxe-button>
             </template>
           </vxe-table-column>
           <template v-slot:empty>
@@ -46,10 +46,13 @@
           </template>
         </vxe-table>
         <b-modal id="limits" title="权限" size="lg" >
-          <!--   权限列表-->
+<!--          权限列表-->
+<!--          <update-limit :default-select-limits="defaultSelectLimits" :limitslist="limitslist"></update-limit>-->
           <vxe-table
             show-overflow
+            row-key
             resizable
+            ref="limits"
             :data="limitslist"
             :tree-config="{children: 'children',line: true}"
             row-id="id"
@@ -60,16 +63,22 @@
             <vxe-table-column field="role" title="is_role"></vxe-table-column>
             <vxe-table-column field="pnode" title="p_node"></vxe-table-column>
             <vxe-table-column field="end" title="is_end"></vxe-table-column>
-
           </vxe-table>
+          <template v-slot:modal-footer>
+            <div class="w-100">
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right"
+                @click="submitPower"
+              >
+                提交
+              </b-button>
+            </div>
+          </template>
 
         </b-modal>
       </div>
-
-
-
-
-
     </div>
     <Footer></Footer>
   </div>
@@ -94,9 +103,11 @@ export default {
       loading: false,
       code: "",
       people: [],
-      defaultSelectLimits:['1','9','16'],
-      allAlign: null,
       limitslist: null,
+      defaultSelectLimits:[],
+      allAlign: null,
+      currentUser:'',
+      currentUserLimit:[] // 设置权限时当前用户的已拥有权限
     }
   },
   components: {
@@ -133,22 +144,58 @@ export default {
           // console.log(this.$store.state["admin/power/all"]);
           // this.loading = false
           // console.log(res)
-          this.people = this.$store.state.admin.users.userList
+          this.people = this.$store.state.admin.users.userList;
+          // setInterval(function (){
+          //   this.$bvModal.show('limits')
+          // },1000)
+
         }).catch(err =>{
         console.log(err)
       })
-
-
+    },
+    // 获取复选框点击事件
+    selectChangeEvent({ checked, records }) {
+      console.log(checked ? '勾选事件' : '取消事件', records)
+    },
+    queryUserLimitByid(user) {
+      // this.defaultSelectLimits = [3,5,9,15]
+      this.$store.commit("admin/power/updateQuery",[])
+      this.$store.commit("admin/power/updateUp",[])
+      this.defaultSelectLimits = []
+      this.currentUser = user
+      this.$store.dispatch("admin/power/loadQuery", {'uid': user.id})
+      .then(res =>{
+        if (res){
+          let powers = []
+          this.$store.state.admin.power.query.forEach(item => {
+            powers.push(item.pid)
+          })
+          this.defaultSelectLimits = powers
+          this.$bvModal.show('limits')
+        }else {
+          console.log("查询改User权限失败")
+          this.$bvModal.hide('limits')
+        }
+      })
     },
 
-    selectEvent1(item) {
-      // this.value1 = item.label
-      // this.$refs.limittools.hidePanel().then(() => {
-      // })
+    // 提交权限的更改
+    submitPower () {
+      let selectRecords = this.$refs.limits.getCheckboxRecords()
+      console.log(selectRecords)
+      let powers = []
+      selectRecords.forEach(item=>{
+        powers.push({
+          pid:item.id,
+          uid:this.currentUser.id
+        })
+      })
+      this.$store.commit("admin/power/updateUp",powers)
+
+      this.$store.dispatch("admin/power/updateUserPowers")
+      this.$bvModal.hide('limits')
     },
-    selectChangeEvent({records}) {
-      console.info(`勾选${records.length}个树形节点`, records)
-    }
+
   }
 
 }

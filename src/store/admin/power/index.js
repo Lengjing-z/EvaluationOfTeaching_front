@@ -2,15 +2,7 @@ import myAxios from "../../../network/request";
 import post from "../../util";
 import qs from 'qs'
 const baseUrl = 'admin/power/'
-function translateTreeToList(tree) {
-  const li = [];
-  li.push(tree)
-  tree.children.forEach(child=>{
-    child.parent = tree
-    translateTreeToList(child,li)
-  })
-  return li;
-}
+
 
 function transalteListToTree(li) {
   let tree = {
@@ -40,7 +32,8 @@ export default {
   state:{
     all:[],
     query:[],
-    update:[]
+    update:[],
+    queryUserPower:[]
   },
   mutations:{
     updateAll(state,data){
@@ -51,6 +44,9 @@ export default {
     },
     updateUp(state,data){
       state.update = data
+    },
+    updateQueryUserPower(state,data){
+      state.queryUserPower = data
     }
   },
   actions:{
@@ -65,16 +61,32 @@ export default {
     loadQuery({commit},condition){
       return post(baseUrl+'query',condition,res=>{
         commit('updateQuery',res.data)
+        console.log("loadQuery",res.data)
+        return true
       })
     },
+    // 提交权限的修改和删除
     updateUserPowers({commit,state}){
-      let del = state.query.filter( item=> !state.update.some(up=>up.id == item.id))
-      let add = state.update.filter(item=>item.id === undefined)
+      let del = state.query.filter( item=> !state.update.some(up=>{return (up.pid==item.pid)&&(up.uid == item.uid) }))
+      let add = state.update.filter(up=> !state.query.some(item=>{return (up.pid==item.pid)&&(up.uid == item.uid) }))
+      console.log("del",del)
+      console.log("add",add)
       return Promise.all([
         post(baseUrl+'del',del,res=>res.data),
         post(baseUrl+'add',add,res=>res.data)
       ])
-    }
+    },
+  //  查询用户权限 根据uid
+    queryUserPowerById({commit},uid){
+      commit('updateQueryUserPower',[])
+      return post(baseUrl + 'query', {'uid': uid}, res => {
+        commit('updateQuery',res.data)
+        console.log("queryUserPowerById",res.data)
+        return true
+      });
+    },
+
+
   },
   modules:{},
   getters:{
