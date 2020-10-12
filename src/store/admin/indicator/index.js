@@ -20,6 +20,7 @@ function queryNodeByPa(li, paId) {
 }
 
 function dfs(node, li) {
+  if(node === undefined || node === null) return
   node.children = queryNodeByPa(li, node.id)
   node.children.forEach(item => dfs(item, li))
 }

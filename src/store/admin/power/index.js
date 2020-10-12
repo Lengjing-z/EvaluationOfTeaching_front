@@ -95,5 +95,8 @@ export default {
       // console.log(transalteListToTree(state.all))
       return transalteListToTree(state.all);
     },
+    getUserPowers(state){
+      return state.query
+    }
   }
 }

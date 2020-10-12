@@ -15,7 +15,7 @@ export default {
     return{
     }
   },
-  props:['title','icon','url'],
+  props:['title','icon','url','powers'],
   created() {
   },
   methods:{
