@@ -10,10 +10,12 @@
         stripe
         :data="questionnaireList">
         <vxe-table-column type="seq" width="60"></vxe-table-column>
-        <vxe-table-column field="name" title="Name"></vxe-table-column>
-        <vxe-table-column field="sex" title="Sex"></vxe-table-column>
-        <vxe-table-column field="age" title="Age"></vxe-table-column>
-        <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>
+        <vxe-table-column field="title" title="Title"></vxe-table-column>
+        <vxe-table-column title="操作" width="160">
+          <template v-slot="{ row }">
+            <vxe-button  @click="issueQuestionnaire(row)">发布问卷</vxe-button>
+          </template>
+        </vxe-table-column>
       </vxe-table>
     </div>
 
@@ -35,11 +37,24 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("admin/questionnaire/loadGetAllNaire")
+      .then(res =>{
+        if (res){
+          this.questionnaireList = this.$store.state.admin.questionnaire.questionnaireAll
+        }
+      })
   },
   components:{
     NavBar,
     Footer,
     ManagerSetting,
+  },
+  methods:{
+    // 发布问卷
+    issueQuestionnaire(questionnaire){
+      this.$store.dispatch("admin/questionnaire/queryAllNaire")
+      this.$store.dispatch("admin/questionnaire/queryAllNaire2")
+    }
   }
 }
 </script>

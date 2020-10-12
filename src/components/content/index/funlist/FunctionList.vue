@@ -81,7 +81,7 @@ export default {
         },
         {
           "title": "查看评价结果(老师)",
-          "url": "",
+          "url": "teacherQuestionnaireFinish",
           "icon": "#icon-chengjishouji"
         },
         {

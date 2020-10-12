@@ -10,6 +10,7 @@ const StudentQuestionnaireFinish = () => import('views/student/StudentQuestionna
 const QuestionnaireManager= () => import('views/admin/questionnaire/QuestionnaireManager')
 const  QuestionnaireProgress = ()=> import('views/admin/questionnaire/QuestionnaireProgress')
 const  QuestionnaireIssue = ()=> import('views/admin/questionnaire/QuestionnaireIssue')
+const  TeacherQuestionnaireFinish = ()=> import('views/teacher/TeacherQuestionnaireFinish')
 
 Vue.use(VueRouter)
 
@@ -64,6 +65,11 @@ const routes = [
     path: '/questionnaireIssue',
     name: 'QuestionnaireIssue',
     component: QuestionnaireIssue
+  },
+  {
+    path: '/teacherQuestionnaireFinish',
+    name: 'TeacherQuestionnaireFinish',
+    component: TeacherQuestionnaireFinish
   }
 
 ]
