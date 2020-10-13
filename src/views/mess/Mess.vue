@@ -3,71 +3,19 @@
       <header>
         <Nav></Nav>
       </header>
-      <UserMess></UserMess>
-        <b-button @click="query()">测试</b-button>
-      <b-button @click="test1()">测试</b-button>
-      <!--<Questionnaire v-if="true"></Questionnaire>-->
-      <div class="overflow-auto">
-        <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
-        <!--<p class="mt-3">题目</p>-->
-        <b-table
-          id="my-table"
-          :items="userMessage"
-          :per-page="perPage"
-          :current-page="currentPage"
-          small
-        ></b-table>
-
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-table"
-        ></b-pagination>
+      <div id="nav_manager-department">
+        <b-breadcrumb>
+          <b-breadcrumb-item @click="toIndex()" href="#home">
+            <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
+            首页
+          </b-breadcrumb-item>
+          <!--<b-breadcrumb-item href="#bar">老师管理</b-breadcrumb-item>-->
+          <b-breadcrumb-item @click="">个人信息</b-breadcrumb-item>
+        </b-breadcrumb>
       </div>
-     <!-- <div class="container111">
-        {{ upload_file || "导入" }}
-        <input
-          type="file"
-          accept=".xls,.xlsx"
-          class="upload_file"
-          @change="readExcel($event)"
-        />
-      </div>-->
-
-     <!-- <div class="text-center my-3">
-        <b-button id="tooltip-target-1">
-          Hover Me
-        </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover" placement="Tooltip on the right">
-          I am tooltip  content!
-        </b-tooltip>
-      </div>-->
-     <!-- <div>
-        <b-button id="show-btn" @click="showModal">Open Modal</b-button>
-        <b-button id="toggle-btn" @click="toggleModal">Toggle Modal</b-button>
-
-        <b-modal ref="my-modal" hide-footer title="Using Component Methods">
-          <div class="d-block text-center">
-            <h3>Hello From My Modal!</h3>
-          </div>
-          <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
-          <b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
-        </b-modal>
-      </div>-->
-      <!--<table class="msg">
-        <tr>
-          <th><span>姓名:</span>{{tableData.name}}</th>
-          <th><span>性别:</span>{{tableData.sex}}</th>
-          <th><span>年龄:</span>{{tableData.age}}</th>
-        </tr>
-        <tr>
-          <th><span>学号:</span>{{tableData.code}}</th>
-          <th><span>身高:</span>{{tableData.height}}</th>
-          <th><span>地址:</span>{{tableData.address}}</th>
-        </tr>
-
-      </table>-->
+      <UserMess></UserMess>
+        <b-button @click="query()">测试1</b-button>
+        <b-button @click="test1()">测试</b-button>
     </div>
 </template>
 <script>
@@ -78,13 +26,20 @@ import UserMess from "components/content/usermess/UserMess";
   export default {
 
     methods:{
+      toIndex(){
+        this.$router.push('./index');
+      },
       test1(){
         console.log(this.$store.state.admin.userForm);
       },
       query() {
         /*this.$store.commit('updateLoginForm',this.loginForm)*/
+        let init = [{
+          claId:1039,
+          stId:2
+        }]
         this.$store
-          .dispatch('admin/query')
+          .dispatch('admin/insertInfo/segment/class/submit',init)
           .then(result => {
             if (result==='success')
               console.log(3333333);
@@ -156,5 +111,8 @@ header{
   .msg tr th span{
     color: #b1b1b1;
   }
-
+#nav_manager-department {
+  width: 60%;
+  margin: 0 auto;
+}
 </style>

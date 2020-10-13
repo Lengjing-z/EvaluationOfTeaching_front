@@ -4,7 +4,6 @@
     <div id="list" class="row container">
       <Function v-for="item in functionDataList" :key="item.title" :title="item.title" :icon="item.icon" :url="item.url"></Function>
     </div>
-
     <Function></Function>
   </div>
 
@@ -26,17 +25,17 @@ export default {
       functionDataList:[
         {
           "title": "用户管理",
-          "url": "",
+          "url": "usermanager",
           "icon": "#icon-tuanxuezhaoxin"
         },
         {
           "title": "课程管理",
-          "url": "",
+          "url": "coursemanager",
           "icon": "#icon-tubiaozhizuomoban28"
         },
         {
           "title": "班级管理",
-          "url": "",
+          "url": "classmana",
           "icon": "#icon-tubiaozhizuomoban7"
         },
         {
@@ -61,17 +60,17 @@ export default {
         },
         {
           "title": "评教老师",
-          "url": "",
+          "url": "pinteacher",
           "icon": "#icon-banxuepinggu"
         },
         {
           "title": "查看评价结果(学生)",
-          "url": "",
+          "url": "test",
           "icon": "#icon-tubiaozhizuomoban26"
         },
         {
           "title": "查看个人信息",
-          "url": "",
+          "url": "mess",
           "icon": "#icon-xueshengdangan"
         },
         {
@@ -101,7 +100,6 @@ export default {
   },
   methods: {
     limits() {
-
 
     },
 

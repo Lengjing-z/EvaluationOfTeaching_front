@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-modal id="function" size="lg" hide-footer title="评教" >
       <div class="tableDiv">
         <div class="grxx">
           <div id = "xsxm">姓名</div>
@@ -33,7 +32,6 @@
           <b-button variant="success" class="">提交</b-button>
         </div>
       </div>
-    </b-modal>
   </div>
 </template>
 
@@ -49,8 +47,8 @@
     props:{
     },
     created() {
-      this.finishedlist = this.$store.state.evaluation.finishedlist
-      // console.log(this.finishedlist)
+      this.finishedlist = this.$store.state.evaluation.finishedlist;
+      console.log(this.finishedlist)
     }
   }
 </script>

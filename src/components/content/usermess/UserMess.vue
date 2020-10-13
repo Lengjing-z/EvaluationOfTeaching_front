@@ -1,20 +1,6 @@
 <template>
-  <div style="width: 60%;margin: 20px auto">
+  <div style="width: 40%;margin: 20px auto">
     <b-form @submit="onSubmit"  @reset="onReset" v-if="show">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          required
-          placeholder="Enter email"
-        ></b-form-input>
-      </b-form-group>
 
       <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
         <b-form-input
@@ -25,10 +11,68 @@
         ></b-form-input>
       </b-form-group>
 
+      <b-form-group label="Your Code:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.code"
+          required
+          placeholder="Enter code"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your Age:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.age"
+          required
+          placeholder="Enter code"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your Code:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.sex"
+          required
+          placeholder="Enter code"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your Height:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.height"
+          required
+          placeholder="Enter code"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your college:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.institute.name"
+          required
+          placeholder="Enter code"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-1"
+        label="Your introduce:"
+        label-for="input-1"
+        description="We'll never share your email with anyone else.">
+        <b-form-input
+          id="input-1"
+          v-model="form.intr1"
+          type="email"
+          required
+          placeholder="Enter email"></b-form-input>
+      </b-form-group>
+
       <b-form-group id="input-group-3" label="Food:" label-for="input-3">
         <b-form-select
           id="input-3"
-          v-model="form.food"
+          v-model="form.intr"
           :options="foods"
           required
         ></b-form-select>
@@ -60,9 +104,18 @@ export default {
     return {
       form: {
         email: '',
+        institute:{
+          name:'',
+        },
         name: '',
         food: null,
-        checked: []
+        checked: [],
+        addr:'',
+        age:'',
+        code:'',
+        height:'',
+        intr1:'',
+        sex:'',
       },
       foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
       show: true
@@ -74,8 +127,10 @@ export default {
       alert(JSON.stringify(this.form))
     },
     init(){
+      this.form = this.$store.state.info.mine;
       this.form.name = this.$store.state.info.mine.name;
-      console.log(i)
+      this.form.intr1 = this.$store.state.info.mine.intr;
+      console.log(this.$store.state.info.mine.intr)
     },
     onReset(evt) {
       evt.preventDefault()

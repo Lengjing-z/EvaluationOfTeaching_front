@@ -1,7 +1,6 @@
-import myAxios from "../../../network/request";
-import post from "../../util";
+import post from "../../../../util";
 import qs from 'qs'
-const baseUrl = 'admin/course/'
+const baseUrl = 'admin/insertInfo/segment/class/'
 export default {
   namespaced:true,
   state:{
@@ -18,11 +17,6 @@ export default {
     }
   },
   actions:{
-    loadQuery({commit},condition){
-      return post(baseUrl+'query',qs.stringify(condition),res=>{
-        commit('updateQuery',res.data)
-      })
-    },
     create({state},init){
       console.log(init);
       return post(baseUrl+'create',init,res=>{
@@ -30,15 +24,13 @@ export default {
         return res.data
       })
     },
-    query({commit},coursename){
-      console.log(coursename + '1111');
-      return post(baseUrl+'query',qs.stringify(coursename),res=>{
+    submit({status},init){
+      console.log(init);
+      return post(baseUrl+'submit',init,res=>{
         console.log('success');
-        console.log(res.data);
-        commit('updateQuery',res.data)
         return res.data
       })
-    }
+    },
   },
   modules:{},
   getters:{}
