@@ -63,7 +63,11 @@ export default {
     return {}
   },
   created: function () {
-
+    this.$store.dispatch("beEvaluation/institute/getAll")
+      .then(res =>{
+        console.log(res)
+        this.questionnaireList = this.$store.state.beEvaluation.institute.all
+      })
   },
   mounted() {
     this.$store.dispatch('admin/power/loadAll')

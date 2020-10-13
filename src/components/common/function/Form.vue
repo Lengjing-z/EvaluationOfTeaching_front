@@ -49,8 +49,9 @@
     props:{
     },
     created() {
+
       this.finishedlist = this.$store.state.evaluation.finishedlist
-      // console.log(this.finishedlist)
+      console.log(this.finishedlist)
     }
   }
 </script>

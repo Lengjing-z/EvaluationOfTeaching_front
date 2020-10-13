@@ -33,7 +33,6 @@ export default {
     all:[],
     query:[],
     update:[],
-    queryUserPower:[]
   },
   mutations:{
     updateAll(state,data){
@@ -44,9 +43,6 @@ export default {
     },
     updateUp(state,data){
       state.update = data
-    },
-    updateQueryUserPower(state,data){
-      state.queryUserPower = data
     }
   },
   actions:{
@@ -58,6 +54,7 @@ export default {
         return true
       })
     },
+    //  查询用户权限 根据uid
     loadQuery({commit},condition){
       return post(baseUrl+'query',condition,res=>{
         commit('updateQuery',res.data)
@@ -76,15 +73,8 @@ export default {
         post(baseUrl+'add',add,res=>res.data)
       ])
     },
-  //  查询用户权限 根据uid
-    queryUserPowerById({commit},uid){
-      commit('updateQueryUserPower',[])
-      return post(baseUrl + 'query', {'uid': uid}, res => {
-        commit('updateQuery',res.data)
-        console.log("queryUserPowerById",res.data)
-        return true
-      });
-    },
+
+
 
 
   },

@@ -85,6 +85,11 @@ export default {
           "icon": "#icon-chengjishouji"
         },
         {
+          "title": "问卷统计（老师）",
+          "url": "teacherQuestionnaireFinishStatistics",
+          "icon": "#icon-tubiaozhizuomoban28"
+        },
+        {
           "title": "正在评教问卷状态",
           "url": "",
           "icon": "#icon-pinggugongzuo"
@@ -93,7 +98,8 @@ export default {
           "title": "所授班级和课程",
           "url": "",
           "icon": "#icon-tubiaozhizuomoban28"
-        }
+        },
+
       ]
     }
   },
