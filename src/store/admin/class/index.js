@@ -28,6 +28,15 @@ export default {
         console.log('success');
         return res.data
       })
+    },
+    query({commit},classname){
+      console.log(classname + '1111');
+      return post(baseUrl+'query',qs.stringify(classname),res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery',res.data)
+        return res.data
+      })
     }
   },
   modules:{},

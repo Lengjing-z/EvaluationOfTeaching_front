@@ -72,11 +72,7 @@ export default {
         post(baseUrl+'del',del,res=>res.data),
         post(baseUrl+'add',add,res=>res.data)
       ])
-    },
-
-
-
-
+    }
   },
   modules:{},
   getters:{
@@ -85,5 +81,8 @@ export default {
       // console.log(transalteListToTree(state.all))
       return transalteListToTree(state.all);
     },
+    getUserPowers(state){
+      return state.query
+    }
   }
 }

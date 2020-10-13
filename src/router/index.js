@@ -2,6 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Manager from "views/manager/Manager";
 import Mess from "views/mess/Mess";
+import MessCard from "components/content/messcard/MessCard";
+import UserManager from "components/content/usermanager/UserManager";
+import CourseManager from "components/content/coursemanager/CourseManager";
+import ClassMana from "components/content/classmana/ClassMana";
+import PinTeacher from "components/content/pinteacher/PinTeacher";
+import Test from "components/content/test/Test";
 
 const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
@@ -46,6 +52,36 @@ const routes = [
     path: '/manager',
     name: 'Manager',
     component: Manager
+  },
+  {
+    path: '/usermanager',
+    name: 'UserManager',
+    component: UserManager
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  },
+  {
+    path: '/pinteacher',
+    name: 'PinTeacher',
+    component: PinTeacher
+  },
+  {
+    path: '/classmana',
+    name: 'ClassMana',
+    component: ClassMana
+  },
+  {
+    path: '/coursemanager',
+    name: 'CourseManager',
+    component: CourseManager
+  },
+  {
+    path: '/messcard',
+    name: 'MessCard',
+    component: MessCard
   },
   {
     path: '/mess',

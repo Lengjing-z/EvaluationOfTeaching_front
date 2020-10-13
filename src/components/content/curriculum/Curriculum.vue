@@ -6,6 +6,24 @@
       <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
       margin-left: 15px;
       " variant="outline-success">批量导入</b-button>
+      <!--搜索框-->
+      <div class="seach_course">
+        <b-form inline>
+          <label class="sr-only">Name</label>
+          <b-input
+            id="inline-form-input-name"
+            class="mb-2 mr-sm-2 mb-sm-0"
+            v-model="coursename"
+            placeholder="Jane Doe"
+          ></b-input>
+          <label class="sr-only">Username</label>
+          <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
+            <b-input id="inline-form-input-username" placeholder="Username"></b-input>
+          </b-input-group>
+
+          <b-button variant="primary" @click="serchCourse()">Seach</b-button>
+        </b-form>
+      </div>
     </header>
 
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -14,7 +32,7 @@
         <div id="img">{{ClassData[index].id}}</div>
       </div>
       <div class="member-info">
-        <h4>{{ ClassData[index].classname }}</h4>
+        <h4>{{ ClassData[index].name }}</h4>
         <h5>PinYing</h5>
         <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
 
@@ -33,9 +51,9 @@
       </div>
     </div>
 
-    <b-modal scrollable="true" id="my-modal4" size="xl" title="导入用户信息">
+    <b-modal  id="my-modal4" size="xl" title="导入用户信息">
       <div class="container111">
-        {{ upload_file || "导入" }}
+        {{ "导入" }}
         <input
           type="file"
           accept=".xls,.xlsx"
@@ -56,7 +74,6 @@
 
         <b-pagination
           v-model="currentPage"
-          :total-rows="rows"
           :per-page="perPage"
           aria-controls="my-table"
         ></b-pagination>
@@ -69,8 +86,7 @@
           show-footer
           class="mytable-scrollbar"
           height="400"
-          :footer-method="footerMethod"
-          :data="tableData">
+          >
           <vxe-table-column type="seq" width="60" fixed="left"></vxe-table-column>
           <vxe-table-column field="name" title="Name" width="150"></vxe-table-column>
           <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
@@ -102,7 +118,7 @@
            </vxe-form-item>-->
           <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.classname" id="classId" placeholder="请输入课程名" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="formData2.name" id="classId" placeholder="请输入课程名" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
 
@@ -118,7 +134,7 @@
       <b-button class="mt-3" variant="outline-danger" block @click="hideModal111">Close Me</b-button>
     </b-modal>
 
-    <b-modal ref="my-modal" hide-footer title="班级信息管理">
+    <b-modal ref="my-modal" hide-footer title="课程信息管理">
       <div class="d-block text-center">
         <vxe-form
           ref="xForm"
@@ -127,7 +143,6 @@
           title-width="100"
           :data="formData2"
           :rules="formRules2"
-          :loading="loading2"
           @submit="submitEvent2(index)"
           @reset="resetEvent">
           <!-- <vxe-form-item title="班级id" field="name" span="24">
@@ -135,9 +150,9 @@
                <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
              </template>
            </vxe-form-item>-->
-          <vxe-form-item title="班级名" field="code" span="24">
+          <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.name" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="formData2.classname" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
 
@@ -161,6 +176,20 @@ import XLSX from "xlsx";
 export default {
 name: "Curriculum",
   methods:{
+    serchCourse(){
+      console.log(this.coursename);
+      this.$store
+        .dispatch('admin/course/query',{name:this.coursename})
+        .then(result => {
+          if (result==='success')
+            console.log('this' + '  ' + 'success');
+          this.ClassData = this.$store.state.admin.course.creations;
+            console.log(this.$store.state.admin.course.creations);
+        /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
+    },
     submit_form() {
       // 给后端发送请求，更新数据
       console.log("假装给后端发了个请求...");
@@ -207,7 +236,7 @@ name: "Curriculum",
             .then(result => {
               if (result==='success')
                 console.log(3333333);
-              this.tableData = this.$store.state.admin.user.userForm;
+              /*this.tableData = this.$store.state.admin.user.userForm;*/
             }).then(()=>{
             /*this.$router.push('index')*/
           })
@@ -229,12 +258,11 @@ name: "Curriculum",
     showModal(index) {
       console.log(index);
       this.$refs['my-modal'].show();
-      this.formData2.name = this.ClassData[index].classname;
+      this.formData2.classname = this.ClassData[index].name;
+      console.log(this.formData2);
     },
     submitEvent2 (index) {
-      this.loading2 = true
       setTimeout(() => {
-        this.loading2 = false;
         this.$refs['my-modal'].toggle('#toggle-btn')
         this.$XModal.message({ message: '保存成功', status: 'success' })
 
@@ -245,9 +273,7 @@ name: "Curriculum",
       this.$refs['my-modal'].hide()
     },
     submitEvent3 (index) {
-      this.loading2 = true
       setTimeout(() => {
-        this.loading2 = false;
         this.$refs['my-modal1'].toggle('#toggle-btn')
         this.$XModal.message({ message: '保存成功', status: 'success' })
         console.log(this.formData2.classname);
@@ -257,7 +283,7 @@ name: "Curriculum",
           .then(result => {
             if (result==='success')
               console.log(3333333);
-            this.tableData = this.$store.state.admin.user.userForm;
+            /*this.tableData = this.$store.state.admin.user.userForm;*/
           }).then(()=>{
           /*this.$router.push('index')*/
         })
@@ -276,6 +302,7 @@ name: "Curriculum",
 
   data(){
     return{
+      coursename:'',
       perPage: 15,//每页数据条数
       currentPage: 1,
       userMessage:[],//存放导入的数据
@@ -300,32 +327,32 @@ name: "Curriculum",
       ClassData:[
         {
           id:1,
-          classname: '数据库从删库到跑路',
+         name: '数据库从删库到跑路',
         },
         {
           id:2,
-          classname: 'Android从入门到改行',
+         name: 'Android从入门到改行',
         },
         {
           id:3,
-          classname: 'C#从入门到放弃',
+         name: 'C#从入门到放弃',
         },
         {
           id:4,
-          classname: 'Java从精通到陌生',
+          name: 'Java从精通到陌生',
         },
         {
           id:5,
-          classname: 'JS全栈从入门到单身狗',
+          name: 'JS全栈从入门到单身狗',
 
         },
         {
           id:6,
-          classname: 'SQl Serve从没入门就放弃',
+          name: 'SQl Serve从没入门就放弃',
         },
         {
           id:7,
-          classname: 'C语言从入门到看开',
+          name: 'C语言从入门到看开',
         }
       ],
     }
@@ -334,6 +361,9 @@ name: "Curriculum",
 </script>
 
 <style scoped>
+.seach_course{
+  margin-top:15px;
+}
 /*滚动条整体部分*/
 .mytable-scrollbar div::-webkit-scrollbar {
   width: 10px;
@@ -388,11 +418,12 @@ body{
 }
 /*= common css to all effects =*/
 .single-member{
+  margin-left: -20px;
   width: 280px;
   height: 250px;
   float: left;
   margin: 10px 2.5%;
-  margin-top:30px;
+  margin-top:40px;
   background-color: #fff;
   text-align: center;
   position: relative;

@@ -1,6 +1,7 @@
 <template>
 
   <div class="messcord" >
+
       <div>
         <h3>学生信息管理</h3>
         <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
@@ -71,7 +72,6 @@
             title-width="100"
             :data="formData2"
             :rules="formRules2"
-            :loading="loading2"
             @submit="submitEvent2(index)"
             @reset="resetEvent">
             <vxe-form-item title="名称" field="name" span="24">
@@ -112,9 +112,9 @@
       </b-modal>
     </div>
 <!--批量导入-->
-    <b-modal scrollable="true" id="my-modal1" size="xl" title="导入用户信息">
+    <b-modal  id="my-modal1" size="xl" title="导入用户信息">
       <div class="container111">
-        {{ upload_file || "导入" }}
+        {{ "导入" }}
         <input
           type="file"
           accept=".xls,.xlsx"
@@ -156,6 +156,9 @@ export default {
     }
   },
   methods:{
+    toIndex(){
+      this.$router.push('./index');
+    },
     test1(){
       console.log(this.$store.state.admin.userForm);
     },
@@ -169,7 +172,6 @@ export default {
           if (result==='success')
             console.log(3333333);
             this.tableData = this.$store.state.admin.user.userForm;
-
         }).then(()=>{
         /*this.$router.push('index')*/
       })
@@ -180,15 +182,8 @@ export default {
     hideModal111() {
       this.$refs['my-modal'].hide()
     },
-    toggleModal111() {
-      // We pass the ID of the button that we want to return focus to
-      // when the modal has hidden
-
-    },
     submitEvent2 (index) {
-      this.loading2 = true
       setTimeout(() => {
-        this.loading2 = false;
         this.$refs['my-modal'].toggle('#toggle-btn')
         this.$XModal.message({ message: '保存成功', status: 'success' })
         console.log(index);
@@ -199,24 +194,6 @@ export default {
     },
     resetEvent () {
       this.$XModal.message({ message: '重置事件', status: 'info' })
-    },
-    seach(){
-
-      console.log(123);
-     /* let valueInput = document.querySelector("#username").value;
-      for(let i = 0 ; i < this.tableData.length; i++){
-        if(this.tableData[i].name == valueInput || this.tableData[i].code == valueInput){
-          this.isAll = false;
-          this.isOne = true;
-          this.Uaddr = this.tableData[i].address;
-          this.Uage = this.tableData[i].age;
-          this.Ucode = this.tableData[i].code;
-          this.Uheight = this.tableData[i].height;
-          this.Uname = this.tableData[i].name;
-          this.Uindex = i;
-        }
-
-      }*/
     },
     showModal(index) {
       console.log(index);

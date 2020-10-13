@@ -6,6 +6,23 @@
       <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
       margin-left: 15px;
       " variant="outline-success">批量导入</b-button>
+      <div class="seach_class">
+        <b-form inline>
+          <label class="sr-only">Name</label>
+          <b-input
+            id="inline-form-input-name"
+            class="mb-2 mr-sm-2 mb-sm-0"
+            v-model="classname"
+            placeholder="Jane Doe"
+          ></b-input>
+          <label class="sr-only">Username</label>
+          <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
+            <b-input id="inline-form-input-username" placeholder="Username"></b-input>
+          </b-input-group>
+
+          <b-button variant="primary" @click="serchClass()">Seach</b-button>
+        </b-form>
+      </div>
     </header>
 
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -14,7 +31,7 @@
         <div id="img">{{ClassData[index].id}}</div>
       </div>
       <div class="member-info">
-        <h4>{{ ClassData[index].classname }}</h4>
+        <h4>{{ ClassData[index].name }}</h4>
         <h5>PinYing</h5>
         <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
 
@@ -51,9 +68,9 @@
       </b-modal>
     </div>
 
-    <b-modal scrollable="true" id="my-modal4" size="xl" title="导入用户信息">
+    <b-modal id="my-modal4" size="xl" title="导入用户信息">
       <div class="container111">
-        {{ upload_file || "导入" }}
+        {{ "导入" }}
         <input
           type="file"
           accept=".xls,.xlsx"
@@ -74,7 +91,6 @@
 
         <b-pagination
           v-model="currentPage"
-          :total-rows="rows"
           :per-page="perPage"
           aria-controls="my-table"
         ></b-pagination>
@@ -159,6 +175,20 @@ export default {
 
   name: "ClassManager",
   methods:{
+    serchClass(){
+      console.log(this.classname);
+      this.$store
+        .dispatch('admin/class/query',{name:this.classname})
+        .then(result => {
+          if (result==='success')
+            console.log('this' + '  ' + 'success');
+          this.ClassData = this.$store.state.admin.class.query;
+          console.log(this.$store.state.admin.class.query);
+          /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
+    },
     showModal3(index) {
       this.$refs['my-modal2'].show();
     },
@@ -275,6 +305,7 @@ export default {
 
 data(){
   return{
+    classname:'',
     perPage: 15,//每页数据条数
     currentPage: 1,
     userMessage:[],//存放导入的数据
@@ -426,28 +457,28 @@ data(){
     ClassData:[
       {
         id:1,
-        classname: '1790001',
+       name: '1790001',
       },
       {
         id:2,
-        classname: '1790002',
+        name: '1790002',
       },
       {
         id:3,
-        classname: '1790003',
+        name: '1790003',
       },
       {
         id:4,
-        classname: '1790004',
+        name: '1790004',
       },
       {
         id:5,
-        classname: '1790005',
+        name: '1790005',
 
       },
       {
         id:6,
-        classname: '1790006',
+        name: '1790006',
       }
     ],
   }
@@ -456,6 +487,9 @@ data(){
 </script>
 
 <style scoped>
+.seach_class{
+  margin-top: 20px;
+}
 .container111 {
   border: none;
   border-radius: 4px;

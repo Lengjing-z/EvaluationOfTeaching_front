@@ -114,8 +114,6 @@
         <target-value :target-temp-tree="targetTempTree" :user-message="userMessage"
                       @changeuserMessage="changeuserMessage"></target-value>
       </b-modal>
-
-
     </b-modal>
 
   </div>
