@@ -1,7 +1,7 @@
 import myAxios from "network/request"
 import qs from 'qs'
 import post from "@/store/util";
-
+let baseUrl = 'http://localhost:8080/back/'
 export default {
   namespaced: true,
   state: {
@@ -23,7 +23,7 @@ export default {
   actions: {
     getAll({commit}) {
       // 获得所有同行跑评教列表
-      return myAxios.post("/beEvaluation/institute/all")
+      return myAxios.post(baseUrl+"beEvaluation/institute/all")
         .then(res => {
           commit("updateAll", res.data)
           console.log("beEvaluation/institute/all", res.data)
@@ -35,12 +35,12 @@ export default {
 
     },
     getDetail({commit}, root) {
-      return post("beEvaluation/institute/detail", {}, res => {
+      return post(baseUrl+"beEvaluation/institute/detail", {}, res => {
         commit("updateAll", res.data)
       })
     },
     getProgress({commit}, sttId) {
-      return post("beEvaluation/institute/progress", qs.stringify({sttId: sttId}), res => {
+      return post(baseUrl+"beEvaluation/institute/progress", qs.stringify({sttId: sttId}), res => {
         commit("updateProgress", res.data)
         console.log("beEvaluation/institute/progress", res.data)
         return true

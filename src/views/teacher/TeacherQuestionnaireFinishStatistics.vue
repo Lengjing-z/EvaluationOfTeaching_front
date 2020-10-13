@@ -3,15 +3,15 @@
     <nav-bar></nav-bar>
     <manager-setting :manager="manager"></manager-setting>
     <div class='all d-none d-lg-block'>
-      <div class='box'>
-        <a href='#'>
+      <div class='box' @click="toStudent">
+        <a  >
           <div class='card bg-01'><span class='card-content'>
             <router-link to="/teacherQuestionnaireFinishStatistics/student">student</router-link>
           </span></div>
         </a>
       </div>
-      <div class='box'>
-        <a href='#'>
+      <div class='box' @click="toTeacher">
+        <a >
           <div class='card bg-02'><span class='card-content'>
             <router-link to="/teacherQuestionnaireFinishStatistics/teacher">teacher</router-link>
           </span></div>
@@ -46,7 +46,24 @@ export default {
     }
   },
   created() {
-
+    this.$store.dispatch("beEvaluation/institute/getAll")
+      .then(res =>{
+        console.log(res)
+      })
+  },
+  methods:{
+    toStudent(){
+      this.$store.dispatch("beEvaluation/course/getAll")
+        .then(res =>{
+        console.log(res)
+      })
+    },
+    toTeacher(){
+      this.$store.dispatch("beEvaluation/institute/getAll")
+        .then(res =>{
+          console.log(res)
+        })
+    }
   },
   components: {
     NavBar,

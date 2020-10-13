@@ -10,10 +10,9 @@
         :powers="item.powers"
 
       />
-      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"
-      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"
+<!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
+<!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
     </div>
-    <Function></Function>
   </div>
 
 </template>
@@ -107,7 +106,7 @@ export default {
           "title": "所授班级和课程",
           "url": "",
           "icon": "#icon-tubiaozhizuomoban28"
-        },
+        }
 
       ]
     }
