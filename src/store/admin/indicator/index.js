@@ -1,13 +1,12 @@
 import myAxios from "network/request"
 import qs from "qs"
-function translateTreeToList(tree) {
-  const li = [];
+function translateTreeToList(tree,li) {
   li.push(tree)
   tree.children.forEach(child=>{
     child.parent = tree
     translateTreeToList(child,li)
   })
-  return li;
+  tree.children = null
 }
 
 function transalteListToTree(li) {
@@ -21,6 +20,7 @@ function queryNodeByPa(li, paId) {
 }
 
 function dfs(node, li) {
+  if(node === undefined || node === null) return
   node.children = queryNodeByPa(li, node.id)
   node.children.forEach(item => dfs(item, li))
 }
@@ -86,15 +86,17 @@ export default {
         })
     },
     createIndicator({commit},newIndicator){
-      const list = translateTreeToList(newIndicator)
-      console.log("list")
-      console.log(list)
-      return myAxios.post("admin/indicator/create",qs.stringify(list))
+      console.log("newIndicator",newIndicator)
+      let li = [];
+      translateTreeToList(newIndicator[0],li)
+      console.log("list",JSON.stringify(li))
+      return myAxios.post("admin/indicator/create",li)
         .then(res =>{
-          console.log(res)
-          return "createIndicator success"
+          console.log("createIndicator success")
+          return true
         }).catch(err =>{
           console.log(err)
+          return false
         })
     },
     createQuestionnaire({commit},data){

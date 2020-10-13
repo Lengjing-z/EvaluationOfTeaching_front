@@ -5,19 +5,21 @@
       row-key
       border
       resizable
-      ref="xTable"
+      ref="xtargetDataChildren"
       :loading="loading"
-      :tree-config="{children: 'children',line: true}"
-      :data="targetData"
+      :tree-config="{children: 'children',line:true}"
+      :expand-config="{labelField: 'name', expandAll: false}"
+      :data="targetDataChildren"
       :edit-config="{trigger: 'dblclick', mode: 'cell'}"
-      :edit-rules="validRules"
     >
-      <vxe-table-column title="ID" type="seq" min-width="100" tree-node></vxe-table-column>
-      <vxe-table-column field="name" title="Name" show-overflow="tooltip" :edit-render="{name: 'input', immediate: true, attrs: {type: 'text'}}"></vxe-table-column>
-      <vxe-table-column field="weight" title="Weight(%)" :edit-render="{name: '$input', props: {type: 'int', digits: 2}}"></vxe-table-column>
-      <vxe-table-column title="Setting" :resizable="false" >
+      <!--      <vxe-table-column title="ID" field="id"></vxe-table-column>-->
+      <vxe-table-column field="name" title="Name" show-overflow="tooltip" tree-node
+                        :edit-render="{name: 'input', immediate: true, attrs: {type: 'text'}}"></vxe-table-column>
+      <vxe-table-column field="rate" title="Weight(%)"
+                        :edit-render="{name: '$input', props: {type: 'int', digits: 2}}"></vxe-table-column>
+      <vxe-table-column title="Setting" :resizable="false">
         <template v-slot="{ row }">
-          <vxe-button @click="insertEvent(row)">添加指标</vxe-button>
+          <vxe-button @click="insertTarget(row)">添加指标</vxe-button>
           <vxe-button @click="deleteTarget(row)">删除指标</vxe-button>
           <!--          <vxe-button @click="showDetailEvent(row)">添加{{ row.name }}</vxe-button>-->
 
@@ -40,44 +42,57 @@ export default {
   data() {
     return {
       loading: false,
-      increase: 2,
       validRules: {
-        weight: [
-          { pattern: '/^(?:0|[1-9][0-9]?|100)$/', message: '格式不正确' }
+        rate: [
+          {pattern: "/^(?:0|[1-9][0-9]?|100)$/", message: "格式不正确"}
         ]
-      }
+      },
+      target: [],
+      maxid: 0
     }
   },
-  props:{
-    targetData:{
+  props: {
+    targetDataChildren: {
       type: Array,
-      default () {
+      default() {
         return {}
       }
-    }
+    },
+    mid: Number
+  },
+  computed: {},
+  beforeUpdate() {
+    this.maxid = this.mid
+    // console.log("c", this.maxid)
   },
   methods: {
-    insertEvent(row) {
+    insertTarget(row) {
       let newData = {
-        id: this.increase++,
-        name: 'target'+this.increase,
-        weight: 50,
+        id: ++this.maxid,
+        name: 'targetName',
+        rate: 0.5,
+        end:false,
+        paNode:row.id,
         children: []
       }
+      this.$refs.xtargetDataChildren.clearTreeExpand()
       row.children.push(newData)
+      this.$refs.xtargetDataChildren.setAllTreeExpand(true)
     },
-  deleteTarget(row){
-    this.dfs(row,this.targetData)
-  },
-  dfs(row,ls){
-    ls.forEach((item,index)=>{
-      if (item===row){
-        ls.splice(index,1)
-      }else{
-        this.dfs(row,item.children)
-      }
-    })
-  }
+    deleteTarget(row) {
+      this.$refs.xtargetDataChildren.clearTreeExpand()
+      this.dfs(row, this.targetDataChildren)
+      this.$refs.xtargetDataChildren.setAllTreeExpand(true)
+    },
+    dfs(row, ls) {
+      ls.forEach((item, index) => {
+        if (item === row) {
+          ls.splice(index, 1)
+        } else {
+          this.dfs(row, item.children)
+        }
+      })
+    }
   }
 }
 </script>

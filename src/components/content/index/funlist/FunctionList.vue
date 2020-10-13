@@ -2,7 +2,16 @@
   <div id="functionlist">
     <h2 class="title">服务</h2>
     <div id="list" class="row container">
-      <Function v-for="item in functionDataList" :key="item.title" :title="item.title" :icon="item.icon" :url="item.url"></Function>
+      <Function v-for="item in functionDataList"
+        :key="item.title"
+        :title="item.title"
+        :icon="item.icon"
+        :url="item.url"
+        :powers="item.powers"
+
+      />
+      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"
+      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"
     </div>
     <Function></Function>
   </div>
@@ -26,7 +35,8 @@ export default {
         {
           "title": "用户管理",
           "url": "usermanager",
-          "icon": "#icon-tuanxuezhaoxin"
+          "icon": "#icon-tuanxuezhaoxin",
+          powers: this.hasAnyPower(1,2,3,5,6,7,8,9)
         },
         {
           "title": "课程管理",
@@ -102,7 +112,13 @@ export default {
     limits() {
 
     },
+    hasAnyPower(){
+      return [...arguments].filter(arg=>this.$store.getters['admin/power/getUserPowers'].some(item=>item.pid == arg))
+    },
 
+  },
+  mounted() {
+      // window.console.log(arguments)
   }
 }
 </script>
@@ -114,7 +130,6 @@ export default {
   border-radius: 5px;
   min-height: 400px;
 }
-
 
 .title {
   font-size: 20px;
@@ -142,8 +157,6 @@ export default {
 .title:hover:after {
   width: 220px;
 }
-
-
 
 #list > div {
   height: 150px;
