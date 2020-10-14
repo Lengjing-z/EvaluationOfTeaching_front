@@ -90,8 +90,13 @@ export default {
         },
         {
           "title": "查看评价结果(老师)",
-          "url": "",
+          "url": "teacherQuestionnaireFinish",
           "icon": "#icon-chengjishouji"
+        },
+        {
+          "title": "问卷统计（老师）",
+          "url": "teacherQuestionnaireFinishStatistics",
+          "icon": "#icon-tubiaozhizuomoban28"
         },
         {
           "title": "正在评教问卷状态",
@@ -102,7 +107,8 @@ export default {
           "title": "所授班级和课程",
           "url": "bethclass",
           "icon": "#icon-tubiaozhizuomoban28"
-        }
+        },
+
       ]
     }
   },

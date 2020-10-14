@@ -25,7 +25,7 @@ module.exports = {
         target: 'http://121.89.205.249:9090',
         changeOrigin: true,
         pathRewrite: {
-          '^/back': ''
+          '^/back': '/'
         }
       }
     }

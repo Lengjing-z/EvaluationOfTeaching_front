@@ -14,9 +14,16 @@ const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
 const Limits = () => import('views/limits/Limits.vue')
 const StudentQuestionnaireFinish = () => import('views/student/StudentQuestionnaireFinish')
-const QuestionnaireManager= () => import('views/admin/questionnaire/QuestionnaireManager')
-const  QuestionnaireProgress = ()=> import('views/admin/questionnaire/QuestionnaireProgress')
-const  QuestionnaireIssue = ()=> import('views/admin/questionnaire/QuestionnaireIssue')
+const QuestionnaireManager = () => import('views/admin/questionnaire/QuestionnaireManager')
+const QuestionnaireProgress = () => import('views/admin/questionnaire/QuestionnaireProgress')
+const QuestionnaireProgressStudent = () => import('views/admin/questionnaire/QuestionnaireProgressStudent')
+const QuestionnaireProgressTeacher = () => import('views/admin/questionnaire/QuestionnaireProgressTeacher')
+const QuestionnaireIssue = () => import('views/admin/questionnaire/QuestionnaireIssue')
+const TeacherQuestionnaireFinishStatistics = () => import('views/teacher/TeacherQuestionnaireFinishStatistics')
+const TeacherQuestionnaireFinish = () => import('views/teacher/TeacherQuestionnaireFinish')
+const TeacherQuestionnaireFinishToStudent = () => import('views/teacher/TeacherQuestionnaireFinishToStudent')
+const TeacherQuestionnaireFinishToTeacher = () => import('views/teacher/TeacherQuestionnaireFinishToTeacher')
+
 
 Vue.use(VueRouter)
 
@@ -92,7 +99,7 @@ const routes = [
     name: 'Limits',
     component: Limits
   },
- {
+  {
     path: '/questionnaireManager',
     name: 'QuestionnaireManager',
     component: QuestionnaireManager
@@ -100,12 +107,54 @@ const routes = [
   {
     path: '/questionnaireProgress',
     name: 'QuestionnaireProgress',
-    component: QuestionnaireProgress
+    component: QuestionnaireProgress,
+    children: [
+      {
+        path: '',
+        redirect:'student',
+      },
+      {
+        path: 'student',
+        name:'QuestionnaireProgressStudent',
+        component:QuestionnaireProgressStudent
+      },
+      {
+        path: 'teacher',
+        name:'QuestionnaireProgressTeacher',
+        component:QuestionnaireProgressTeacher
+      }
+    ]
   },
   {
     path: '/questionnaireIssue',
     name: 'QuestionnaireIssue',
     component: QuestionnaireIssue
+  },
+  {
+    path: '/teacherQuestionnaireFinish',
+    name: 'TeacherQuestionnaireFinish',
+    component: TeacherQuestionnaireFinish
+  },
+  {
+    path: '/teacherQuestionnaireFinishStatistics',
+    name: 'TeacherQuestionnaireFinishStatistics',
+    component: TeacherQuestionnaireFinishStatistics,
+    children: [
+      {
+        path: '',
+        redirect:'teacher',
+      },
+      {
+        path: 'student',
+        name:'TeacherQuestionnaireFinishToStudent',
+        component:TeacherQuestionnaireFinishToStudent
+      },
+      {
+        path: 'teacher',
+        name:'TeacherQuestionnaireFinishToTeacher',
+        component:TeacherQuestionnaireFinishToTeacher
+      }
+    ]
   }
 
 ]

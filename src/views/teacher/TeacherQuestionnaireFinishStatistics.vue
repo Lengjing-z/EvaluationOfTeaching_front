@@ -1,33 +1,30 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <manager-setting :manager = "manager"></manager-setting>
+    <manager-setting :manager="manager"></manager-setting>
     <div class='all d-none d-lg-block'>
       <div class='box'>
         <a href='#'>
           <div class='card bg-01'><span class='card-content'>
-            <router-link to="/questionnaireProgress/student">student</router-link>
+            <router-link to="/teacherQuestionnaireFinishStatistics/student">student</router-link>
           </span></div>
         </a>
       </div>
       <div class='box'>
         <a href='#'>
           <div class='card bg-02'><span class='card-content'>
-            <router-link to="/questionnaireProgress/teacher">teacher</router-link>
+            <router-link to="/teacherQuestionnaireFinishStatistics/teacher">teacher</router-link>
           </span></div>
         </a>
       </div>
     </div>
-    <div class="container mt-3 mb-5">
+    <div class="container mt-3 mb-5" style="min-height: 564px">
       <header>
-        <h3>评教管理</h3>
+        <h3>查看结果</h3>
       </header>
-      <div class="mb-3 mt-3 d-md-block d-lg-none">
-        <router-link to="/questionnaireProgress/student"><b-button id="button-3" variant="outline-success">student</b-button></router-link>
-        <router-link to="/questionnaireProgress/teacher"><b-button id="button-2" variant="outline-success">teacher</b-button></router-link>
-      </div>
 
       <router-view></router-view>
+
     </div>
 
 
@@ -39,30 +36,23 @@
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
 import ManagerSetting from "components/common/Manager/ManagerSetting";
+
 export default {
-  //  评教管理
-  //  查看问卷的状态
-  name: "QuestionnaireProgress",
+  name: "TeacherQuestionnaireFinish",
   data() {
     return {
-      manager:[{name:"评教管理"}],
-      progressQuestionnaires:[]
+      manager: [{name: "学生评教进度"}],
+      questionnaireList: [],
     }
   },
   created() {
-    // this.$store.dispatch("beEvaluation/progressing/getProgressingList")
-    // .then(res =>{
-    //   console.log(res)
-    //   this.progressQuestionnaires = this.$store.state["beEvaluation/progressing/progressingList"]
-    //   console.log(this.progressQuestionnaires)
-    // })
+
   },
-  components:{
+  components: {
     NavBar,
     Footer,
     ManagerSetting,
-  }
-
+  },
 }
 </script>
 
