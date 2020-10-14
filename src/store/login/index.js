@@ -21,6 +21,8 @@ export default {
       let devAccount={
         username: '10100114',
         password: '654321'
+       /* username: '2020100101',
+        password: '123456'*/
       }
 
       return myAxios

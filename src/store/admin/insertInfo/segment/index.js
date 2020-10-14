@@ -1,4 +1,5 @@
 import clazz from './class'
+import course from './course'
 import post from "../../../util";
 export default {
   namespaced: true,
@@ -9,6 +10,7 @@ export default {
   actions:{},
   modules:{
     'class': clazz,
+     course
   },
   getters:{}
 }

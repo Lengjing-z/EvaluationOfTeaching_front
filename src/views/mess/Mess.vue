@@ -30,6 +30,18 @@ import UserMess from "components/content/usermess/UserMess";
         this.$router.push('./index');
       },
       test1(){
+        let  init = [{
+          courseId:14,
+          claId:1040,
+          thId:19
+        }]
+        this.$store
+          .dispatch('course/loadTaught',init)
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+          }).then(()=>{
+        })
         console.log(this.$store.state.admin.userForm);
       },
       query() {
@@ -73,6 +85,7 @@ import UserMess from "components/content/usermess/UserMess";
         perPage: 15,//每页数据条数
         currentPage: 1,
         userMessage:[],//存放导入的数据
+        classname:'',
         upload_file: "",
         lists: [],
         tableData:{

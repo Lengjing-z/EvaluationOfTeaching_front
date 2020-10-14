@@ -1,13 +1,22 @@
 import myAxios from "../../../network/request";
 import post from "../../util";
+import qs from "qs";
+const baseUrl = 'admin/questionnaire/'
 export default {
   namespaced:true,
   state:{
-    questionnaireAll:[]
+    questionnaireAll:[],
+    q:{
+      questions:[],
+      indicators:[],
+    }
   },
   mutations:{
     updateQuestionnaireAll(state,data){
       state.questionnaireAll = data
+    },
+    updateQuery(state,data){
+      state.q = data
     }
   },
   actions:{
@@ -21,6 +30,14 @@ export default {
           console.log(err)
           return false
         })
+    },
+    detail({commit},qnId){
+      return post(baseUrl+'detail',qs.stringify({qnId}),res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery',res.data)
+        return res.data
+      })
     },
     deleteQuestionnaireById({commit},id){
       console.log("deleteid",id)

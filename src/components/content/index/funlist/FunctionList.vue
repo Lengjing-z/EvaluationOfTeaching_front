@@ -100,7 +100,7 @@ export default {
         },
         {
           "title": "所授班级和课程",
-          "url": "",
+          "url": "bethclass",
           "icon": "#icon-tubiaozhizuomoban28"
         }
       ]
