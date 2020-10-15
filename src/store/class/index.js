@@ -1,13 +1,15 @@
 import myAxios from "../../network/request";
 const baseUrl = 'class/'
 import post from "../util";
+import qs from "qs";
 
 
 export default {
   namespaced:true,
   state:{
     enrolled:[],
-    taught:[]
+    taught:[],
+    query:[]
   },
   mutations:{
     updateEnrolled(state,data){
@@ -15,6 +17,9 @@ export default {
     },
     updateTaught(state,data){
       state.taught = data
+    },
+    updateQuery(state,data){
+      state.query = data
     }
   },
   actions:{
@@ -28,6 +33,14 @@ export default {
       return post(baseUrl+'taught',{},res=>{
         window.console.log(res.data)
         commit('updateTaught',res.data)
+      })
+    },
+    allEvaluations({commit},cId){
+      return post(baseUrl+'allEvaluations',qs.stringify({cId}),res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery',res.data)
+        return res.data
       })
     }
   },

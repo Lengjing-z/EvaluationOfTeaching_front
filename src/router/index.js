@@ -8,6 +8,7 @@ import CourseManager from "components/content/coursemanager/CourseManager";
 import ClassMana from "components/content/classmana/ClassMana";
 import PinTeacher from "components/content/pinteacher/PinTeacher";
 import Test from "components/content/test/Test";
+import BeThclass from "components/content/bethclass/BeThclass";
 
 const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
@@ -62,6 +63,11 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: Test
+  },
+  {
+    path: '/bethclass',
+    name: 'BeThclass',
+    component: BeThclass
   },
   {
     path: '/pinteacher',

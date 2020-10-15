@@ -47,7 +47,7 @@
     props:{
     },
     created() {
-      this.finishedlist = this.$store.state.evaluation.finishedlist;
+      this.finishedlist = this.$store.state.admin.questionnaire.q.questions;
       console.log(this.finishedlist)
     }
   }

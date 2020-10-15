@@ -9,6 +9,7 @@ import users from './users'
 import course from './course'
 import insertInfo from './insertInfo'
 import evaluation from './evaluation'
+import user from './user'
 export default {
   namespaced: true,
   mutations:{
@@ -25,6 +26,7 @@ export default {
     users,
     course,
     insertInfo,
+    user,
     evaluation
   },
   getters:{}

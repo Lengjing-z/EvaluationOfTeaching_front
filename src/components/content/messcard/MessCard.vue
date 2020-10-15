@@ -24,18 +24,45 @@
         <p>年龄:{{tableData[index].age}}&nbsp&nbsp身高:{{tableData[index].height}}</p>
         <p>家庭住址:{{tableData[index].addr}}</p>
         <b-button-group id="dosomeThing">
-          <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary"@click="showModal(index)">
+          <b-button v-b-tooltip.hover title="修改信息" v-b-modal.my-modal style="width: 60px" variant="outline-primary"@click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover @click="showModal7(tableData[index].id)"  title="老师划分班级,课程" style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
-          <b-button style="width: 60px" variant="outline-primary">
-            <b-icon @click="test()" icon="inbox-fill"></b-icon>
+          <b-button v-b-tooltip.hover @click="showModal6(tableData[index].id)" style="width: 60px" title="学生划分班级" v-b-modal.my-modal6 variant="outline-primary">
+            <b-icon  icon="inbox-fill"></b-icon>
           </b-button>
         </b-button-group>
       </div>
     </div>
+
+    <b-modal ref="my-modal7" hide-footer title="划分班级">
+      <div class="d-block text-center">
+        <vxe-form
+          ref="xForm"
+          class="my-form2"
+          title-align="right"
+          title-width="100"
+          :data="formData2"
+          @submit="submitEvent6(selected)"
+          @reset="resetEvent">
+          <div>
+            <span>请选择班级</span><b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+            <span>请选择课程</span><b-form-select v-model="selected1" :options="options1" size="sm" class="mt-3"></b-form-select>
+            <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+            <div class="mt-3">Selected: <strong>{{ selected1 }}</strong></div>
+          </div>
+          <vxe-form-item align="center" span="24">
+            <template v-slot>
+              <vxe-button type="submit"   status="primary">提交信息</vxe-button>
+              <vxe-button type="reset">重置</vxe-button>
+            </template>
+          </vxe-form-item>
+        </vxe-form>
+      </div>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal1111">Close Me</b-button>
+    </b-modal>
 
     <div v-if="isOne" class="single-member effect-3">
       <div class="member-image">
@@ -54,14 +81,37 @@
             <b-icon icon="person-fill"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
-            <b-icon @click="test()" icon="inbox-fill"></b-icon>
+            <b-icon  icon="inbox-fill"></b-icon>
           </b-button>
         </b-button-group>
       </div>
     </div>
 
     <div>
-
+      <b-modal ref="my-modal6" hide-footer title="划分班级">
+          <div class="d-block text-center">
+            <vxe-form
+              ref="xForm"
+              class="my-form2"
+              title-align="right"
+              title-width="100"
+              :data="formData2"
+              @submit="submitEvent3(selected)"
+              @reset="resetEvent">
+              <div>请选择班级
+                <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+                <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+              </div>
+              <vxe-form-item align="center" span="24">
+                <template v-slot>
+                  <vxe-button type="submit"   status="primary">提交信息</vxe-button>
+                  <vxe-button type="reset">重置</vxe-button>
+                </template>
+              </vxe-form-item>
+            </vxe-form>
+          </div>
+          <b-button class="mt-3" variant="outline-danger" block @click="hideModal1111">Close Me</b-button>
+      </b-modal>
 
       <b-modal ref="my-modal" hide-footer title="Using Component Methods">
         <div class="d-block text-center">
@@ -156,8 +206,46 @@ export default {
     }
   },
   methods:{
+    hideModal1111() {
+      this.$refs['my-modal6'].hide()
+    },
     toIndex(){
       this.$router.push('./index');
+    },
+    submitEvent3(index) {
+      console.log(this.init[0].stId);
+      this.init[0].claId = index;
+      this.$store
+        .dispatch('admin/insertInfo/segment/class/submit',this.init)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+        }).then(()=>{
+      })
+      setTimeout(() => {
+        this.$refs['my-modal6'].toggle('#toggle-btn')
+        this.$XModal.message({ message: '保存成功', status: 'success' })
+        console.log(index);
+      }, 1000)
+    },
+    submitEvent6(index) {
+      console.log(this.init[0].stId);
+     /* this.initClsThCou[0].thId = index;*/
+      this.initClsThCou[0].claId = this.selected;
+      this.initClsThCou[0].courseId = this.selected1;
+      this.$store
+        .dispatch('admin/insertInfo/segment/course/submit',this.initClsThCou)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+        }).then(()=>{
+
+      })
+      setTimeout(() => {
+        this.$refs['my-modal7'].toggle('#toggle-btn')
+        this.$XModal.message({ message: '保存成功', status: 'success' })
+        console.log(index);
+      }, 1000)
     },
     test1(){
       console.log(this.$store.state.admin.userForm);
@@ -175,6 +263,65 @@ export default {
         }).then(()=>{
         /*this.$router.push('index')*/
       })
+    },
+    showModal7(index){
+      this.initClsThCou[0].thId = index;
+      this.$refs['my-modal7'].show();
+      /*老师ID*/  /*classId*/ /*courseid*/
+      /*console.log(index);*///thID
+      /*classid*/
+
+      this.$store
+        .dispatch('admin/course/query',{name:null})
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          let allcourse = this.$store.state.admin.course.creations;
+          for(let i in allcourse){
+            this.options1.push({
+              value:allcourse[i].id,
+              text:allcourse[i].name
+            })
+          }
+          console.log(allcourse);
+        }).then(()=>{
+      })
+
+      this.$store
+        .dispatch('admin/class/query',{name:null})
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          let allclass1 = this.$store.state.admin.class.query;
+          for(let i in allclass1){
+            this.options.push({
+              value:allclass1[i].id,
+              text:allclass1[i].name
+            })
+          }
+        }).then(()=>{
+      })
+      /*courseId*/
+
+    },
+    showModal6(index){
+      this.init[0].stId = index;
+      this.$refs['my-modal6'].show();
+        this.$store
+          .dispatch('admin/class/query',{name:null})
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+            let allclass = this.$store.state.admin.class.query;
+            for(let i in allclass){
+              this.options.push({
+                value:allclass[i].id,
+                text:allclass[i].name
+              })
+            }
+          }).then(()=>{
+
+        })
     },
     showModal111() {
       this.$refs['my-modal'].show()
@@ -256,7 +403,34 @@ export default {
 name: "MessCard",
   data() {
     return {
+      init:[{
+        claId:'',
+        stId:'',
+      }],
+      initClsThCou:[{
+        courseId:'',
+        claId:'',
+        thId:'',
+      }],
+      selected: null,
+      selected1:null,
+      allCourse:{
+        value:'',
+        text:''
+      },
+      allClass: {
+        value:'',
+        text:''
+      },
+      allClass1: {
+        value:'',
+        text:''
+      },
+      options: [
+      ],
+      options1: [
 
+      ],
       username:'',
       Uindex:'',
       Uname:'',
@@ -270,6 +444,8 @@ name: "MessCard",
       currentPage: 1,
       userMessage:[],//存放导入的数据
       formData2 : {
+        classid:'',
+        sid:'',
         name: '',
         code: '',
         password: '',

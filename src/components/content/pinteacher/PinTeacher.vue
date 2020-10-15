@@ -11,7 +11,9 @@
         </b-breadcrumb-item>
         <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价老师</span></b-breadcrumb-item>
       </b-breadcrumb>
+      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="Query()" variant="outline-primary">查询所属班级</b-button>
     </div>
+
     <div class="course">
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
       <div class="member-image">
@@ -27,7 +29,7 @@
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover @click="showModal3(index)" title="评价老师"  style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"  v-b-modal.my-modal2 title="查看所有课程"  style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
@@ -37,12 +39,35 @@
       </div>
     </div>
     </div>
+
     <div>
       <b-modal size="xl" ref="function" hide-footer title="ALl Students Message">
         <Form></Form>
       </b-modal>
     </div>
 
+    <div>
+      <b-modal  ref="my-modal2" hide-footer title="ALl Students Message">
+        <vxe-table
+          border
+          show-footer
+          height="400"
+          :data="tableData">
+          <vxe-table-column type="seq" width="10%" fixed="left"></vxe-table-column>
+          <vxe-table-column field="qnTitle" title="Name" width="60%"></vxe-table-column>
+          <vxe-table-column  title="Do" width="30%">
+            <template v-slot="{ row }">
+              <vxe-button @click="editRowEvent(row)">评教</vxe-button>
+            </template>
+          </vxe-table-column>
+         <!-- <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
+          <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
+          <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
+          <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
+          <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>-->
+        </vxe-table>
+      </b-modal>
+    </div>
 
     <footer>
       <Footer></Footer>
@@ -60,8 +85,40 @@ export default {
 
   },
   methods:{
-    showModal3(index) {
+    editRowEvent(row){
+      console.log(row.qnId);
       this.$refs['function'].show();
+      this.$store
+        .dispatch('admin/questionnaire/detail',row.qnId)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          this.ClassData =   this.$store.state.clazz.taught;
+          this.$bvModal.show("function");
+        }).then(()=>{
+      })
+    },
+    Query(){
+      this.$store
+        .dispatch('clazz/loadTaught')
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          this.ClassData =   this.$store.state.clazz.taught;
+        }).then(()=>{
+      })
+    },
+    showModal3(index) {
+      console.log(index);
+      this.$store
+        .dispatch('clazz/allEvaluations',index)
+        .then(result => {
+          if (result==='success')
+            console.log(3333333);
+          this.tableData =  this.$store.state.clazz.query;
+        }).then(()=>{
+      })
+      this.$refs['my-modal2'].show();
       this.$store.dispatch("evaluation/getStudentDetail",1);
     },
     close(){
@@ -76,6 +133,19 @@ export default {
   },
   data(){
     return{
+      formData: {
+        qnTitle: null,
+        qnId:null,
+        nickname: null,
+        role: null,
+        sex: null,
+        age: null,
+        num: null,
+        checkedList: [],
+        flag1: null,
+        date3: null,
+        address: null
+      },
       ClassData:[
         {
           id:1,
@@ -92,61 +162,72 @@ export default {
           teacher:'刘洋',
           name: 'C#从入门到放弃',
         },
+      ],
+      /*问卷列表*/
+      tableData: [{
+        id:1,
+        sex:"男",
+        qnId: '',
+        password:'123456',
+        height: 175,
+        code: '179000505',
+        date: '2016-05-04',
+        name: '软件工程',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        id:2,
+        sex:"男",
+        age: 18,
+        password:'123456',
+        height: 175,
+        code: '179000506',
+        date: '2016-05-04',
+        name: '任然',
+        address: '上海市普陀区金沙江路 1517 弄'
+      },
         {
+          id:3,
+          password:'123456',
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000507',
+          date: '2016-05-04',
+          name: '李宇蔚',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }, {
           id:4,
-          teacher:'刘洋',
-          name: 'Java从精通到陌生',
+          sex:"男",
+          password:'123456',
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '张三',
+          address: '上海市普陀区金沙江路 1517 弄'
         },
         {
           id:5,
-          teacher:'刘洋',
-          name: 'JS全栈从入门到单身狗',
-
+          password:'123456',
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '杨过',
+          address: '上海市普陀区金沙江路 1517 弄'
         },
         {
+          password:'123456',
           id:6,
-          teacher:'刘洋',
-          name: 'SQl Serve从没入门就放弃',
+          sex:"男",
+          age: 18,
+          height: 175,
+          code: '179000520',
+          date: '2016-05-04',
+          name: '黄天亮',
+          address: '上海市普陀区金沙江路 1517 弄'
         },
-        {
-          id:7,
-          teacher:'刘洋',
-          name: 'C语言从入门到看开',
-        }
-      ],
-      QuesList:[
-        {
-          id:1,
-          ques:'在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）',
-          ansone:'在工具栏中点击“workflow”标签',
-          anstwo:'在缺陷单界面中点击“推进流程”按钮',
-          ansthr:'在缺陷单界面中点击“提交”按钮',
-          ansfor:'后台启动流程推进',
-        },
-        {
-          id:2,
-          ques:'在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）',
-          ansone:'在工具栏中点击“workflow”标签',
-          anstwo:'在缺陷单界面中点击“推进流程”按钮',
-          ansthr:'在缺陷单界面中点击“提交”按钮',
-          ansfor:'后台启动流程推进',
-        },
-        {
-          id:3,
-          ques:'在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）',
-          ansone:'在工具栏中点击“workflow”标签',
-          anstwo:'在缺陷单界面中点击“推进流程”按钮',
-          ansthr:'在缺陷单界面中点击“提交”按钮',
-          ansfor:'后台启动流程推进',
-        },
-        {
-          id:4,
-          ques:'在生产管理信息系统中，下列操作步骤能正确将工单推进流程的是（  ）',
-          ansone:'在工具栏中点击“workflow”标签',
-          anstwo:'在缺陷单界面中点击“推进流程”按钮',
-          ansthr:'在缺陷单界面中点击“提交”按钮',
-          ansfor:'后台启动流程推进',
-        }
       ],
     }
   }
