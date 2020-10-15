@@ -243,6 +243,7 @@ export default {
     // 添加指标
     addtarget(row, index) {
       this.$store.commit("admin/indicator/updateCurrentRow", row)
+
     },
     // 提交问卷
     submitnaire() {
