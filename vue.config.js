@@ -22,7 +22,8 @@ module.exports = {
     port: 8080,
     proxy: {
       'back/': {
-        target: 'http://121.89.205.249:9090',
+        // target: 'http://121.89.205.249:9090',
+        target: 'http://192.168.43.2:9090',
         changeOrigin: true,
         pathRewrite: {
           '^/back': ''

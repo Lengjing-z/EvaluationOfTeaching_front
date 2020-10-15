@@ -30,10 +30,9 @@ export default {
       })
     },
     query({commit},classname){
-      console.log(classname + '1111');
-      return post(baseUrl+'query',qs.stringify(classname),res=>{
-        console.log('success');
-        console.log(res.data);
+      // console.log(classname + '1111');
+      return post(baseUrl+'query',qs.stringify({name:classname}),res=>{
+        console.log("queryClazz",res.data);
         commit('updateQuery',res.data)
         return res.data
       })

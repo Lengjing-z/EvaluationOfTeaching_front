@@ -115,7 +115,7 @@ export default {
             if (res) {
               let li = []
               this.$store.state.admin.questionnaire.allCourse.forEach(item => {
-                let obj = {value: item, text: item.className+"-"+item.coursceName}
+                let obj = {value: item, text: item.className+"/"+item.coursceName+'/'+item.teacherName}
                 li.push(obj)
               })
               this.allSelect = li
@@ -145,7 +145,7 @@ export default {
             if (res) {
               let course = []
               this.$store.state.admin.questionnaire.allCourse.forEach(item => {
-                let obj = {value: item, text: item.className+"-"+item.coursceName}
+                let obj =  {value: item, text: item.className+"/"+item.coursceName+'/'+item.teacherName}
                 course.push(obj)
               })
               this.allSelect = course

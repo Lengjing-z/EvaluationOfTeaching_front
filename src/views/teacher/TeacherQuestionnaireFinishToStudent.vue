@@ -6,9 +6,10 @@
       :tooltip-config="{contentMethod: showTooltipMethod, enterable: true}"
     >
       <vxe-table-column type="seq" width="60"></vxe-table-column>
-      <vxe-table-column field="qTitle" title="问卷名" show-overflow="tooltip"></vxe-table-column>
-      <vxe-table-column field="iName" title="学院"></vxe-table-column>
-      <vxe-table-column field="begainTime" title="开始时间" show-overflow="tooltip"></vxe-table-column>
+      <vxe-table-column field="qnTitle" title="问卷名" show-overflow="tooltip"></vxe-table-column>
+      <vxe-table-column field="claName" title="班级"></vxe-table-column>
+      <vxe-table-column field="cName" title="课程"></vxe-table-column>
+      <vxe-table-column field="beginTime" title="开始时间" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column field="endTime" title="结束时间" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">

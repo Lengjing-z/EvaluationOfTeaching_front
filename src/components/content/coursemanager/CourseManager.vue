@@ -3,15 +3,7 @@
     <header>
       <NavBar></NavBar>
     </header>
-    <div id="nav_manager-user">
-      <b-breadcrumb>
-        <b-breadcrumb-item @click="toIndex()" href="#home">
-          <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
-          首页
-        </b-breadcrumb-item>
-        <b-breadcrumb-item href="#foo">课程管理</b-breadcrumb-item>
-      </b-breadcrumb>
-    </div>
+    <manager-setting :manager="manager"></manager-setting>
     <Curriculum></Curriculum>
     <footer>
       <Footer></Footer>
@@ -23,10 +15,17 @@
 import Curriculum from "components/content/curriculum/Curriculum";
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
+import ManagerSetting from "components/common/Manager/ManagerSetting";
 export default {
   name: "CourseManager",
+  data(){
+    return{
+      manager:[{name:'课程管理'}]
+    }
+  },
   components:{
     Curriculum,
+    ManagerSetting,
     NavBar,
     Footer
   },

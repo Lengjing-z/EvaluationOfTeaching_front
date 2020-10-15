@@ -1,11 +1,12 @@
 <template>
-  <div class="test">
+  <div class="test container">
     <header>
       <h3>课程管理</h3>
-      <b-button style="margin-top: 20px;padding-left: 10px;padding-right: 10px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加课程</b-button>
-      <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
-      margin-left: 15px;
-      " variant="outline-success">批量导入</b-button>
+      <b-button v-b-modal.my-modal1 @click="showModal2"
+                variant="outline-primary">添加课程
+      </b-button>
+      <b-button v-b-modal.my-modal4  variant="outline-success">批量导入
+      </b-button>
       <!--搜索框-->
       <div class="seach_course">
         <b-form inline>
@@ -29,7 +30,7 @@
     <div class="single-member effect-1" v-for="(item,index) in ClassData">
       <div class="member-image">
         <!--<img src="" width="150" height="80" alt="">-->
-        <div id="img">{{ClassData[index].id}}</div>
+        <div id="img">{{ ClassData[index].id }}</div>
       </div>
       <div class="member-info">
         <h4>{{ ClassData[index].name }}</h4>
@@ -37,10 +38,11 @@
         <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
 
         <b-button-group id="dosomeThing">
-          <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
-            <b-icon  icon="tools"></b-icon>
+          <b-button v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
+            <b-icon icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有班级"  style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover @click="showModal3(item)" title="查看所有班级" style="width: 60px"
+                    variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
 
@@ -51,7 +53,7 @@
       </div>
     </div>
 
-    <b-modal  id="my-modal4" size="xl" title="导入用户信息">
+    <b-modal id="my-modal4" size="xl" title="导入用户信息">
       <div class="container111">
         {{ "导入" }}
         <input
@@ -80,20 +82,43 @@
       </div>
     </b-modal>
     <div>
-      <b-modal size="xl" ref="my-modal2" hide-footer title="ALl Students Message">
+
+      <b-modal size="lg" id="my-modal2" hide-footer title="ALl Students Message">
+        <b-button variant="outline-primary" @click="addTeacherToClass()">添加</b-button>
+        <b-modal id="addCourseToTeacher" title="添加老师和班级" hide-footer>
+
+          <vxe-form :data="fromData" @submit="addTeacherToClassBtn">
+            <vxe-form-item title="老师" field="teacher">
+              <template v-slot>
+                <vxe-select v-model="fromData.teacher" placeholder="请选择性别" clearable>
+                  <vxe-option v-for="item in allTeacher" :key="item.id" :value="item" :label="item.name"></vxe-option>
+                </vxe-select>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item title="班级" field="clazz">
+              <template v-slot>
+                <vxe-select v-model="fromData.clazz" placeholder="请选择性别" clearable>
+                  <vxe-option v-for="item in allClazz" :key="item.id" :value="item" :label="item.name"></vxe-option>
+                </vxe-select>
+              </template>
+            </vxe-form-item>
+            <vxe-form-item align="center" span="24">
+              <template v-slot>
+                <vxe-button type="submit" status="primary">基本表单</vxe-button>
+              </template>
+            </vxe-form-item>
+          </vxe-form>
+        </b-modal>
         <vxe-table
           border
           show-footer
           class="mytable-scrollbar"
+          :data="currentCourseAllData"
           height="400"
-          >
+        >
           <vxe-table-column type="seq" width="60" fixed="left"></vxe-table-column>
-          <vxe-table-column field="name" title="Name" width="150"></vxe-table-column>
-          <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
-          <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
-          <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
-          <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
-          <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>
+          <vxe-table-column field="teacherName" title="老师" ></vxe-table-column>
+          <vxe-table-column field="className" title="班级" ></vxe-table-column>
         </vxe-table>
       </b-modal>
     </div>
@@ -118,7 +143,8 @@
            </vxe-form-item>-->
           <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.name" id="classId" placeholder="请输入课程名" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="formData2.name" id="classId" placeholder="请输入课程名" clearable
+                         @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
 
@@ -152,14 +178,15 @@
            </vxe-form-item>-->
           <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.classname" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="formData2.classname" placeholder="请输入班级号" clearable
+                         @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
 
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit"   status="primary">提交信息</vxe-button>
+              <vxe-button type="submit" status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -174,19 +201,19 @@
 import XLSX from "xlsx";
 
 export default {
-name: "Curriculum",
-  methods:{
-    serchCourse(){
+  name: "Curriculum",
+  methods: {
+    serchCourse() {
       console.log(this.coursename);
       this.$store
-        .dispatch('admin/course/query',{name:this.coursename})
+        .dispatch('admin/course/query', {name: this.coursename})
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log('this' + '  ' + 'success');
-          this.ClassData = this.$store.state.admin.course.creations;
-            console.log(this.$store.state.admin.course.creations);
-        /*  this.ClassData = this.$store.state.admin.user.userForm;*/
-        }).then(()=>{
+          this.ClassData = this.$store.state.admin.course.query;
+          // console.log(this.$store.state.admin.course.query);
+          /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+        }).then(() => {
         /*this.$router.push('index')*/
       })
     },
@@ -232,12 +259,12 @@ name: "Curriculum",
           });
           // 给后端发请求
           this.$store
-            .dispatch('admin/course/create',this.userMessage)
+            .dispatch('admin/course/create', this.userMessage)
             .then(result => {
-              if (result==='success')
+              if (result === 'success')
                 console.log(3333333);
               /*this.tableData = this.$store.state.admin.user.userForm;*/
-            }).then(()=>{
+            }).then(() => {
             /*this.$router.push('index')*/
           })
         } catch (e) {
@@ -246,11 +273,48 @@ name: "Curriculum",
       };
       fileReader.readAsBinaryString(files[0]);
     },
-  create(){
-    console.log('test');
-  },
-    showModal3(index) {
-      this.$refs['my-modal2'].show();
+    create() {
+      console.log('test');
+    },
+    showModal3(item) {
+      // console.log("item",item)
+      this.currentRowCourse = item
+      this.$store.dispatch("admin/course/queryCCT", item.id)
+        .then(res => {
+          this.currentCourseAllData = this.$store.state.admin.course.currentCCT
+          console.log(this.$store.state.admin.course.currentCCT)
+          this.$bvModal.show('my-modal2');
+        })
+    },
+    addTeacherToClass() {
+      //  添加课程到老师到班级
+      this.$store.dispatch("admin/users/queryAllTeacher")
+        .then(res => {
+          this.allTeacher = this.$store.state.admin.users.allTeacher
+          this.$store.dispatch("admin/class/query", "")
+            .then(res => {
+              this.allClazz = this.$store.state.admin.class.query
+            })
+        })
+      // console.log(this.allClazz,this.allTeacher)
+      this.$bvModal.show('addCourseToTeacher');
+    },
+    addTeacherToClassBtn() {
+
+      this.$store.dispatch("admin/insertInfo/segment/course/submit",
+        Array({
+          courseId: this.currentRowCourse.id,
+          claId: this.fromData.clazz.id,
+          thId: this.fromData.teacher.id
+        }))
+        this.$store.dispatch("admin/course/queryCCT", this.currentRowCourse.id)
+        .then(res => {
+          this.currentCourseAllData = this.$store.state.admin.course.currentCCT
+          this.$bvModal.hide('addCourseToTeacher');
+          // this.$bvModal.show('my-modal2');
+        })
+
+      // console.log(this.fromData, this.currentRowCourse)
     },
     showModal2(index) {
       this.$refs['my-modal1'].show();
@@ -261,10 +325,10 @@ name: "Curriculum",
       this.formData2.classname = this.ClassData[index].name;
       console.log(this.formData2);
     },
-    submitEvent2 (index) {
+    submitEvent2(index) {
       setTimeout(() => {
         this.$refs['my-modal'].toggle('#toggle-btn')
-        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.$XModal.message({message: '保存成功', status: 'success'})
 
         console.log(index);
       }, 1000)
@@ -272,86 +336,94 @@ name: "Curriculum",
     hideModal111() {
       this.$refs['my-modal'].hide()
     },
-    submitEvent3 (index) {
+    submitEvent3(index) {
       setTimeout(() => {
         this.$refs['my-modal1'].toggle('#toggle-btn')
-        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.$XModal.message({message: '保存成功', status: 'success'})
         console.log(this.formData2.classname);
         // 给后端发请求
         this.$store
-          .dispatch('admin/course/create',this.userMessage)
+          .dispatch('admin/course/create', this.userMessage)
           .then(result => {
-            if (result==='success')
+            if (result === 'success')
               console.log(3333333);
             /*this.tableData = this.$store.state.admin.user.userForm;*/
-          }).then(()=>{
+          }).then(() => {
           /*this.$router.push('index')*/
         })
       }, 1000)
     },
-    searchEvent () {
-      this.$XModal.message({ message: '查询事件', status: 'info' })
+    searchEvent() {
+      this.$XModal.message({message: '查询事件', status: 'info'})
     },
-    resetEvent () {
-      this.$XModal.message({ message: '重置事件', status: 'info' })
+    resetEvent() {
+      this.$XModal.message({message: '重置事件', status: 'info'})
     },
-    test(index){
+    test(index) {
       console.log(this.ClassData[index].code[0]);
     }
   },
 
-  data(){
-    return{
-      coursename:'',
+  data() {
+    return {
+      coursename: '',
       perPage: 15,//每页数据条数
       currentPage: 1,
-      userMessage:[],//存放导入的数据
-      formData2 : {
+      userMessage: [],//存放导入的数据
+      currentCourseAllData: [],
+      currentRowCourse: '',
+      allClazz: [],
+      allTeacher: [],
+      formData2: {
         classname: '',
         id: '',
       },
+      fromData: {
+        teacher: '',
+        clazz: ''
+      },
       formRules2: {
         name: [
-          { required: true, message: '请输入名称' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+          {required: true, message: '请输入名称'},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符'}
         ],
         /*code: [
           { required: true, message: '请输入学号' }
         ],*/
         password: [
-          { required: true, message: '请输入密码' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+          {required: true, message: '请输入密码'},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符'}
         ]
       },
 
-      ClassData:[
+      ClassData: [
         {
-          id:1,
-         name: '数据库从删库到跑路',
+          id: 1,
+          name: '数据库从删库到跑路',
         },
         {
-          id:2,
-         name: 'Android从入门到改行',
+          id: 2,
+          name: 'Android从入门到改行',
         },
         {
-          id:3,
-         name: 'C#从入门到放弃',
+          id: 3,
+          name: 'C#从入门到放弃',
         },
         {
-          id:4,
+          id: 4,
           name: 'Java从精通到陌生',
         },
         {
-          id:5,
+          id: 5,
           name: 'JS全栈从入门到单身狗',
 
         },
         {
-          id:6,
+          id: 6,
           name: 'SQl Serve从没入门就放弃',
         },
         {
-          id:7,
+          id: 7,
           name: 'C语言从入门到看开',
         }
       ],
@@ -361,73 +433,88 @@ name: "Curriculum",
 </script>
 
 <style scoped>
-.seach_course{
-  margin-top:15px;
+.seach_course {
+  margin-top: 15px;
 }
+
 /*滚动条整体部分*/
 .mytable-scrollbar div::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
+
 /*滚动条的轨道*/
 .mytable-scrollbar div::-webkit-scrollbar-track {
   background-color: #FFFFFF;
 }
+
 /*滚动条里面的小方块，能向上向下移动*/
 .mytable-scrollbar div::-webkit-scrollbar-thumb {
   background-color: #bfbfbf;
   border-radius: 5px;
   border: 1px solid #F1F1F1;
-  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 }
+
 .mytable-scrollbar div::-webkit-scrollbar-thumb:hover {
   background-color: #A8A8A8;
 }
+
 .mytable-scrollbar div::-webkit-scrollbar-thumb:active {
   background-color: #787878;
 }
+
 /*边角，即两个滚动条的交汇处*/
 .mytable-scrollbar div::-webkit-scrollbar-corner {
   background-color: #FFFFFF;
 }
-.mt-3{
+
+.mt-3 {
   height: 35px;
 }
-.member-info p{
+
+.member-info p {
   margin-top: -15px;
 }
-b-icon{
+
+b-icon {
   width: 250px;
 }
-body{
-  font-family:Lato,'Open Sans', sans-sarif;
-  font-size:16px;
+
+body {
+  font-family: Lato, 'Open Sans', sans-sarif;
+  font-size: 16px;
 }
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.Uname{
+
+.Uname {
   color: #2a8bcb;
 }
+
 .test {
-  width: 80%;
+  /*width: 80%;*/
   height: 1300px;
-  margin:0 auto;
+  margin: 0 auto;
 }
+
 /*= common css to all effects =*/
-.single-member{
+.single-member {
   margin-left: -20px;
   width: 280px;
   height: 250px;
   float: left;
   margin: 10px 2.5%;
-  margin-top:40px;
+  margin-top: 40px;
   background-color: #fff;
   text-align: center;
   position: relative;
 }
+
 .member-image #img {
   max-width: 100%;
   vertical-align: middle;
@@ -435,17 +522,21 @@ body{
   padding-right: 25px;
   color: white;
 }
-h3 {font-size: 24px;
+
+h3 {
+  font-size: 24px;
   font-weight: normal;
   margin: 10px 0 0;
   text-transform: uppercase;
 }
+
 h5 {
   font-size: 16px;
   font-weight: 300;
   margin: 0 0 15px;
   line-height: 22px;
 }
+
 p {
   font-size: 14px;
   font-weight: 300;
@@ -453,7 +544,8 @@ p {
   padding: 0 30px;
   margin-bottom: 10px;
 }
-.social-touch a{
+
+.social-touch a {
   display: inline-block;
   width: 27px;
   height: 26px;
@@ -463,13 +555,24 @@ p {
   opacity: 0.7;
   transition: 0.3s;
 }
-.social-touch a:hover{
+
+.social-touch a:hover {
   opacity: 1;
   transition: 0.3s;
 }
-.icon-colored .fb-touch{background-position: 0 -27px;}
-.icon-colored .tweet-touch{background-position: -35px -27px;}
-.icon-colored .linkedin-touch{background-position: -71px -27px;}
+
+.icon-colored .fb-touch {
+  background-position: 0 -27px;
+}
+
+.icon-colored .tweet-touch {
+  background-position: -35px -27px;
+}
+
+.icon-colored .linkedin-touch {
+  background-position: -71px -27px;
+}
+
 /*= common css to all effects end =*/
 
 *,
@@ -493,34 +596,103 @@ p {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, html { font-size: 100%; 	padding: 0; margin: 0;}
-a{ color: rgba(255, 255, 255, 0.6);outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
-a:hover,a:focus{color:#74777b;text-decoration: none;}
-#dosomeThing{
+body, html {
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: rgba(255, 255, 255, 0.6);
+  outline: none;
+  text-decoration: none;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+a:hover, a:focus {
+  color: #74777b;
+  text-decoration: none;
+}
+
+#dosomeThing {
   height: 35px;
 }
 
 /*= effect-1 css =*/
-.effect-1{border-radius: 5px 5px 0 0; padding-bottom: 40px;}
-.effect-1 .member-image {border: 2px solid #fff; background: #1b6aaa; border-radius: 60px 0; display: inline-block; margin-top: -72px; overflow: hidden; transition: 0.3s;}
-.effect-1 .social-touch{background-color: #e13157; position: absolute; left: 0; bottom: 0; height: 5px; overflow: hidden; padding: 5px 0 0; width: 100%; transition: 0.3s;}
-.effect-1 .member-image #img{transition: 0.3s; height:30px; /*background-color: #2a91d8;*/ border-radius: 60px 0;}
-.effect-1:hover .member-image{border-color: #e13157; transition: 0.3s; border-radius: 50%;}
-.effect-1:hover .social-touch{padding: 6px 0; height: 38px; transition: 0.3s;}
+.effect-1 {
+  border-radius: 5px 5px 0 0;
+  padding-bottom: 40px;
+}
+
+.effect-1 .member-image {
+  border: 2px solid #fff;
+  background: #1b6aaa;
+  border-radius: 60px 0;
+  display: inline-block;
+  margin-top: -72px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.effect-1 .social-touch {
+  background-color: #e13157;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  overflow: hidden;
+  padding: 5px 0 0;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.effect-1 .member-image #img {
+  transition: 0.3s;
+  height: 30px; /*background-color: #2a91d8;*/
+  border-radius: 60px 0;
+}
+
+.effect-1:hover .member-image {
+  border-color: #e13157;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.effect-1:hover .social-touch {
+  padding: 6px 0;
+  height: 38px;
+  transition: 0.3s;
+}
+
 /*= effect-1 css end =*/
 
 /*= Media Query
 =============== */
-@media only screen and (max-width: 980px){
-  .row{width: 100%; margin: 50px 0;}
-  .team-members{text-align: center;}
-  .single-member{float: none; display: inline-block; vertical-align: bottom;}
+@media only screen and (max-width: 980px) {
+  .row {
+    width: 100%;
+    margin: 50px 0;
+  }
+
+  .team-members {
+    text-align: center;
+  }
+
+  .single-member {
+    float: none;
+    display: inline-block;
+    vertical-align: bottom;
+  }
 }
+
 /*= Media Query End
 =================== */
-@media screen and (max-width:1300px){
-  .single-member{
+@media screen and (max-width: 1300px) {
+  .single-member {
     width: 250px;
   }
-}/*宽度小于500px时 绿色*/
+}
+
+/*宽度小于500px时 绿色*/
 </style>
