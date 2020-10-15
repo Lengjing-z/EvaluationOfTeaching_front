@@ -18,19 +18,11 @@ export default {
   },
   actions:{
     login({commit,state}){
-      let devAccount={
-        username: '10100114',
-        password: '654321'
-       /* username: '2020100101',
-        password: '123456'*/
-      }
-
       return myAxios
-        .post('login',qs.stringify(devAccount))
+        .post('login',qs.stringify(state.loginForm))
         .then(res=>{
           commit('updateLoginStatus',res.data)
           return res.data
-          console.log('login'  + res);
         }).catch(err=>{
           return err
       })
