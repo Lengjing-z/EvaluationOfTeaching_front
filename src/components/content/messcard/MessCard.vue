@@ -1,41 +1,36 @@
 <template>
 
-  <div class="messcord">
-
-    <div>
-      <h3>学生信息管理</h3>
-      <b-button v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
-      <b-input-group prepend="请输入姓名或者学号" class="mt-31">
-        <b-form-input id="username" v-model="username"></b-form-input>
-        <b-input-group-append>
-          <b-button @click="query()" variant="outline-success"><span
-            style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>
-        </b-input-group-append>
-      </b-input-group>
-    </div>
+  <div class="messcord" >
+      <div>
+        <h3>学生信息管理</h3>
+        <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
+        <b-input-group  prepend="请输入姓名或者学号" class="mt-31">
+          <b-form-input id="username" v-model="username"></b-form-input>
+          <b-input-group-append >
+            <b-button @click="query()" variant="outline-success"><span style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </div>
 
     <div v-if="isAll" class="single-member effect-3" v-for="(item,index) in tableData">
       <div class="member-image">
         <img src="" alt="">
-        <div style="opacity: 0">{{ index }}</div>
+        <div style="opacity: 0">{{index}}</div>
       </div>
-      <div class="member-info">
-        <h3 class="Uname">{{ tableData[index].name }}</h3>
+      <div class="member-info" >
+        <h3 class="Uname">{{tableData[index].name}}</h3>
         <h5>{{ tableData[index].code }}</h5>
-        <p>年龄:{{ tableData[index].age }}&nbsp&nbsp身高:{{ tableData[index].height }}</p>
-        <p>家庭住址:{{ tableData[index].addr }}</p>
+        <p>年龄:{{tableData[index].age}}&nbsp&nbsp身高:{{tableData[index].height}}</p>
+        <p>家庭住址:{{tableData[index].addr}}</p>
         <b-button-group id="dosomeThing">
-          <b-button v-b-tooltip.hover title="修改信息" v-b-modal.my-modal style="width: 60px" variant="outline-primary"
-                    @click="showModal(index)">
-            <b-icon icon="tools"></b-icon>
+          <b-button v-b-tooltip.hover title="修改信息" v-b-modal.my-modal style="width: 60px" variant="outline-primary"@click="showModal(index)">
+            <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover @click="showModal7(tableData[index].id)" title="老师划分班级,课程" style="width: 60px"
-                    variant="outline-primary">
+          <b-button v-b-tooltip.hover @click="showModal7(tableData[index].id)"  title="老师划分班级,课程" style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover @click="showModal6(tableData[index].id)" style="width: 60px" title="学生划分班级"
-                    v-b-modal.my-modal6 variant="outline-primary">
-            <b-icon icon="inbox-fill"></b-icon>
+          <b-button v-b-tooltip.hover @click="showModal6(tableData[index].id)" style="width: 60px" title="学生划分班级" v-b-modal.my-modal6 variant="outline-primary">
+            <b-icon  icon="inbox-fill"></b-icon>
           </b-button>
         </b-button-group>
       </div>
@@ -52,16 +47,12 @@
           @submit="submitEvent6(selected)"
           @reset="resetEvent">
           <div>
-            <span>请选择班级</span>
-            <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
-            <span>请选择课程</span>
-            <b-form-select v-model="selected1" :options="options1" size="sm" class="mt-3"></b-form-select>
-            <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-            <div class="mt-3">Selected: <strong>{{ selected1 }}</strong></div>
+            <div>请选择班级</div><b-form-select style="width: 50%;display:inline;margin-left: 20px" v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+            <div>请选择课程</div><b-form-select style="width: 50%;margin-left: 20px" v-model="selected1" :options="options1" size="sm" class="mt-3"></b-form-select>
           </div>
           <vxe-form-item align="center" span="24">
             <template v-slot>
-              <vxe-button type="submit" status="primary">提交信息</vxe-button>
+              <vxe-button type="submit"   status="primary">提交信息</vxe-button>
               <vxe-button type="reset">重置</vxe-button>
             </template>
           </vxe-form-item>
@@ -74,21 +65,20 @@
       <div class="member-image">
         <img src="" alt="">
       </div>
-      <div class="member-info">
-        <h3 class="Uname">{{ Uname }}</h3>
-        <h5>{{ Ucode }}</h5>
-        <p>年龄:{{ Uage }}&nbsp&nbsp身高:{{ Uheight }}</p>
-        <p>家庭住址:{{ Uaddr }}</p>
+      <div class="member-info" >
+        <h3 class="Uname">{{Uname}}</h3>
+        <h5>{{Ucode}}</h5>
+        <p>年龄:{{Uage}}&nbsp&nbsp身高:{{Uheight}}</p>
+        <p>家庭住址:{{Uaddr}}</p>
         <b-button-group id="dosomeThing1">
-          <b-button v-b-modal.my-modal id="show-btn1" style="width: 60px" variant="outline-primary"
-                    @click="showModal(Uindex)">
-            <b-icon icon="tools"></b-icon>
+          <b-button  v-b-modal.my-modal id="show-btn1" style="width: 60px" variant="outline-primary" @click="showModal(Uindex)">
+            <b-icon  icon="tools"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
-            <b-icon icon="inbox-fill"></b-icon>
+            <b-icon  icon="inbox-fill"></b-icon>
           </b-button>
         </b-button-group>
       </div>
@@ -96,28 +86,27 @@
 
     <div>
       <b-modal ref="my-modal6" hide-footer title="划分班级">
-        <div class="d-block text-center">
-          <vxe-form
-            ref="xForm"
-            class="my-form2"
-            title-align="right"
-            title-width="100"
-            :data="formData2"
-            @submit="submitEvent3(selected)"
-            @reset="resetEvent">
-            <div>请选择班级
-              <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
-              <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-            </div>
-            <vxe-form-item align="center" span="24">
-              <template v-slot>
-                <vxe-button type="submit" status="primary">提交信息</vxe-button>
-                <vxe-button type="reset">重置</vxe-button>
-              </template>
-            </vxe-form-item>
-          </vxe-form>
-        </div>
-        <b-button class="mt-3" variant="outline-danger" block @click="hideModal1111">Close Me</b-button>
+          <div class="d-block text-center">
+            <vxe-form
+              ref="xForm"
+              class="my-form2"
+              title-align="right"
+              title-width="100"
+              :data="formData2"
+              @submit="submitEvent3(selected)"
+              @reset="resetEvent">
+              <div>请选择班级
+                <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+              </div>
+              <vxe-form-item align="center" span="24">
+                <template v-slot>
+                  <vxe-button type="submit"   status="primary">提交信息</vxe-button>
+                  <vxe-button type="reset">重置</vxe-button>
+                </template>
+              </vxe-form-item>
+            </vxe-form>
+          </div>
+          <b-button class="mt-3" variant="outline-danger" block @click="hideModal1111">Close Me</b-button>
       </b-modal>
 
       <b-modal ref="my-modal" hide-footer title="Using Component Methods">
@@ -229,11 +218,11 @@ export default {
       return this.userMessage.length
     }
   },
-  methods: {
+  methods:{
     hideModal1111() {
       this.$refs['my-modal6'].hide()
     },
-    toIndex() {
+    toIndex(){
       this.$router.push('./index');
     },
     submitEvent3(index) {
@@ -317,13 +306,15 @@ export default {
           if (result === 'success')
             console.log(3333333);
           let allclass1 = this.$store.state.admin.class.query;
-          for (let i in allclass1) {
-            this.options.push({
-              value: allclass1[i].id,
-              text: allclass1[i].name
+          let all1 = [];
+          for(let i in allclass1){
+            all1.push({
+              value:allclass1[i].id,
+              text:allclass1[i].name
             })
           }
-        }).then(() => {
+          this.options = all1
+        }).then(()=>{
       })
       /*courseId*/
 
@@ -331,19 +322,21 @@ export default {
     showModal6(index) {
       this.init[0].stId = index;
       this.$refs['my-modal6'].show();
-      this.$store
-        .dispatch('admin/class/query', {name: null})
-        .then(result => {
-          if (result === 'success')
-            console.log(3333333);
-          let allclass = this.$store.state.admin.class.query;
-          for (let i in allclass) {
-            this.options.push({
-              value: allclass[i].id,
-              text: allclass[i].name
-            })
-          }
-        }).then(() => {
+        this.$store
+          .dispatch('admin/class/query',{name:null})
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+            let allclass = this.$store.state.admin.class.query;
+            let all = []
+            for(let i in allclass){
+              all.push({
+                value:allclass[i].id,
+                text:allclass[i].name
+              })
+            }
+            this.options = all
+          }).then(()=>{
 
       })
     },
@@ -628,24 +621,19 @@ p {
   opacity: 0.7;
   transition: 0.3s;
 }
-
-.social-touch a:hover {
+.social-touch a:hover{
   opacity: 1;
   transition: 0.3s;
 }
-
-.icon-colored .fb-touch {
+.icon-colored .fb-touch{
   background-position: 0 -27px;
 }
-
-.icon-colored .tweet-touch {
+.icon-colored .tweet-touch{
   background-position: -35px -27px;
 }
-
-.icon-colored .linkedin-touch {
+.icon-colored .linkedin-touch{
   background-position: -71px -27px;
 }
-
 /*= common css to all effects end =*/
 
 *,
@@ -674,36 +662,32 @@ body, html {
   padding: 0;
   margin: 0;
 }
-
-a {
+a{
   color: rgba(255, 255, 255, 0.6);
   outline: none;
   text-decoration: none;
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-
-a:hover, a:focus {
-  color: #74777b;
+a:hover,a:focus{
+  color:#74777b;
   text-decoration: none;
 }
 
 
 /*= effect-3 css =*/
-.effect-3 {
+.effect-3{
   max-height: 270px;
   min-height: 260px;
   width: 20%;
   border-radius: 15px;
   overflow: hidden;
 }
-
-.effect-3 h3 {
+.effect-3 h3{
   padding-top: 7px;
   line-height: 33px;
 }
-
-.effect-3 .member-image {
+.effect-3 .member-image{
   border-bottom: 5px solid #e5642b;
   transition: 0.5s;
   background-color: rebeccapurple;
@@ -713,17 +697,14 @@ a:hover, a:focus {
   float: none;
   vertical-align: middle;
 }
-
-.effect-3 .member-info {
+.effect-3 .member-info{
   transition: 0.4s;
 }
-
-.effect-3 .member-image img {
+.effect-3 .member-image img{
   width: 100%;
   vertical-align: bottom;
 }
-
-.effect-3 .social-touch {
+.effect-3 .social-touch{
   background-color: #e5642b;
   float: left;
   left: 0;
@@ -733,8 +714,7 @@ a:hover, a:focus {
   width: 100%;
   transition: 0.5s;
 }
-
-.effect-3:hover .member-image {
+.effect-3:hover .member-image{
   border-bottom: 0;
   border-radius: 0 0 50px 50px;
   height: 81px;
@@ -743,9 +723,8 @@ a:hover, a:focus {
   width: 109px;
   transition: 0.5s;
 }
-
 /*= effect-3 css end =*/
-.effect-3:hover {
+.effect-3:hover{
   height: 270px;
 }
 

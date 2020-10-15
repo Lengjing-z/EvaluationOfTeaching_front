@@ -150,10 +150,16 @@
         this.$store
           .dispatch('login')
           .then(result => {
-            if (result==='success')
+            if (result==='success'){
+              this.$router.push('index')
               return this.$store.dispatch('info/loadMyInfo')
+
+            }else{
+              this.$router.push('login')
+            }
+
           }).then(()=>{
-            this.$router.push('index')
+
         })
       },
       test(){

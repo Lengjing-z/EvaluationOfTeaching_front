@@ -9,6 +9,8 @@ import ClassMana from "components/content/classmana/ClassMana";
 import PinTeacher from "components/content/pinteacher/PinTeacher";
 import Test from "components/content/test/Test";
 import BeThclass from "components/content/bethclass/BeThclass";
+import DepartmentMana from "components/content/departmentmana/DepartmentMana";
+import TecherpinTecher from "components/content/techerpintecher/TecherpinTecher";
 
 const Login = () => import('views/login/Login.vue');
 const Index = () => import('views/index/Index.vue');
@@ -54,10 +56,21 @@ const routes = [
     name: 'Manager',
     component: Manager
   },
+
+  {
+    path: '/techerpintecher',
+    name: 'TecherpinTecher',
+    component: TecherpinTecher
+  },
   {
     path: '/usermanager',
     name: 'UserManager',
     component: UserManager
+  },
+  {
+    path: '/departmentmana',
+    name: 'DepartmentMana',
+    component: DepartmentMana
   },
   {
     path: '/test',

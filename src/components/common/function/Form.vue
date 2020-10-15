@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody id = "wt">
-            <tr v-for="(item,index) in finishedlist" :key="item.content">
+            <tr v-for="(item,index) in finishedlist" :key="index">
               <td colspan="2">
                 <span>{{index+1}}.{{item.content}}</span>
                 <b-form-rating v-model="item.answer" show-value variant="warning" size="md" class="choose"></b-form-rating>
@@ -29,7 +29,7 @@
           </table>
         </div>
         <div class="subbtn container" >
-          <b-button variant="success" class="">提交</b-button>
+          <b-button @click="sub()" variant="success" class="">提交</b-button>
         </div>
       </div>
   </div>
@@ -41,14 +41,46 @@
     data() {
       return {
         finishedlist:null,
-        value: 0
+        value: 0,
+        it:[],
+        user:[],
+        AnswerData:[
+          {
+            sttId:'',
+            stId:'',
+            qsId:'',
+            answer:'',
+          }
+        ]
       }
     },
-    props:{
-    },
+    props:['qwe'],
     created() {
       this.finishedlist = this.$store.state.admin.questionnaire.q.questions;
+      this.user = this.$store.state.info.mine;
       console.log(this.finishedlist)
+    },
+    methods:{
+      sub(){
+        for(let i in this.finishedlist){
+          this.it.push({
+            qsId:this.finishedlist[i].id,
+            answer:this.finishedlist[i].answer,
+            sttId:this.qwe.stId,
+            stId:this.user.id,
+          })
+
+        }
+        console.log(this.it);
+        this.$store
+          .dispatch('evaluation/student/submitQuestionnaire',this.it)
+          .then(result => {
+            if (result==='success')
+              console.log(3333333);
+            this.ClassData =   this.$store.state.clazz.taught;
+          }).then(()=>{
+        })
+      }
     }
   }
 </script>

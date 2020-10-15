@@ -19,7 +19,6 @@
           <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
             <b-input id="inline-form-input-username" placeholder="Username"></b-input>
           </b-input-group>
-
           <b-button variant="primary" @click="serchClass()">Seach</b-button>
         </b-form>
       </div>
@@ -43,8 +42,8 @@
             <b-icon icon="person-fill"></b-icon>
           </b-button>
 
-          <b-button style="width: 60px" variant="outline-primary">
-            <b-icon @click="test()" icon="inbox-fill"></b-icon>
+          <b-button  v-b-modal.my-modal6 @click="show()" style="width: 60px" variant="outline-primary">
+            <b-icon  @click="show()" icon="inbox-fill"></b-icon>
           </b-button>
         </b-button-group>
       </div>
@@ -81,6 +80,32 @@
       <div class="overflow-auto">
         <!-- <p class="mt-3">问卷总数: {{ currentPage }}</p>-->
         <!--<p class="mt-3">题目</p>-->
+        <b-table
+          id="my-table"
+          :items="userMessage"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+        ></b-table>
+
+        <b-pagination
+          v-model="currentPage"
+          :per-page="perPage"
+          aria-controls="my-table"
+        ></b-pagination>
+      </div>
+    </b-modal>
+    <b-modal id="my-modal6" size="xl" title="导入用户信息">
+      <div class="container111">
+        {{ "导入" }}
+        <input
+          type="file"
+          accept=".xls,.xlsx"
+          class="upload_file"
+          @change="readExcel($event)"
+        />
+      </div>
+      <div class="overflow-auto">
         <b-table
           id="my-table"
           :items="userMessage"
@@ -195,6 +220,9 @@ export default {
   showModal2(index) {
     this.$refs['my-modal1'].show();
   },
+    show(){
+      this.$refs['my-modal6'].show();
+    },
   showModal(index) {
     console.log(index);
     this.$refs['my-modal'].show();

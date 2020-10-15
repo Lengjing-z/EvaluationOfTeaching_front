@@ -1,6 +1,7 @@
 import myAxios from "network/request"
 import post from "../util";
 import qs from "qs";
+import student from './student'
 
 export default {
   namespaced: true,
@@ -45,6 +46,7 @@ export default {
     }
   },
   modules: {
+    student
   },
   getters: {}
 }
