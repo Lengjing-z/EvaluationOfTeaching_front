@@ -53,6 +53,12 @@ export default {
           "url": "questionnaireManager",
           "icon": "#icon-kaowuguanligongzuo"
         },
+
+        {
+          "title": "学院管理",
+          "url": "departmentmana",
+          "icon": "#icon-zhuantixuexihui"
+        },
         {
           "title": "权限管理",
           "url": "limits",
@@ -85,7 +91,7 @@ export default {
         },
         {
           "title": "评教同行",
-          "url": "",
+          "url": "techerpintecher",
           "icon": "#icon-banxuepinggu"
         },
         {

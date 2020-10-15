@@ -1,7 +1,6 @@
 <template>
 
   <div class="messcord" >
-
       <div>
         <h3>学生信息管理</h3>
         <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
@@ -48,10 +47,8 @@
           @submit="submitEvent6(selected)"
           @reset="resetEvent">
           <div>
-            <span>请选择班级</span><b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
-            <span>请选择课程</span><b-form-select v-model="selected1" :options="options1" size="sm" class="mt-3"></b-form-select>
-            <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-            <div class="mt-3">Selected: <strong>{{ selected1 }}</strong></div>
+            <div>请选择班级</div><b-form-select style="width: 50%;display:inline;margin-left: 20px" v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
+            <div>请选择课程</div><b-form-select style="width: 50%;margin-left: 20px" v-model="selected1" :options="options1" size="sm" class="mt-3"></b-form-select>
           </div>
           <vxe-form-item align="center" span="24">
             <template v-slot>
@@ -100,7 +97,6 @@
               @reset="resetEvent">
               <div>请选择班级
                 <b-form-select v-model="selected" :options="options" size="sm" class="mt-3"></b-form-select>
-                <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
               </div>
               <vxe-form-item align="center" span="24">
                 <template v-slot>
@@ -293,12 +289,14 @@ export default {
           if (result==='success')
             console.log(3333333);
           let allclass1 = this.$store.state.admin.class.query;
+          let all1 = [];
           for(let i in allclass1){
-            this.options.push({
+            all1.push({
               value:allclass1[i].id,
               text:allclass1[i].name
             })
           }
+          this.options = all1
         }).then(()=>{
       })
       /*courseId*/
@@ -313,12 +311,14 @@ export default {
             if (result==='success')
               console.log(3333333);
             let allclass = this.$store.state.admin.class.query;
+            let all = []
             for(let i in allclass){
-              this.options.push({
+              all.push({
                 value:allclass[i].id,
                 text:allclass[i].name
               })
             }
+            this.options = all
           }).then(()=>{
 
         })
@@ -381,8 +381,9 @@ export default {
           });
           const wsname = workbook.SheetNames[0]; //取第一张表
           const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
-          console.log(ws);
+          /*console.log(ws);*/
           this.userMessage = ws;
+          console.log(this.userMessage);
           that.lists = [];
           // 从解析出来的数据中提取相应的数据
           ws.forEach(item => {

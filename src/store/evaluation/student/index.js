@@ -41,11 +41,12 @@ export default {
         })
     },
     submitQuestionnaire({commit},answer){
+      console.log('submit');
       //  ```id（具体某一次评教id） list:id(具体某个问题id) answer```
       return myAxios
         .post(baseUrl+'submit',answer)
         .then(res => {
-          console.log(res)
+          console.log(res.data)
           return true
         }).catch(err => {
           console.log(err)

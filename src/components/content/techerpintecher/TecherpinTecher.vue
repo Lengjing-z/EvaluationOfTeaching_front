@@ -7,38 +7,37 @@
       <b-breadcrumb id="Na">
         <b-breadcrumb-item @click="toIndex()" href="#home">
           <b-icon icon="house-fill" scale="1.25" shift-v="1.25" style="color: black" aria-hidden="true"></b-icon>
-         <span style="color: black">首页</span>
+          <span style="color: black">首页</span>
         </b-breadcrumb-item>
-        <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价老师</span></b-breadcrumb-item>
+        <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价同行</span></b-breadcrumb-item>
       </b-breadcrumb>
       <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught()" variant="outline-primary">查询所属班级</b-button>
-      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught1()" variant="outline-primary">学生查询所属班级</b-button>
     </div>
 
     <div class="course">
-    <div class="single-member effect-1" v-for="(item,index) in ClassData">
-      <div class="member-image">
-        <!--<img src="" width="150" height="80" alt="">-->
-        <div id="img">{{ClassData[index].id}}</div>
+      <div class="single-member effect-1" v-for="(item,index) in ClassData">
+        <div class="member-image">
+          <!--<img src="" width="150" height="80" alt="">-->
+          <div id="img">{{ClassData[index].id}}</div>
+        </div>
+        <div class="member-info">
+          <h4>{{ ClassData[index].name }}</h4>
+          <h5>PinYing</h5>
+          <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
+          <h5>Teacher:{{ ClassData[index].teacher }}</h5>
+          <b-button-group id="dosomeThing">
+            <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
+              <b-icon  icon="tools"></b-icon>
+            </b-button>
+            <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"  v-b-modal.my-modal2 title="查看所有问卷"  style="width: 60px" variant="outline-primary">
+              <b-icon icon="person-fill"></b-icon>
+            </b-button>
+            <b-button style="width: 60px" variant="outline-primary">
+              <b-icon @click="test()" icon="inbox-fill"></b-icon>
+            </b-button>
+          </b-button-group>
+        </div>
       </div>
-      <div class="member-info">
-        <h4>{{ ClassData[index].name }}</h4>
-        <h5>PinYing</h5>
-        <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
-        <h5>Teacher:{{ ClassData[index].teacher }}</h5>
-        <b-button-group id="dosomeThing">
-          <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
-            <b-icon  icon="tools"></b-icon>
-          </b-button>
-          <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"  v-b-modal.my-modal2 title="查看所有问卷"  style="width: 60px" variant="outline-primary">
-            <b-icon icon="person-fill"></b-icon>
-          </b-button>
-          <b-button style="width: 60px" variant="outline-primary">
-            <b-icon @click="test()" icon="inbox-fill"></b-icon>
-          </b-button>
-        </b-button-group>
-      </div>
-    </div>
     </div>
 
     <div>
@@ -61,11 +60,6 @@
               <vxe-button @click="editRowEvent(row)">评教</vxe-button>
             </template>
           </vxe-table-column>
-         <!-- <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
-          <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
-          <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
-          <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
-          <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>-->
         </vxe-table>
       </b-modal>
     </div>
@@ -110,16 +104,6 @@ export default {
         }).then(()=>{
       })
     },
-    QueryloadTaught1(){
-      this.$store
-        .dispatch('clazz/loadEnrolled')
-        .then(result => {
-          if (result==='success')
-            console.log(3333333);
-          this.ClassData =   this.$store.state.clazz.enrolled;
-        }).then(()=>{
-      })
-    },
     showModal3(index) {
       console.log(index);
       this.$store
@@ -137,7 +121,7 @@ export default {
       this.$refs['my-modal2'].hide()
     }
   },
-  name: "PinTeacher",
+  name: "TecherpinTecher",
   components:{
     NavBar,
     Footer,
