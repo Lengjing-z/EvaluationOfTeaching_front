@@ -122,12 +122,14 @@
             @reset="resetEvent">
             <vxe-form-item title="名称" field="name" span="24">
               <template v-slot="scope">
-                <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+                <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable
+                           @input="$refs.xForm.updateStatus(scope)"></vxe-input>
               </template>
             </vxe-form-item>
             <vxe-form-item title="学号" field="code" span="24">
               <template v-slot="scope">
-                <vxe-input v-model="formData2.code" placeholder="请输入学号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+                <vxe-input v-model="formData2.code" placeholder="请输入学号" clearable
+                           @input="$refs.xForm.updateStatus(scope)"></vxe-input>
               </template>
             </vxe-form-item>
 
@@ -138,7 +140,8 @@
             </vxe-form-item>
             <vxe-form-item title="密码" field="password" span="24">
               <template v-slot>
-                <vxe-input v-model="formData2.password"  placeholder="请输入密码" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+                <vxe-input v-model="formData2.password" placeholder="请输入密码" clearable
+                           @input="$refs.xForm.updateStatus(scope)"></vxe-input>
               </template>
             </vxe-form-item>
             <vxe-form-item title="地址" field="address" span="24">
@@ -148,7 +151,7 @@
             </vxe-form-item>
             <vxe-form-item align="center" span="24">
               <template v-slot>
-                <vxe-button type="submit"  status="primary">提交信息</vxe-button>
+                <vxe-button type="submit" status="primary">提交信息</vxe-button>
                 <vxe-button type="reset">重置</vxe-button>
               </template>
             </vxe-form-item>
@@ -157,8 +160,8 @@
         <b-button class="mt-3" variant="outline-danger" block @click="hideModal111">Close Me</b-button>
       </b-modal>
     </div>
-<!--批量导入-->
-    <b-modal  id="my-modal1" size="xl" title="导入用户信息">
+    <!--批量导入-->
+    <b-modal id="my-modal1" size="xl" title="导入用户信息">
       <div class="container111">
         {{ "导入" }}
         <input
@@ -186,7 +189,21 @@
           aria-controls="my-table"
         ></b-pagination>
       </div>
+
+      <template v-slot:modal-footer>
+        <div class="w-100">
+          <b-button
+            variant="primary"
+            size="sm"
+            class="float-right"
+            @click="addUser"
+          >
+            提交
+          </b-button>
+        </div>
+      </template>
     </b-modal>
+
 
   </div>
 </template>
@@ -212,38 +229,38 @@ export default {
       console.log(this.init[0].stId);
       this.init[0].claId = index;
       this.$store
-        .dispatch('admin/insertInfo/segment/class/submit',this.init)
+        .dispatch('admin/insertInfo/segment/class/submit', this.init)
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log(3333333);
-        }).then(()=>{
+        }).then(() => {
       })
       setTimeout(() => {
         this.$refs['my-modal6'].toggle('#toggle-btn')
-        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.$XModal.message({message: '保存成功', status: 'success'})
         console.log(index);
       }, 1000)
     },
     submitEvent6(index) {
       console.log(this.init[0].stId);
-     /* this.initClsThCou[0].thId = index;*/
+      /* this.initClsThCou[0].thId = index;*/
       this.initClsThCou[0].claId = this.selected;
       this.initClsThCou[0].courseId = this.selected1;
       this.$store
-        .dispatch('admin/insertInfo/segment/course/submit',this.initClsThCou)
+        .dispatch('admin/insertInfo/segment/course/submit', this.initClsThCou)
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log(3333333);
-        }).then(()=>{
+        }).then(() => {
 
       })
       setTimeout(() => {
         this.$refs['my-modal7'].toggle('#toggle-btn')
-        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.$XModal.message({message: '保存成功', status: 'success'})
         console.log(index);
       }, 1000)
     },
-    test1(){
+    test1() {
       console.log(this.$store.state.admin.userForm);
     },
     query() {
@@ -251,16 +268,16 @@ export default {
       /*this.$store.commit('updateLoginForm',this.loginForm)*/
       console.log(this.username);
       this.$store
-        .dispatch('admin/query',this.username)
+        .dispatch('admin/query', this.username)
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log(3333333);
-            this.tableData = this.$store.state.admin.user.userForm;
-        }).then(()=>{
+          this.tableData = this.$store.state.admin.user.userForm;
+        }).then(() => {
         /*this.$router.push('index')*/
       })
     },
-    showModal7(index){
+    showModal7(index) {
       this.initClsThCou[0].thId = index;
       this.$refs['my-modal7'].show();
       /*老师ID*/  /*classId*/ /*courseid*/
@@ -268,25 +285,25 @@ export default {
       /*classid*/
 
       this.$store
-        .dispatch('admin/course/query',{name:null})
+        .dispatch('admin/course/query', {name: null})
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log(3333333);
           let allcourse = this.$store.state.admin.course.creations;
-          for(let i in allcourse){
+          for (let i in allcourse) {
             this.options1.push({
-              value:allcourse[i].id,
-              text:allcourse[i].name
+              value: allcourse[i].id,
+              text: allcourse[i].name
             })
           }
           console.log(allcourse);
-        }).then(()=>{
+        }).then(() => {
       })
 
       this.$store
-        .dispatch('admin/class/query',{name:null})
+        .dispatch('admin/class/query', {name: null})
         .then(result => {
-          if (result==='success')
+          if (result === 'success')
             console.log(3333333);
           let allclass1 = this.$store.state.admin.class.query;
           let all1 = [];
@@ -302,7 +319,7 @@ export default {
       /*courseId*/
 
     },
-    showModal6(index){
+    showModal6(index) {
       this.init[0].stId = index;
       this.$refs['my-modal6'].show();
         this.$store
@@ -321,7 +338,7 @@ export default {
             this.options = all
           }).then(()=>{
 
-        })
+      })
     },
     showModal111() {
       this.$refs['my-modal'].show()
@@ -329,18 +346,18 @@ export default {
     hideModal111() {
       this.$refs['my-modal'].hide()
     },
-    submitEvent2 (index) {
+    submitEvent2(index) {
       setTimeout(() => {
         this.$refs['my-modal'].toggle('#toggle-btn')
-        this.$XModal.message({ message: '保存成功', status: 'success' })
+        this.$XModal.message({message: '保存成功', status: 'success'})
         console.log(index);
       }, 1000)
     },
-    searchEvent () {
-      this.$XModal.message({ message: '查询事件', status: 'info' })
+    searchEvent() {
+      this.$XModal.message({message: '查询事件', status: 'info'})
     },
-    resetEvent () {
-      this.$XModal.message({ message: '重置事件', status: 'info' })
+    resetEvent() {
+      this.$XModal.message({message: '重置事件', status: 'info'})
     },
     showModal(index) {
       console.log(index);
@@ -381,9 +398,13 @@ export default {
           });
           const wsname = workbook.SheetNames[0]; //取第一张表
           const ws = XLSX.utils.sheet_to_json(workbook.Sheets[wsname]); //生成json表格内容
-          /*console.log(ws);*/
+          // console.log(ws);
           this.userMessage = ws;
-          console.log(this.userMessage);
+          this.userMessage.forEach((item, index) => {
+            item.institute = {id: item.institute}
+            item.powers = JSON.parse(item.powers)
+          })
+          console.log(this.userMessage)
           that.lists = [];
           // 从解析出来的数据中提取相应的数据
           ws.forEach(item => {
@@ -392,86 +413,89 @@ export default {
               phone_number: item["code"]
             });
           });
-          // 给后端发请求
-          this.submit_form();
+
         } catch (e) {
           return false;
         }
       };
       fileReader.readAsBinaryString(files[0]);
+    },
+    addUser() {
+// 给后端发请求
+      this.$store.dispatch("admin/insertInfo/insertUser", this.userMessage)
+        .then(res => {
+          console.log(res)
+        })
     }
   },
-name: "MessCard",
+  name: "MessCard",
   data() {
     return {
-      init:[{
-        claId:'',
-        stId:'',
+      init: [{
+        claId: '',
+        stId: '',
       }],
-      initClsThCou:[{
-        courseId:'',
-        claId:'',
-        thId:'',
+      initClsThCou: [{
+        courseId: '',
+        claId: '',
+        thId: '',
       }],
       selected: null,
-      selected1:null,
-      allCourse:{
-        value:'',
-        text:''
+      selected1: null,
+      allCourse: {
+        value: '',
+        text: ''
       },
       allClass: {
-        value:'',
-        text:''
+        value: '',
+        text: ''
       },
       allClass1: {
-        value:'',
-        text:''
+        value: '',
+        text: ''
       },
-      options: [
-      ],
-      options1: [
-
-      ],
-      username:'',
-      Uindex:'',
-      Uname:'',
-      Ucode:'',
-      Uage:'',
-      Uaddr:'',
-      Uheight:'',
-      isOne:false,
-      isAll : true,
+      options: [],
+      options1: [],
+      username: '',
+      Uindex: '',
+      Uname: '',
+      Ucode: '',
+      Uage: '',
+      Uaddr: '',
+      Uheight: '',
+      isOne: false,
+      isAll: true,
       perPage: 15,//每页数据条数
       currentPage: 1,
-      userMessage:[],//存放导入的数据
-      formData2 : {
-        classid:'',
-        sid:'',
+      userMessage: [],//存放导入的数据
+      formData2: {
+        classid: '',
+        sid: '',
         name: '',
         code: '',
         password: '',
         age: '26',
         addr: '',
-        index:''
+        index: ''
       },
       formRules2: {
         name: [
-          { required: true, message: '请输入名称' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+          {required: true, message: '请输入名称'},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符'}
         ],
         code: [
-          { required: true, message: '请输入学号' }
+          {required: true, message: '请输入学号'}
         ],
         password: [
-          { required: true, message: '请输入密码' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
+          {required: true, message: '请输入密码'},
+          {min: 3, max: 5, message: '长度在 3 到 5 个字符'}
         ]
       },
       tableData: [{
-        id:1,
-        sex:"男",
+        id: 1,
+        sex: "男",
         age: 18,
-        password:'123456',
+        password: '123456',
         height: 175,
         code: '179000505',
         date: '2016-05-04',
@@ -488,14 +512,16 @@ name: "MessCard",
 </script>
 
 <style scoped>
-.mt-31{
+.mt-31 {
   margin-top: 20px;
   width: 500px;
 }
-.mt-3{
+
+.mt-3 {
   margin: 0 auto;
   width: 400px;
 }
+
 .container111 {
   border: none;
   border-radius: 4px;
@@ -518,31 +544,38 @@ name: "MessCard",
   filter: alpha(opacity=0);
   width: 60px;
 }
-.member-info p{
+
+.member-info p {
   margin-top: -15px;
 }
-b-icon{
+
+b-icon {
   width: 250px;
 }
-body{
-  font-family:Lato,'Open Sans', sans-sarif;
-  font-size:16px;
+
+body {
+  font-family: Lato, 'Open Sans', sans-sarif;
+  font-size: 16px;
 }
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.Uname{
+
+.Uname {
   color: #2a8bcb;
 }
+
 .messcord {
   width: 80%;
   /*height: 1300px;*/
-  margin:0 auto;
+  margin: 0 auto;
 }
+
 /*= common css to all effects =*/
-.single-member{
+.single-member {
   width: 280px;
   float: left;
   margin: 30px 2.5%;
@@ -550,21 +583,26 @@ body{
   text-align: center;
   position: relative;
 }
-.member-image img{
+
+.member-image img {
   max-width: 100%;
   vertical-align: middle;
 }
-h3 {font-size: 24px;
+
+h3 {
+  font-size: 24px;
   font-weight: normal;
   margin: 10px 0 0;
   text-transform: uppercase;
 }
+
 h5 {
   font-size: 16px;
   font-weight: 300;
   margin: 0 0 15px;
   line-height: 22px;
 }
+
 p {
   font-size: 14px;
   font-weight: 300;
@@ -572,7 +610,8 @@ p {
   padding: 0 30px;
   margin-bottom: 10px;
 }
-.social-touch a{
+
+.social-touch a {
   display: inline-block;
   width: 27px;
   height: 26px;
@@ -688,19 +727,34 @@ a:hover,a:focus{
 .effect-3:hover{
   height: 270px;
 }
+
 /*= Media Query
 =============== */
-@media only screen and (max-width: 980px){
-  .row{width: 100%; margin: 50px 0;}
-  .team-members{text-align: center;}
-  .single-member{float: none; display: inline-block; vertical-align: bottom;}
+@media only screen and (max-width: 980px) {
+  .row {
+    width: 100%;
+    margin: 50px 0;
+  }
+
+  .team-members {
+    text-align: center;
+  }
+
+  .single-member {
+    float: none;
+    display: inline-block;
+    vertical-align: bottom;
+  }
 }
+
 /*= Media Query End
 =================== */
-@media screen and (max-width:1300px){
-  .single-member{
+@media screen and (max-width: 1300px) {
+  .single-member {
     width: 250px;
   }
-}/*宽度小于500px时 绿色*/
+}
+
+/*宽度小于500px时 绿色*/
 
 </style>

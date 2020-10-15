@@ -5,15 +5,13 @@
     <div class='all d-none d-lg-block'>
       <div class='box'>
         <a href='#'>
-          <div class='card bg-01'><span class='card-content'>
-            <router-link to="/questionnaireProgress/student">student</router-link>
+          <div class='card bg-01'><span class='card-content' @click="toStudent">student
           </span></div>
         </a>
       </div>
       <div class='box'>
         <a href='#'>
-          <div class='card bg-02'><span class='card-content'>
-            <router-link to="/questionnaireProgress/teacher">teacher</router-link>
+          <div class='card bg-02'><span class='card-content' @click="toTeacher">teacher
           </span></div>
         </a>
       </div>
@@ -23,8 +21,8 @@
         <h3>评教管理</h3>
       </header>
       <div class="mb-3 mt-3 d-md-block d-lg-none">
-        <router-link to="/questionnaireProgress/student"><b-button id="button-3" variant="outline-success">student</b-button></router-link>
-        <router-link to="/questionnaireProgress/teacher"><b-button id="button-2" variant="outline-success">teacher</b-button></router-link>
+        <b-button id="button-3" variant="outline-success" @click="toStudent">student</b-button>
+        <b-button id="button-2" variant="outline-success" @click="toTeacher">teacher</b-button>
       </div>
 
       <router-view></router-view>
@@ -50,17 +48,35 @@ export default {
     }
   },
   created() {
-    // this.$store.dispatch("beEvaluation/progressing/getProgressingList")
-    // .then(res =>{
-    //   console.log(res)
-    //   this.progressQuestionnaires = this.$store.state["beEvaluation/progressing/progressingList"]
-    //   console.log(this.progressQuestionnaires)
-    // })
+    this.$store.dispatch("admin/evaluation/getStudentAllList")
+    .then(res =>{
+      console.log(res)
+      this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
+      this.$router.push({path:'/questionnaireProgress/student/data',query:{data:this.progressQuestionnaires}})
+    })
   },
   components:{
     NavBar,
     Footer,
     ManagerSetting,
+  },
+  methods:{
+    toStudent(){
+      this.$store.dispatch("admin/evaluation/getStudentAllList")
+        .then(res =>{
+          console.log(res)
+          this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
+          this.$router.push({path:'/questionnaireProgress/student/data',query:{data:this.progressQuestionnaires}})
+        })
+    },
+    toTeacher(){
+      this.$store.dispatch("admin/evaluation/getTeacherAllList")
+        .then(res =>{
+          console.log(res)
+          this.progressQuestionnaires = this.$store.state.admin.evaluation.teacherAllList
+          this.$router.push({path:'/questionnaireProgress/teacher/data',query:{data:this.progressQuestionnaires}})
+        })
+    }
   }
 
 }

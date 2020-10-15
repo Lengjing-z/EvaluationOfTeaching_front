@@ -23,8 +23,8 @@
           <vxe-form-item title="发布类型" field="status" span="12" class="mb-3">
             <template v-slot>
               <vxe-select v-model="issueFormData.status" placeholder="请选择状态" clearable @change="changeStatus">
-                <vxe-option value="0" label="发布给老师"></vxe-option>
-                <vxe-option value="1" label="发布给学生"></vxe-option>
+                <vxe-option value="0" label="发布同行评教"></vxe-option>
+                <vxe-option value="1" label="发布学生评教"></vxe-option>
               </vxe-select>
             </template>
           </vxe-form-item>
@@ -145,7 +145,7 @@ export default {
             if (res) {
               let course = []
               this.$store.state.admin.questionnaire.allCourse.forEach(item => {
-                let obj = {value: item, text: item.coursceName}
+                let obj = {value: item, text: item.className+"-"+item.coursceName}
                 course.push(obj)
               })
               this.allSelect = course

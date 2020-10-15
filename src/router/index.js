@@ -123,16 +123,12 @@ const routes = [
     component: QuestionnaireProgress,
     children: [
       {
-        path: '',
-        redirect:'student',
-      },
-      {
-        path: 'student',
+        path: 'student/:data',
         name:'QuestionnaireProgressStudent',
         component:QuestionnaireProgressStudent
       },
       {
-        path: 'teacher',
+        path: 'teacher/:data',
         name:'QuestionnaireProgressTeacher',
         component:QuestionnaireProgressTeacher
       }
@@ -153,10 +149,6 @@ const routes = [
     name: 'TeacherQuestionnaireFinishStatistics',
     component: TeacherQuestionnaireFinishStatistics,
     children: [
-      {
-        path: '',
-        redirect:'teacher',
-      },
       {
         path: 'student',
         name:'TeacherQuestionnaireFinishToStudent',

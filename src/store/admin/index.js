@@ -8,6 +8,7 @@ import questionnaire from './questionnaire'
 import users from './users'
 import course from './course'
 import insertInfo from './insertInfo'
+import evaluation from './evaluation'
 import user from './user'
 import institute from './institute'
 export default {
@@ -27,7 +28,8 @@ export default {
     course,
     insertInfo,
     user,
-    institute
+    institute,
+    evaluation
   },
   getters:{}
 }

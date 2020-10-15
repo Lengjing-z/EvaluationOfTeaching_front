@@ -16,7 +16,7 @@
       <vxe-table-column field="rate" title="Weight(%)"></vxe-table-column>
       <vxe-table-column title="Setting" :resizable="false">
         <template v-slot="{ row }">
-          <vxe-button @click="chooseTarget(row)" >添加指标</vxe-button>
+          <vxe-button @click="chooseTarget(row)" v-if="row.children.length == 0">添加指标</vxe-button>
         </template>
       </vxe-table-column>
       <template v-slot:empty>

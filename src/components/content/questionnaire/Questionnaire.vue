@@ -5,7 +5,7 @@
     </header>
     <vxe-toolbar>
       <template v-slot:buttons>
-        <vxe-button v-b-modal.my-modal1>导入问卷</vxe-button>
+        <vxe-button v-b-modal.my-modal1 @click="queryAllTarget">导入问卷</vxe-button>
         <vxe-button v-b-modal.targetlist @click="queryAllTarget">指标管理</vxe-button>
         <b-modal id="targetlist" size="xl" title="指标管理" ok-only>
           <vxe-table
@@ -77,18 +77,18 @@
       <vxe-select v-model="targetTempName" placeholder="选择指标模板">
         <vxe-option v-for="num in targetlist" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
       </vxe-select>
-      <template v-slot:modal-footer>
-        <div class="w-100">
-          <b-button
-            variant="primary"
-            size="sm"
-            class="float-right"
-            @click="submitnaire"
-          >
-            提交
-          </b-button>
-        </div>
-      </template>
+        <template v-slot:modal-footer>
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="submitnaire"
+            >
+              提交
+            </b-button>
+          </div>
+        </template>
 
       <!--导入的问卷详情-->
       <vxe-grid
@@ -243,6 +243,7 @@ export default {
     // 添加指标
     addtarget(row, index) {
       this.$store.commit("admin/indicator/updateCurrentRow", row)
+
     },
     // 提交问卷
     submitnaire() {
@@ -258,9 +259,10 @@ export default {
             console.log("success");
             this.$bvModal.hide('my-modal1');
             this.$store
-              .dispatch("admin/indicator/getAll")
+              .dispatch("admin/questionnaire/loadGetAllNaire")
               .then(res => {
-                console.log("=" + res);
+                this.allquestionnaire = this.$store.state.admin.questionnaire.questionnaireAll
+                console.log(res)
               })
           } else
             console.log("fail")

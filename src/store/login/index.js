@@ -23,7 +23,6 @@ export default {
         .then(res=>{
           commit('updateLoginStatus',res.data)
           return res.data
-          console.log('login'  + res);
         }).catch(err=>{
           return err
       })

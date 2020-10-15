@@ -2,6 +2,11 @@ import myAxios from "network/request"
 import qs from "qs"
 
 function translateTreeToList(tree, li) {
+  if (tree.children.length === 0){
+    tree.end = true
+  }else {
+    tree.end = false
+  }
   li.push(tree)
   tree.children.forEach(child => {
     child.paNode = tree.id
@@ -90,10 +95,11 @@ export default {
     },
     createIndicator({commit}, newIndicator) {
       console.log("newIndicator", newIndicator)
+
       let li = [];
       translateTreeToList(newIndicator[0], li)
-      console.log("list", JSON.stringify(li))
-      return myAxios.post("admin/indicator/create", li)
+      // console.log("list", JSON.stringify(li));
+      // return myAxios.post("admin/indicator/create", li)
         .then(res => {
           console.log("createIndicator success")
           return true
