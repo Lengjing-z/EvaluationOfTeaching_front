@@ -5,15 +5,13 @@
     <div class='all d-none d-lg-block'>
       <div class='box' @click="toStudent">
         <a  >
-          <div class='card bg-01'><span class='card-content'>
-            <router-link to="/teacherQuestionnaireFinishStatistics/student">student</router-link>
+          <div class='card bg-01'><span class='card-content'>student
           </span></div>
         </a>
       </div>
       <div class='box' @click="toTeacher">
         <a >
-          <div class='card bg-02'><span class='card-content'>
-            <router-link to="/teacherQuestionnaireFinishStatistics/teacher">teacher</router-link>
+          <div class='card bg-02'><span class='card-content'>teacher
           </span></div>
         </a>
       </div>
@@ -46,8 +44,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("beEvaluation/institute/getAll")
+    this.$store.dispatch("beEvaluation/course/getAll")
       .then(res =>{
+
+        this.$router.push({path:'/teacherQuestionnaireFinishStatistics/student',query:{data:this.$store.state.beEvaluation.course.all}})
         console.log(res)
       })
   },
@@ -55,13 +55,17 @@ export default {
     toStudent(){
       this.$store.dispatch("beEvaluation/course/getAll")
         .then(res =>{
-        console.log(res)
+          // this.questionnaireList = this.$store.state.beEvaluation.course.all
+          this.$router.push({path:'/teacherQuestionnaireFinishStatistics/student',query:{data:this.$store.state.beEvaluation.course.all}})
+        // console.log(res)
       })
     },
     toTeacher(){
       this.$store.dispatch("beEvaluation/institute/getAll")
         .then(res =>{
-          console.log(res)
+          // this.questionnaireList = this.$store.state.beEvaluation.institute.all
+          this.$router.push({path:'/teacherQuestionnaireFinishStatistics/teacher',query:{data:this.$store.state.beEvaluation.institute.all}})
+          // console.log(this.questionnaireList)
         })
     }
   },

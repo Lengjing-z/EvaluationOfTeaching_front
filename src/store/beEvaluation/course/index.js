@@ -32,7 +32,6 @@ export default {
           console.log(err)
           return false
         })
-
     },
     getDetail({commit}, root) {
       return post(baseUrl+"beEvaluation/course/detail", {}, res => {

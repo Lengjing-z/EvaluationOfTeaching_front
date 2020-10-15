@@ -115,7 +115,7 @@ export default {
             if (res) {
               let li = []
               this.$store.state.admin.questionnaire.allCourse.forEach(item => {
-                let obj = {value: item, text: item.coursceName}
+                let obj = {value: item, text: item.className+"-"+item.coursceName}
                 li.push(obj)
               })
               this.allSelect = li

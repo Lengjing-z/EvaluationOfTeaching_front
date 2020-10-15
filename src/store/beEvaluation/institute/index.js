@@ -34,9 +34,11 @@ export default {
         })
 
     },
-    getDetail({commit}, root) {
-      return post(baseUrl+"beEvaluation/institute/detail", {}, res => {
-        commit("updateAll", res.data)
+    getDetail({commit}, tttId) {
+      return post(baseUrl+"beEvaluation/institute/detail", qs.stringify({tttId: tttId}), res => {
+        commit("updateDetail", res.data)
+        console.log("beEvaluation/institute/detail",res.data)
+        return true
       })
     },
     getProgress({commit}, sttId) {

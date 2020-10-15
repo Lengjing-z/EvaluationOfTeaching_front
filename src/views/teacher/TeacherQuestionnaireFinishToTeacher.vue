@@ -3,7 +3,7 @@
     <vxe-table
       stripe
       border
-      :data="questionnaireList"
+      :data="$route.query.data"
       :tooltip-config="{contentMethod: showTooltipMethod, enterable: true}"
     >
       <vxe-table-column type="seq" width="60"></vxe-table-column>
@@ -13,12 +13,11 @@
       <vxe-table-column field="endTime" title="结束时间" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
-          <vxe-button @click="showProgressing(row)">查看进度</vxe-button>
           <vxe-button @click="dataAnalysis(row)">查看数据分析</vxe-button>
         </template>
       </vxe-table-column>
     </vxe-table>
-    <b-modal id="analysis" hide-footer title="进度">
+    <b-modal id="analysis" size="lg" hide-footer title="进度">
       <v-chart class="my-chart" :options="bar"/>
     </b-modal>
   </div>
@@ -82,8 +81,8 @@ export default {
     "v-chart":
     ECharts
   },
-  mounted() {
-    this.questionnaireList = this.$store.state.beEvaluation.institute.all
+  created() {
+    console.log(this.$store.state.beEvaluation.institute.all);
   },
   methods: {
     showTooltipMethod({type, column, row, items, _columnIndex}) {
@@ -96,6 +95,11 @@ export default {
       }
     },
     dataAnalysis(row) {
+
+      this.$store.dispatch("beEvaluation/institute/getDetail",row.tttId)
+      .then(res =>{
+        console.log(res)
+      })
       this.$bvModal.show("analysis")
     }
   }

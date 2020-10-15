@@ -2,7 +2,7 @@
   <div>
     <vxe-table
       stripe
-      :data="questionnaireList"
+      :data="$route.query.data"
       :tooltip-config="{contentMethod: showTooltipMethod, enterable: true}"
     >
       <vxe-table-column type="seq" width="60"></vxe-table-column>
@@ -29,7 +29,6 @@ export default {
   name: "TeacherQuestionnaireFinishToStudent",
   data() {
     return {
-      questionnaireList: [],
     }
   },
   mounted() {
