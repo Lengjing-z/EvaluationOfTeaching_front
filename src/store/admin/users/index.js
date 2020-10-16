@@ -6,7 +6,8 @@ export default {
   namespaced: true,
   state: {
     userList: [],
-    q:[]
+    q:[],
+    allTeacher: []
   },
   mutations: {
     updateUserList(state, data) {
@@ -14,6 +15,9 @@ export default {
     },
     updateQuery(state,data){
       state.q = data
+    },
+    updateAllTeacher(state, data) {
+      state.allTeacher = data
     }
   },
   actions: {
@@ -35,6 +39,18 @@ export default {
           commit("updateUserList", res.data)
           console.log("queryUserByCode success")
           return res.data
+        });
+
+    },
+    queryAllTeacher({commit}) {
+      // console.log(code)
+      return myAxios.post("admin/user/allTeacher")
+        .then(res => {
+          console.log("admin/user/allTeacher", res.data);
+          commit("updateAllTeacher", res.data)
+          return res.data
+        }).catch(err => {
+          console.log(err)
         });
 
     }
