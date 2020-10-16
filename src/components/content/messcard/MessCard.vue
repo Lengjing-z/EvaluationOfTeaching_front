@@ -100,7 +100,7 @@
               </div>
               <vxe-form-item align="center" span="24">
                 <template v-slot>
-                  <vxe-button type="submit"   status="primary">提交信息</vxe-button>
+                  <vxe-button type="submit"  status="primary">提交信息</vxe-button>
                   <vxe-button type="reset">重置</vxe-button>
                 </template>
               </vxe-form-item>

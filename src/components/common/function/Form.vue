@@ -62,6 +62,7 @@
     },
     methods:{
       sub(){
+        console.log(this.qwe);
         for(let i in this.finishedlist){
           this.it.push({
             qsId:this.finishedlist[i].id,
@@ -69,7 +70,6 @@
             sttId:this.qwe.stId,
             stId:this.user.id,
           })
-
         }
         console.log(this.it);
         this.$store
@@ -80,6 +80,7 @@
             this.ClassData =   this.$store.state.clazz.taught;
           }).then(()=>{
         })
+        this.$refs['function'].hide();
       }
     }
   }

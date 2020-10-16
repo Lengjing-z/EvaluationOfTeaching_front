@@ -38,7 +38,7 @@
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有学生"  style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(ClassData[index].id)" title="查看所有学生"  style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
 
@@ -51,7 +51,45 @@
 
     <div>
       <b-modal size="xl" ref="my-modal2" hide-footer title="ALl Students Message">
+        <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="SerchStudent()"  variant="outline-primary">添加学生</b-button>
+        <vxe-modal v-model="value5" width="100%" show-footer>
+          <template v-slot>
+            <vxe-table
+              border
+              stripe
+              resizable
+              highlight-hover-row
+              height="400"
+              ref="xTable1"
+              :data="allStudent">
+              <vxe-table-column type="seq" width="60"></vxe-table-column>
+              <vxe-table-column type="checkbox" class="check" width="60"></vxe-table-column>
+              <vxe-table-column field="name" title="Name" sortable></vxe-table-column>
+              <vxe-table-column field="sex" title="Sex" :filters="sexList" :filter-multiple="false" :formatter="formatterSex"></vxe-table-column>
+              <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>
+            </vxe-table>
+
+            <!--<vxe-table
+              style="margin-top: 20px"
+              border
+              show-footer
+              ref="xTable1"
+              resizable
+              :data="allStudent">
+              <vxe-table-column type="checkbox" class="check" width="60"></vxe-table-column>
+              <vxe-table-column type="seq" width="60" fixed="left"></vxe-table-column>
+              <vxe-table-column field="name" title="Name" width="150"></vxe-table-column>
+              <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
+              <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
+              <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
+              <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
+              <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>
+            </vxe-table>-->
+            <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>
+          </template>
+        </vxe-modal>
         <vxe-table
+          style="margin-top: 20px"
           border
           show-footer
           height="400"
@@ -200,6 +238,37 @@ export default {
 
   name: "ClassManager",
   methods:{
+    SerchStudent(){
+      this.value5 = true
+      this.$store
+        .dispatch('admin/users/allStudent')
+        .then(result => {
+          if (result === 'success')
+            console.log(3333333);
+          this.allStudent = this.$store.state.admin.users.q
+          console.log(this.$store.state.admin.users.q);
+        }).then(() => {
+      })
+    },
+    subClassStudent(){
+      let selectRecords = this.$refs.xTable1.getCheckboxRecords()
+      let all1 = [];
+      for(let i in selectRecords){
+        all1.push({
+          claId:this.classId,
+          stId:selectRecords[i].id
+        })
+      }
+      this.init = all1
+      console.log(all1);
+      this.$store
+        .dispatch('admin/insertInfo/segment/class/submit', this.init)
+        .then(result => {
+          if (result === 'success')
+            console.log(3333333);
+        }).then(() => {
+      })
+    },
     serchClass(){
       console.log(this.classname);
       this.$store
@@ -215,7 +284,28 @@ export default {
       })
     },
     showModal3(index) {
-      this.$refs['my-modal2'].show();
+      this.classId = index;
+      console.log(index);
+      this.$store
+        .dispatch('admin/class/allStudent',this.classId)
+        .then(result => {
+          if (result === 'success')
+            console.log(3333333);
+          this.tableData = this.$store.state.admin.class.q
+          let all = [];
+          for(let i in this.tableData){
+            all.push(this.tableData[i])
+          }
+          console.log(all);
+          this.tableData = all
+          console.log(this.$store.state.admin.users.q);
+        }).then(() => {
+          this.$refs['my-modal2'].show();
+      })
+
+      console.log(index);
+
+
     },
   showModal2(index) {
     this.$refs['my-modal1'].show();
@@ -333,6 +423,15 @@ export default {
 
 data(){
   return{
+    /*init: [{
+      claId: '',
+      stId: '',
+    }],*/
+    init: [],
+    classId:'',
+    stId:[],
+    allStudent:[],
+    value5: false,
     classname:'',
     perPage: 15,//每页数据条数
     currentPage: 1,
@@ -469,6 +568,17 @@ data(){
         code: '179000520',
         date: '2016-05-04',
         name: '杨林',
+        address: '上海市普陀区金沙江路 1517 弄'
+      },
+      {
+        password:'123456',
+        id:6,
+        sex:"男",
+        age: 18,
+        height: 175,
+        code: '179000520',
+        date: '2016-05-04',
+        name: '黄撒旦',
         address: '上海市普陀区金沙江路 1517 弄'
       },
       {

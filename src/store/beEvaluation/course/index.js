@@ -23,10 +23,10 @@ export default {
   actions: {
     getAll({commit}) {
       // 获得所有同行跑评教列表
-      return myAxios.post(baseUrl+"/beEvaluation/course/all")
+      return myAxios.post(baseUrl+"/beEvaluation/institute/all")
         .then(res => {
           commit("updateAll", res.data)
-          console.log("beEvaluation/course/all", res.data)
+          console.log("beEvaluation/institute/all", res.data)
           return true
         }).catch(err => {
           console.log(err)

@@ -11,25 +11,24 @@
         </b-breadcrumb-item>
         <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价同行</span></b-breadcrumb-item>
       </b-breadcrumb>
-      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught()" variant="outline-primary">查询所属班级</b-button>
     </div>
 
     <div class="course">
-      <div class="single-member effect-1" v-for="(item,index) in ClassData">
+      <div class="single-member effect-1" v-for="(item,index) in ad">
         <div class="member-image">
           <!--<img src="" width="150" height="80" alt="">-->
-          <div id="img">{{ClassData[index].id}}</div>
+          <div id="img">{{ad[index].qnId}}</div>
         </div>
         <div class="member-info">
-          <h4>{{ ClassData[index].name }}</h4>
+          <h4>{{ ad[index].qnTitle }}</h4>
           <h5>PinYing</h5>
           <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
-          <h5>Teacher:{{ ClassData[index].teacher }}</h5>
+          <h5>学院:{{ ad[index].iName }}</h5>
           <b-button-group id="dosomeThing">
             <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
               <b-icon  icon="tools"></b-icon>
             </b-button>
-            <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"  v-b-modal.my-modal2 title="查看所有问卷"  style="width: 60px" variant="outline-primary">
+            <b-button v-b-tooltip.hover @click="showModal3(ad[index].tttId)"  v-b-modal.my-modal2 title="查看所有问卷"  style="width: 60px" variant="outline-primary">
               <b-icon icon="person-fill"></b-icon>
             </b-button>
             <b-button style="width: 60px" variant="outline-primary">
@@ -41,8 +40,8 @@
     </div>
 
     <div>
-      <b-modal size="xl" ref="function" hide-footer title="ALl Students Message">
-        <Form :qwe="qnId"></Form>
+      <b-modal size="xl" id="function" hide-footer title="ALl Students Message">
+        <Form1 :qwe="qnId"></Form1>
       </b-modal>
     </div>
 
@@ -54,7 +53,7 @@
           height="400"
           :data="tableData">
           <vxe-table-column type="seq" width="10%" fixed="left"></vxe-table-column>
-          <vxe-table-column field="qnTitle" title="Name" width="60%"></vxe-table-column>
+          <vxe-table-column field="name" title="Name" width="60%"></vxe-table-column>
           <vxe-table-column  title="Do" width="30%">
             <template v-slot="{ row }">
               <vxe-button @click="editRowEvent(row)">评教</vxe-button>
@@ -74,17 +73,30 @@
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
 import Form from "components/common/function/Form";
+import Form1 from "components/common/function/Form1";
 
 export default {
   created() {
-
+    this.$store
+      .dispatch('beEvaluation/institute/getAll')
+      .then(result => {
+        if (result === 'success')
+          console.log(3333333);
+        this.ad = this.$store.state.beEvaluation.institute.all
+        console.log(this.$store.state.beEvaluation.institute.all);
+      }).then(() => {
+    })
   },
   methods:{
+    toIndex(){
+      this.$router.push('./index');
+    },
     editRowEvent(row){
       this.qnId = '';
-      this.$refs['function'].show();
+      /*this.$refs['function'].show();*/
+      console.log(row.qn_id);
       this.$store
-        .dispatch('admin/questionnaire/detail',row.qnId)
+        .dispatch('admin/questionnaire/detail',row.qn_id)
         .then(result => {
           if (result==='success')
             console.log(3333333);
@@ -94,24 +106,22 @@ export default {
         }).then(()=>{
       })
     },
-    QueryloadTaught(){
-      this.$store
-        .dispatch('clazz/loadTaught')
-        .then(result => {
-          if (result==='success')
-            console.log(3333333);
-          this.ClassData =   this.$store.state.clazz.taught;
-        }).then(()=>{
-      })
-    },
     showModal3(index) {
       console.log(index);
       this.$store
-        .dispatch('clazz/allEvaluations',index)
+        .dispatch('beEvaluation/institute/getProgress',index)
         .then(result => {
           if (result==='success')
             console.log(3333333);
-          this.tableData =  this.$store.state.clazz.query;
+          let all3 = [];
+          this.tableData =  this.$store.state.beEvaluation.institute.progress;
+          for(let i in this.tableData){
+            if(!this.tableData[i].is_finished){
+              all3.push(this.tableData[i])
+            }
+          }
+         this.tableData = all3
+          console.log("new tabledata",this.tableData);
         }).then(()=>{
       })
       this.$refs['my-modal2'].show();
@@ -125,10 +135,12 @@ export default {
   components:{
     NavBar,
     Footer,
-    Form
+    Form,
+    Form1
   },
   data(){
     return{
+      ad:[],
       qnId:'',
       formData: {
         qnTitle: null,
@@ -143,23 +155,7 @@ export default {
         date3: null,
         address: null
       },
-      ClassData:[
-        {
-          id:1,
-          teacher:'刘洋',
-          name: '数据库从删库到跑路',
-        },
-        {
-          id:2,
-          teacher:'刘洋',
-          name: 'Android从入门到改行',
-        },
-        {
-          id:3,
-          teacher:'刘洋',
-          name: 'C#从入门到放弃',
-        },
-      ],
+      ClassData:[],
       /*问卷列表*/
       tableData: [{
         id:1,
@@ -181,50 +177,7 @@ export default {
         date: '2016-05-04',
         name: '任然',
         address: '上海市普陀区金沙江路 1517 弄'
-      },
-        {
-          id:3,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000507',
-          date: '2016-05-04',
-          name: '李宇蔚',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          id:4,
-          sex:"男",
-          password:'123456',
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '张三',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          id:5,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨过',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄天亮',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
+      }
       ],
     }
   }
@@ -338,7 +291,6 @@ a:hover,a:focus{color:#74777b;text-decoration: none;}
 #dosomeThing{
   height: 35px;
 }
-
 /*= effect-1 css =*/
 .effect-1{border-radius: 5px 5px 0 0; padding-bottom: 40px;}
 .effect-1 .member-image {border: 2px solid #fff; background: #1b6aaa; border-radius: 60px 0; display: inline-block; margin-top: -72px; overflow: hidden; transition: 0.3s;}
@@ -347,7 +299,6 @@ a:hover,a:focus{color:#74777b;text-decoration: none;}
 .effect-1:hover .member-image{border-color: #e13157; transition: 0.3s; border-radius: 50%;}
 .effect-1:hover .social-touch{padding: 6px 0; height: 38px; transition: 0.3s;}
 /*= effect-1 css end =*/
-
 /*= Media Query
 =============== */
 @media only screen and (max-width: 980px){

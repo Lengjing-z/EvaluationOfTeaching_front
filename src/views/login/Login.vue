@@ -41,6 +41,9 @@
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                         </label>
+                        <div style="color: red" v-if="succ">
+                          用户名或密码错误，请重新输入
+                        </div>
                         <div class="space"></div>
                         <div class="clearfix">
                           <label class="inline">
@@ -131,6 +134,7 @@
     name: "login",
     data() {
       return {
+        succ:false,
         loginForm: {
           // username: 'admin',
           // password: '123456'
@@ -138,7 +142,7 @@
           // username: '10001011',
           // password: '123456'
 
-          username: '179000501',
+          username: '10001011',
           password: '123456'
         },
         responseResult: []
@@ -153,9 +157,10 @@
             if (result==='success'){
               this.$router.push('index')
               return this.$store.dispatch('info/loadMyInfo')
-
             }else{
-              this.$router.push('login')
+              console.log('false');
+              this.succ = true
+              this.$router.push('/login')
             }
 
           }).then(()=>{

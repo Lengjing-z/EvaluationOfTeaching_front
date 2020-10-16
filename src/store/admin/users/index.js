@@ -5,14 +5,26 @@ import qs from 'qs'
 export default {
   namespaced: true,
   state: {
-    userList: []
+    userList: [],
+    q:[]
   },
   mutations: {
     updateUserList(state, data) {
       state.userList = data
+    },
+    updateQuery(state,data){
+      state.q = data
     }
   },
   actions: {
+    allStudent({commit}){
+      return post('admin/user/allStudent',{},res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery',res.data)
+        return res.data
+      })
+    },
     queryUserByCode({commit}, code) {
       // console.log(code)
       return post(

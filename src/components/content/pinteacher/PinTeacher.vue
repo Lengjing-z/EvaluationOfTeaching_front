@@ -42,7 +42,7 @@
     </div>
 
     <div>
-      <b-modal size="xl" ref="function" hide-footer title="ALl Students Message">
+      <b-modal size="xl" id="function" hide-footer title="ALl Students Message">
         <Form :qwe="qnId"></Form>
       </b-modal>
     </div>
@@ -88,7 +88,7 @@ export default {
   methods:{
     editRowEvent(row){
       this.qnId = '';
-      this.$refs['function'].show();
+     /* this.$refs['function'].show();*/
       this.$store
         .dispatch('admin/questionnaire/detail',row.qnId)
         .then(result => {
