@@ -6,8 +6,9 @@ export default {
   namespaced: true,
   state: {
     all: [],
-    detail: "",
-    progress: []
+    detail: [],
+    progress: [],
+    currentRowTarget:[]
   },
   mutations: {
     updateAll(state, data) {
@@ -21,29 +22,29 @@ export default {
     }
   },
   actions: {
-    getAll({commit}) {
+    getAll({dispatch,commit,state}) {
       // 获得所有同行跑评教列表
-      return myAxios.post(baseUrl+"/beEvaluation/institute/all")
+      return myAxios.post(baseUrl + "/beEvaluation/course/all")
         .then(res => {
           commit("updateAll", res.data)
-          console.log("beEvaluation/institute/all", res.data)
-          return true
+          console.log("beEvaluation/course/all", res.data)
         }).catch(err => {
           console.log(err)
           return false
         })
     },
-    getDetail({commit}, root) {
-      return post(baseUrl+"beEvaluation/course/detail", {}, res => {
+    getDetail({commit}, sttId) {
+      return post(baseUrl + "beEvaluation/course/detail", qs.stringify({sttId}), res => {
         commit("updateAll", res.data)
-        console.log("beEvaluation/course/detail",res.data)
+        console.log("beEvaluation/course/detail", res.data)
+        return res.data
       })
     },
     getProgress({commit}, sttId) {
-      return post(baseUrl+"beEvaluation/course/progress", qs.stringify({sttId: sttId}), res => {
+      return post(baseUrl + "beEvaluation/course/progress", qs.stringify({sttId: sttId}), res => {
         commit("updateProgress", res.data)
-        console.log("beEvaluation/course/progress", res.data)
-        return true
+        // console.log("beEvaluation/course/progress", res.data)
+        return res.data
       })
     }
   },

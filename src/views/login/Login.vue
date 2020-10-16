@@ -139,11 +139,11 @@
           // username: 'admin',
           // password: '123456'
 
-          // username: '10001011',
-          // password: '123456'
-
           username: '10001011',
           password: '123456'
+
+          // username: '179000501',
+          // password: '123456'
         },
         responseResult: []
       };
@@ -158,6 +158,7 @@
               this.$XModal.message({ message: '登陆成功', status: 'success' })
               this.$router.push('index')
               return this.$store.dispatch('info/loadMyInfo')
+
             }else{
               this.$XModal.message({ message: 'error 用户名或密码错误', status: 'error' })
               this.$router.push('/login')

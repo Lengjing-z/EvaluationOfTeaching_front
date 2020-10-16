@@ -9,31 +9,37 @@
       <vxe-table-column field="qnTitle" title="问卷名" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column field="claName" title="班级"></vxe-table-column>
       <vxe-table-column field="cName" title="课程"></vxe-table-column>
-      <vxe-table-column field="beginTime" title="开始时间" show-overflow="tooltip"></vxe-table-column>
-      <vxe-table-column field="endTime" title="结束时间" show-overflow="tooltip"></vxe-table-column>
+      <vxe-table-column field="beginTime" title="开始时间" :formatter="formatterTime" show-overflow="tooltip"></vxe-table-column>
+      <vxe-table-column field="endTime" title="结束时间" :formatter="formatterTime" show-overflow="tooltip"></vxe-table-column>
+      <vxe-table-column field="ppp" title="进度"  ></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
-          <vxe-button @click="">查看详情</vxe-button>
-          <vxe-button @click=" (row)">查看进度</vxe-button>
+          <vxe-button @click="showProgressing(row)">查看数据统计</vxe-button>
         </template>
       </vxe-table-column>
     </vxe-table>
     <b-modal id="progressing" size="md" hide-footer title="进度">
-
+      <v-chart class="my-chart" :options="option"/>
     </b-modal>
   </div>
 </template>
 
 <script>
-var echarts = require('echarts');
+import XEUtils from 'xe-utils'
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
 export default {
   name: "TeacherQuestionnaireFinishToStudent",
   data() {
     return {
+      questionnaireList:[],
+      option:""
     }
   },
   mounted() {
-    this.questionnaireList = this.$store.state.beEvaluation.course.all
+    this.questionnaireList = this.$route.params.data
+    console.log(this.$route.params.data)
   },
   methods: {
     showTooltipMethod({type, column, row, items, _columnIndex}) {
@@ -46,9 +52,18 @@ export default {
       }
     },
     showProgressing(row){
+      this.$store.dispatch("beEvaluation/course/getDetail",row.sttId)
 
+
+      console.log(this.$route.query.data);
       this.$bvModal.show("progressing")
+    },
+    formatterTime ({ cellValue, row, column }) {
+      return XEUtils.toDateString(cellValue, 'yyyy-MM-dd')
     }
+  },
+  components:{
+    "v-chart": ECharts
   }
 }
 </script>

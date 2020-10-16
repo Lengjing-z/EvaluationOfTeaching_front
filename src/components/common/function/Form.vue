@@ -3,11 +3,11 @@
       <div class="tableDiv">
         <div class="grxx">
           <div id = "xsxm">姓名</div>
-          <div>'黄天亮'</div>
+          <div>{{$store.state.info.mine.name}}</div>
           <div id = "crouse">课程</div>
-          <div>java</div>
+          <div>{{ qwe.courseName }}</div>
           <div id = "fdyxm">老师</div>
-          <div>王芳</div>
+          <div>{{ qwe.teacherName }}</div>
         </div>
         <div class="wenjuan">
           <table border="1" cellspacing="0" cellpadding="0">
@@ -76,8 +76,11 @@
           .dispatch('evaluation/student/submitQuestionnaire',this.it)
           .then(result => {
             if (result==='success')
+              // this.$bvModal.show("function");
               console.log(3333333);
             this.ClassData =   this.$store.state.clazz.taught;
+            this.$bvModal.hide("functionform");
+
           }).then(()=>{
         })
         this.$refs['function'].hide();

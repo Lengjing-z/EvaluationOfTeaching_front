@@ -4,13 +4,13 @@
     <manager-setting :manager="manager"></manager-setting>
     <div class='all d-none d-lg-block'>
       <div class='box' @click="toStudent">
-        <a  >
+        <a>
           <div class='card bg-01'><span class='card-content'>student
           </span></div>
         </a>
       </div>
       <div class='box' @click="toTeacher">
-        <a >
+        <a>
           <div class='card bg-02'><span class='card-content'>teacher
           </span></div>
         </a>
@@ -34,6 +34,8 @@
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
 import ManagerSetting from "components/common/Manager/ManagerSetting";
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
 
 export default {
   name: "TeacherQuestionnaireFinish",
@@ -45,26 +47,58 @@ export default {
   },
   created() {
     this.$store.dispatch("beEvaluation/course/getAll")
-      .then(res =>{
-
-        this.$router.push({path:'/teacherQuestionnaireFinishStatistics/student',query:{data:this.$store.state.beEvaluation.course.all}})
-        console.log(res)
+      .then(res => {
+        let courseAll = this.$store.state.beEvaluation.course.all;
+        courseAll.forEach(item => {
+          this.$store.dispatch("beEvaluation/course/getProgress", item.sttId)
+            .then(re => {
+              let finishNum = 0;
+              re.forEach(ite => {
+                // console.log(ite);
+                if (ite.isFinished) finishNum++
+              });
+              item.ppp = finishNum;
+            })
+        })
+        console.log("courseAll",courseAll)
+        this.$router.push({
+          path: '/teacherQuestionnaireFinishStatistics/student',
+          query: {data: courseAll}
+        })
       })
   },
-  methods:{
-    toStudent(){
+  methods: {
+    toStudent() {
       this.$store.dispatch("beEvaluation/course/getAll")
-        .then(res =>{
+        .then(res => {
+          let courseAll = this.$store.state.beEvaluation.course.all;
+          courseAll.forEach(item => {
+            this.$store.dispatch("beEvaluation/course/getProgress", item.sttId)
+              .then(re => {
+                let finishNum = 0;
+                re.forEach(ite => {
+                  // console.log(ite);
+                  if (ite.isFinished) finishNum++
+                });
+                item.ppp = finishNum;
+              })
+          })
           // this.questionnaireList = this.$store.state.beEvaluation.course.all
-          this.$router.push({path:'/teacherQuestionnaireFinishStatistics/student',query:{data:this.$store.state.beEvaluation.course.all}})
-        // console.log(res)
-      })
+          this.$router.push({
+            path: '/teacherQuestionnaireFinishStatistics/student',
+            query: {data: courseAll}
+          })
+          // console.log(res)
+        })
     },
-    toTeacher(){
+    toTeacher() {
       this.$store.dispatch("beEvaluation/institute/getAll")
-        .then(res =>{
+        .then(res => {
           // this.questionnaireList = this.$store.state.beEvaluation.institute.all
-          this.$router.push({path:'/teacherQuestionnaireFinishStatistics/teacher',query:{data:this.$store.state.beEvaluation.institute.all}})
+          this.$router.push({
+            path: '/teacherQuestionnaireFinishStatistics/teacher',
+            query: {data: this.$store.state.beEvaluation.institute.all}
+          })
           // console.log(this.questionnaireList)
         })
     }
@@ -84,11 +118,13 @@ export default {
   overflow: visible;
   z-index: 9999;
 }
+
 .box {
   display: inline-block;
   float: right;
   clear: both
 }
+
 .card {
   position: relative;
   left: 40px;
@@ -109,6 +145,7 @@ export default {
   box-shadow: 0 -8px 8px -8px rgba(0, 0, 0, .5), 0 8px 8px -8px rgba(0, 0, 0, .5);
   transition: all .3s ease-in-out
 }
+
 .card-content {
   color: #fff;
   font-family: droid sans, sans-serif;
@@ -116,6 +153,7 @@ export default {
   font-weight: 700;
   white-space: nowrap
 }
+
 .bg-01 {
   background: #539770
 }
