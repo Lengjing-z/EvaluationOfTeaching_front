@@ -2,7 +2,7 @@
   <div>
     <vxe-table
       stripe
-      :data="$route.query.data"
+      :data="questionnaireList"
       :tooltip-config="{contentMethod: showTooltipMethod, enterable: true}"
     >
       <vxe-table-column type="seq" width="60"></vxe-table-column>
@@ -38,8 +38,9 @@ export default {
     }
   },
   mounted() {
-    this.questionnaireList = this.$route.params.data
-    console.log(this.$route.params.data)
+    this.questionnaireList = this.$store.state.beEvaluation.course.all
+
+    console.log(this.$store.state.beEvaluation.course.all)
   },
   methods: {
     showTooltipMethod({type, column, row, items, _columnIndex}) {

@@ -57,13 +57,15 @@ export default {
                 // console.log(ite);
                 if (ite.isFinished) finishNum++
               });
-              item.ppp = finishNum;
+              // item.ppp = finishNum;
+              this.$set(item,'ppp',finishNum+"/"+re.length)
             })
         })
+        this.$store.commit("beEvaluation/course/updateAll",courseAll)
         console.log("courseAll",courseAll)
         this.$router.push({
           path: '/teacherQuestionnaireFinishStatistics/student',
-          query: {data: courseAll}
+          query: {data: this.$store.state.beEvaluation.course.all}
         })
       })
   },
@@ -80,15 +82,16 @@ export default {
                   // console.log(ite);
                   if (ite.isFinished) finishNum++
                 });
-                item.ppp = finishNum;
+                // item.ppp = finishNum;
+                this.$set(item,'ppp',finishNum+"/"+re.length)
               })
           })
-          // this.questionnaireList = this.$store.state.beEvaluation.course.all
+          this.$store.commit("beEvaluation/course/updateAll",courseAll)
+          console.log("courseAll",courseAll)
           this.$router.push({
             path: '/teacherQuestionnaireFinishStatistics/student',
-            query: {data: courseAll}
+            query: {data: this.$store.state.beEvaluation.course.all}
           })
-          // console.log(res)
         })
     },
     toTeacher() {
