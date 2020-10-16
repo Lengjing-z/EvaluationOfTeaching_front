@@ -132,11 +132,11 @@
     data() {
       return {
         loginForm: {
-          username: 'admin',
-          password: '123456'
-
-          // username: '10001011',
+          // username: 'admin',
           // password: '123456'
+
+          username: '10001011',
+          password: '123456'
 
           // username: '179000501',
           // password: '123456'

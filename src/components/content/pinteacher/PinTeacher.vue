@@ -4,13 +4,7 @@
       <NavBar></NavBar>
     </header>
     <div>
-      <b-breadcrumb id="Na">
-        <b-breadcrumb-item @click="toIndex()" href="#home">
-          <b-icon icon="house-fill" scale="1.25" shift-v="1.25" style="color: black" aria-hidden="true"></b-icon>
-         <span style="color: black">首页</span>
-        </b-breadcrumb-item>
-        <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价老师</span></b-breadcrumb-item>
-      </b-breadcrumb>
+      <manager-setting :manager="manager"></manager-setting>
       <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught()" variant="outline-primary">查询所属班级</b-button>
       <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught1()" variant="outline-primary">学生查询所属班级</b-button>
     </div>
@@ -30,7 +24,7 @@
           <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
             <b-icon  icon="tools"></b-icon>
           </b-button>
-          <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"  v-b-modal.my-modal2 title="查看所有问卷"  style="width: 60px" variant="outline-primary">
+          <b-button v-b-tooltip.hover @click="showModal3(ClassData[index].id)"   title="查看所有问卷"  style="width: 60px" variant="outline-primary">
             <b-icon icon="person-fill"></b-icon>
           </b-button>
           <b-button style="width: 60px" variant="outline-primary">
@@ -42,13 +36,13 @@
     </div>
 
     <div>
-      <b-modal size="xl" ref="function" hide-footer title="ALl Students Message">
-        <Form :qwe="qnId"></Form>
+      <b-modal id="functionform" size="lg"  hide-footer title="进行评教">
+        <Form :qwe="qnId" :currentFormData = "currentFormData"></Form>
       </b-modal>
     </div>
 
     <div>
-      <b-modal  ref="my-modal2" hide-footer title="ALl Students Message">
+      <b-modal  id="my-modal2" hide-footer title="ALl Students Message">
         <vxe-table
           border
           show-footer
@@ -58,7 +52,7 @@
           <vxe-table-column field="qnTitle" title="Name" width="60%"></vxe-table-column>
           <vxe-table-column  title="Do" width="30%">
             <template v-slot="{ row }">
-              <vxe-button @click="editRowEvent(row)">评教</vxe-button>
+              <vxe-button  @click="editRowEvent(row)">评教</vxe-button>
             </template>
           </vxe-table-column>
          <!-- <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
@@ -80,6 +74,7 @@
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
 import Form from "components/common/function/Form";
+import ManagerSetting from "components/common/Manager/ManagerSetting";
 
 export default {
   created() {
@@ -88,7 +83,7 @@ export default {
   methods:{
     editRowEvent(row){
       this.qnId = '';
-      this.$refs['function'].show();
+      // this.$refs['function'].show();
       this.$store
         .dispatch('admin/questionnaire/detail',row.qnId)
         .then(result => {
@@ -96,9 +91,8 @@ export default {
             console.log(3333333);
           this.ClassData = this.$store.state.clazz.taught;
           this.qnId = row;
-          this.$bvModal.show("function");
-        }).then(()=>{
-      })
+          this.$bvModal.show("functionform");
+        })
     },
     QueryloadTaught(){
       this.$store
@@ -127,10 +121,13 @@ export default {
         .then(result => {
           if (result==='success')
             console.log(3333333);
-          this.tableData =  this.$store.state.clazz.query;
+          this.tableData =  this.$store.state.clazz.query.filter(function (item) {
+            return item.finished === false
+          });
         }).then(()=>{
       })
-      this.$refs['my-modal2'].show();
+      // this.$refs['my-modal2'].show();
+      this.$bvModal.show('my-modal2');
       this.$store.dispatch("evaluation/getStudentDetail",1);
     },
     close(){
@@ -141,14 +138,17 @@ export default {
   components:{
     NavBar,
     Footer,
-    Form
+    Form,
+    ManagerSetting
   },
   data(){
     return{
+      manager:[{name:'评教问卷'}],
       qnId:'',
       formData: {
         qnTitle: null,
         qnId:null,
+        currentFormData:"",
         nickname: null,
         role: null,
         sex: null,
