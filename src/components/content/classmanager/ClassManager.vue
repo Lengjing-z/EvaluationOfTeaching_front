@@ -272,7 +272,7 @@ export default {
     serchClass(){
       console.log(this.classname);
       this.$store
-        .dispatch('admin/class/query',{name:this.classname})
+        .dispatch('admin/class/query',{name:''})
         .then(result => {
           if (result==='success')
             console.log('this' + '  ' + 'success');
@@ -322,7 +322,6 @@ export default {
     setTimeout(() => {
       this.$refs['my-modal'].toggle('#toggle-btn')
       this.$XModal.message({ message: '保存成功', status: 'success' })
-
       console.log(index);
     }, 1000)
   },
