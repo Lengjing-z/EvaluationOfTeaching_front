@@ -1,8 +1,7 @@
 import myAxios from "network/request"
 import qs from 'qs'
 import post from "@/store/util";
-
-let baseUrl = 'http://localhost:8080/back/'
+let  baseUrl = 'http://localhost:8080/back/'
 export default {
   namespaced: true,
   state: {

@@ -6,17 +6,29 @@ export default {
   namespaced: true,
   state: {
     userList: [],
+    q:[],
     allTeacher: []
   },
   mutations: {
     updateUserList(state, data) {
       state.userList = data
     },
+    updateQuery(state,data){
+      state.q = data
+    },
     updateAllTeacher(state, data) {
       state.allTeacher = data
     }
   },
   actions: {
+    allStudent({commit}){
+      return post('admin/user/allStudent',{},res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery',res.data)
+        return res.data
+      })
+    },
     queryUserByCode({commit}, code) {
       // console.log(code)
       return post(

@@ -1,9 +1,11 @@
 import myAxios from "../../../network/request";
 import qs from 'qs'
+import post from "@/store/util";
 export default {
   state:{
     userForm: [],
     loginStatus: '',
+    q:[]
   },
   mutations:{
     updateLoginForm(state,data){
@@ -11,9 +13,11 @@ export default {
     },
     updateLoginStatus(state,data){
       state.loginStatus = data
-    }
+    },
+
   },
   actions:{
+
     query({commit},username){
       console.log(username);
       let devAccount={

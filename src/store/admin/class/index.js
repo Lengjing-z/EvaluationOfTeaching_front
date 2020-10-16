@@ -6,7 +6,8 @@ export default {
   namespaced:true,
   state:{
     query:[],
-    creations:[]
+    creations:[],
+    q:[]
   },
   mutations:{
     updateQuery(state,data){
@@ -14,6 +15,9 @@ export default {
     },
     addCreations(state,data){
       state.creations = data
+    },
+    updateQuery1(state,data){
+      state.q = data
     }
   },
   actions:{
@@ -26,6 +30,15 @@ export default {
       console.log(init);
       return post(baseUrl+'create',init,res=>{
         console.log('success');
+        return res.data
+      })
+    },
+    allStudent({commit},cid){
+      console.log(cid);
+      return post('admin/class/allStudent',qs.stringify({cid:cid}),res=>{
+        console.log('success');
+        console.log(res.data);
+        commit('updateQuery1',res.data)
         return res.data
       })
     },

@@ -29,6 +29,11 @@ export default {
     NavBar,
     Footer,
     DepartmentCard
+  },
+  methods:{
+    toIndex(){
+      this.$router.push('./index');
+    },
   }
 }
 </script>

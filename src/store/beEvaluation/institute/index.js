@@ -41,8 +41,9 @@ export default {
         return true
       })
     },
-    getProgress({commit}, sttId) {
-      return post(baseUrl+"beEvaluation/institute/progress", qs.stringify({sttId: sttId}), res => {
+    getProgress({commit}, tttId) {
+      console.log(tttId);
+      return post(baseUrl+"beEvaluation/institute/progress", qs.stringify({tttId: tttId}), res => {
         commit("updateProgress", res.data)
         console.log("beEvaluation/institute/progress", res.data)
         return true

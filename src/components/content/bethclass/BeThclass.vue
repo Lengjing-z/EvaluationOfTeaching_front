@@ -3,7 +3,16 @@
   <header>
     <NavBar></NavBar>
   </header>
-    <main>
+    <div style="width: 70%;margin: 0 auto">
+      <b-breadcrumb id="Na">
+        <b-breadcrumb-item @click="toIndex()" href="#home">
+          <b-icon icon="house-fill" scale="1.25" shift-v="1.25" style="color: black" aria-hidden="true"></b-icon>
+          <span style="color: black">首页</span>
+        </b-breadcrumb-item>
+        <b-breadcrumb-item href="#foo" style="color: black"><span style="color: black">评价同行</span></b-breadcrumb-item>
+      </b-breadcrumb>
+    </div>
+    <main style="width: 70%;margin: 0 auto">
       <!--所授班级-->
       <p class="title_class">所授班级</p>
       <div class="single-member effect-1" v-for="(item,index) in ClassData">
@@ -30,39 +39,37 @@
           </b-button-group>
         </div>
       </div>
-    </main>
-    <div style="clear: both"></div>
-    <!--所授课程-->
-    <div class="couer">
-      <p class="title_course">所教课程</p>
-      <div class="single-member effect-1" v-for="(item,index) in courseData">
-        <div class="member-image">
-          <!--<img src="" width="150" height="80" alt="">-->
-          <div id="img1">{{courseData[index].id}}</div>
-        </div>
-        <div class="member-info">
-          <h4>{{ courseData[index].name }}</h4>
-          <h5>PinYing</h5>
-          <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
 
-          <b-button-group id="dosomeThing1">
-            <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
-              <b-icon  icon="tools"></b-icon>
-            </b-button>
-            <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有班级"  style="width: 60px" variant="outline-primary">
-              <b-icon icon="person-fill"></b-icon>
-            </b-button>
+      <div style="clear: both"></div>
+      <!--所授课程-->
+      <div class="couer">
+        <p class="title_course">所教课程</p>
+        <div id="beCourse" class="single-member effect-1" v-for="(item,index) in courseData">
+          <div class="member-image">
+            <!--<img src="" width="150" height="80" alt="">-->
+            <div id="img">{{courseData[index].id}}</div>
+          </div>
+          <div class="member-info">
+            <h4>{{ courseData[index].name }}</h4>
+            <h5>PinYing</h5>
+            <!--<p style="color: #2a91d8" @click="test(index)">所有班级</p>-->
 
-            <b-button style="width: 60px" variant="outline-primary">
-              <b-icon @click="test()" icon="inbox-fill"></b-icon>
-            </b-button>
-          </b-button-group>
+            <b-button-group id="dosomeThing">
+              <b-button  v-b-modal.my-modal style="width: 60px" variant="outline-primary" @click="showModal(index)">
+                <b-icon  icon="tools"></b-icon>
+              </b-button>
+              <b-button v-b-tooltip.hover v-b-modal.my-modal2 @click="showModal3(index)" title="查看所有班级"  style="width: 60px" variant="outline-primary">
+                <b-icon icon="person-fill"></b-icon>
+              </b-button>
+
+              <b-button style="width: 60px" variant="outline-primary">
+                <b-icon @click="test()" icon="inbox-fill"></b-icon>
+              </b-button>
+            </b-button-group>
+          </div>
         </div>
       </div>
-    </div>
-
-
-
+    </main>
     <footer>
     <Footer></Footer>
   </footer>
@@ -77,6 +84,11 @@ export default {
   components:{
     NavBar,
     Footer
+  },
+  methods:{
+    toIndex(){
+      this.$router.push('./index');
+    },
   },
   created() {
     this.$store
@@ -98,6 +110,7 @@ export default {
     })
   },
   data(){
+
     return{
       ClassData:[],
       courseData:[],
@@ -114,7 +127,9 @@ main,.couer {
   width: 1000px;
   margin: 0 auto;
 }
-
+#beCourse{
+  margin-left: -270px;
+}
 .member-info p{
   margin-top: -15px;
 }
