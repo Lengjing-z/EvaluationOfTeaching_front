@@ -43,16 +43,29 @@ export default {
   name: "QuestionnaireProgress",
   data() {
     return {
-      manager:[{name:"评教管理"}],
-      progressQuestionnaires:[]
+      manager:[{name:"评教管理"}]
     }
   },
   created() {
     this.$store.dispatch("admin/evaluation/getStudentAllList")
     .then(res =>{
-      console.log(res)
-      this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
-      this.$router.push({path:'/questionnaireProgress/student/data',query:{data:this.progressQuestionnaires}})
+      // console.log(res)
+      let studentAll = this.$store.state.admin.evaluation.studentAllList;
+      // 数据进行处理  加入进度
+      // studentAll.forEach(item => {
+      //   this.$store.dispatch("", item.sttId)
+      //     .then(re => {
+      //       let finishNum = 0;
+      //       re.forEach(ite => {
+      //         // console.log(ite);
+      //         if (ite.isFinished) finishNum++
+      //       });
+      //       // item.ppp = finishNum;
+      //       this.$set(item,'ppp',finishNum+"/"+re.length)
+      //     })
+      // })
+      // this.$store.commit("admin/evaluation/updateStudentAllList",studentAll)
+      this.$router.push({path:'/questionnaireProgress/student'})
     })
   },
   components:{
@@ -64,17 +77,16 @@ export default {
     toStudent(){
       this.$store.dispatch("admin/evaluation/getStudentAllList")
         .then(res =>{
-          console.log(res)
-          this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
-          this.$router.push({path:'/questionnaireProgress/student/data',query:{data:this.progressQuestionnaires}})
+          // console.log(res)
+          // this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
+          this.$router.push({path:'/questionnaireProgress/student'})
         })
     },
     toTeacher(){
       this.$store.dispatch("admin/evaluation/getTeacherAllList")
         .then(res =>{
-          console.log(res)
-          this.progressQuestionnaires = this.$store.state.admin.evaluation.teacherAllList
-          this.$router.push({path:'/questionnaireProgress/teacher/data',query:{data:this.progressQuestionnaires}})
+          // console.log(res)
+          this.$router.push({path:'/questionnaireProgress/teacher'})
         })
     }
   }

@@ -21,7 +21,13 @@ import ECharts from 'vue-echarts' // 在 webpack 环境下指向 components/ECha
 
 // 手动引入 ECharts 各模块来减小打包体积
 import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
+import 'echarts/lib/chart/sunburst'
+// 引入提示框组件、标题组件、工具箱组件。
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/toolbox';
+
 
 // 如果需要配合 ECharts 扩展使用，只需要直接引入扩展包即可
 // 以 ECharts-GL 为例：

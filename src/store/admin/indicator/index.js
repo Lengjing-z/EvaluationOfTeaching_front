@@ -74,10 +74,11 @@ export default {
         })
     },
     getDetail({commit}, root) {
-      return myAxios.post("admin/indicator/detail", root)
+      console.log(root)
+      return myAxios.post("http://localhost:8080/back/admin/indicator/detail", root)
         .then(res => {
           commit("updateindicatorDetail", res.data)
-          // console.log(res.data)
+          console.log(res.data)
           let maxid = 0
           res.data.forEach(item => {
             if (Number(item.id) > maxid)

@@ -42,7 +42,7 @@ export default {
         })
     },
     getStudentDetail({commit},id){
-      return myAxios.post(baseUrl+"evaluation/student/detail",qs.stringify({id:id}))
+      return myAxios.post(baseUrl+"evaluation/student/detail",qs.stringify({sttId:id}))
         .then(res =>{
           commit("updateStudentDetail",res.data)
           console.log("evaluation/student/detail",res.data)
