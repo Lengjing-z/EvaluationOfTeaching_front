@@ -2,7 +2,7 @@
   <div>
     <nav-bar></nav-bar>
     <manager-setting :manager="manager"></manager-setting>
-    <div class="container mt-3 mb-5">
+    <div class="container mt-3 mb-5" style="min-height: 564px">
       <header>
         <h3>发布问卷</h3>
       </header>
@@ -15,8 +15,14 @@
         <vxe-table-column type="checkbox" width="60"></vxe-table-column>
         <vxe-table-column type="seq" width="120"></vxe-table-column>
         <vxe-table-column field="title" title="Title"></vxe-table-column>
-
       </vxe-table>
+      <vxe-pager
+        background
+        :current-page.sync="page5.currentPage"
+        :page-size.sync="page5.pageSize"
+        :total="page5.totalResult"
+        :layouts="['PrevJump', 'PrevPage', 'JumpNumber', 'NextPage', 'NextJump', 'Sizes', 'FullJump', 'Total']">
+      </vxe-pager>
 
       <b-modal ref="issue" hide-footer title="发布问卷">
         <vxe-form :data="issueFormData">
@@ -81,7 +87,11 @@ export default {
         startTime: "",
         endTime: ""
       },
-
+      page5: {
+        currentPage: 1,
+        pageSize: 10,
+        totalResult: 300
+      }
     }
   },
   created() {

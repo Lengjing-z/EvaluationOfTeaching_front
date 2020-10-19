@@ -23,14 +23,14 @@ export default {
       })
     },
     create({state},init){
-      console.log(init);
+      // console.log(init);
       return post(baseUrl+'create',init,res=>{
         console.log('success');
         return res.data
       })
     },
     query({commit},classname){
-      console.log(classname + '1111');
+      // console.log(classname + '1111');
       return post(baseUrl+'query',qs.stringify(classname),res=>{
         console.log('success');
         console.log(res.data);
