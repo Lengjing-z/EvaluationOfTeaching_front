@@ -18,7 +18,7 @@ export default {
       state.teacherAllList = data
     },
     updateStudentDetail(state,data){
-      state.teacherAllList = data
+      state.studentDetail = data
     },
     updateTeacherDetail(state,data){
       state.teacherDetail = data

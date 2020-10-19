@@ -225,11 +225,13 @@ export default {
       this.$store.dispatch("admin/indicator/createIndicator", this.targetDataChildren)
         .then(res => {
           if (res){
-            console.log("创建指标完成")
+            // console.log("创建指标完成")
             // 创建文件完成 查询所有问卷
+            this.$XModal.message({ message: '创建指标完成', status: 'success' })
             this.queryAllTarget();
           }else {
-            console.log("创建指标失败")
+            // console.log("创建指标失败")
+            this.$XModal.message({ message: '创建指标失败', status: 'warning' })
           }
           // 关闭模态框
           this.$bvModal.hide('targetmanage')
@@ -256,16 +258,18 @@ export default {
       this.$store.dispatch("admin/indicator/createQuestionnaire", questionnaire)
         .then(res => {
           if (res) {
-            console.log("success");
+            // console.log("success");
+            this.$XModal.message({ message: '导入问卷成功', status: 'success' , iconStatus: 'fa fa-thumbs-up'})
             this.$bvModal.hide('my-modal1');
             this.$store
               .dispatch("admin/questionnaire/loadGetAllNaire")
               .then(res => {
                 this.allquestionnaire = this.$store.state.admin.questionnaire.questionnaireAll
-                console.log(res)
+                // console.log(res)
               })
           } else
-            console.log("fail")
+            this.$XModal.message({ message: '导入问卷失败', status: 'error' })
+            // console.log("fail")
         })
     },
 
