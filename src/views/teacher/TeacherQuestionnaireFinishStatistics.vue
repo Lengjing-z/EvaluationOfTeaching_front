@@ -49,6 +49,7 @@ export default {
     this.$store.dispatch("beEvaluation/course/getAll")
       .then(res => {
         let courseAll = this.$store.state.beEvaluation.course.all;
+        // 数据进行处理  加入进度
         courseAll.forEach(item => {
           this.$store.dispatch("beEvaluation/course/getProgress", item.sttId)
             .then(re => {
@@ -57,13 +58,14 @@ export default {
                 // console.log(ite);
                 if (ite.isFinished) finishNum++
               });
-              item.ppp = finishNum;
+              // item.ppp = finishNum;
+              this.$set(item,'ppp',finishNum+"/"+re.length)
             })
         })
+        this.$store.commit("beEvaluation/course/updateAll",courseAll)
         console.log("courseAll",courseAll)
         this.$router.push({
-          path: '/teacherQuestionnaireFinishStatistics/student',
-          query: {data: courseAll}
+          path: '/teacherQuestionnaireFinishStatistics/student'
         })
       })
   },
@@ -80,15 +82,15 @@ export default {
                   // console.log(ite);
                   if (ite.isFinished) finishNum++
                 });
-                item.ppp = finishNum;
+                // item.ppp = finishNum;
+                this.$set(item,'ppp',finishNum+"/"+re.length)
               })
           })
-          // this.questionnaireList = this.$store.state.beEvaluation.course.all
+          this.$store.commit("beEvaluation/course/updateAll",courseAll)
+          // console.log("courseAll",courseAll)
           this.$router.push({
-            path: '/teacherQuestionnaireFinishStatistics/student',
-            query: {data: courseAll}
+            path: '/teacherQuestionnaireFinishStatistics/student'
           })
-          // console.log(res)
         })
     },
     toTeacher() {
@@ -96,8 +98,7 @@ export default {
         .then(res => {
           // this.questionnaireList = this.$store.state.beEvaluation.institute.all
           this.$router.push({
-            path: '/teacherQuestionnaireFinishStatistics/teacher',
-            query: {data: this.$store.state.beEvaluation.institute.all}
+            path: '/teacherQuestionnaireFinishStatistics/teacher'
           })
           // console.log(this.questionnaireList)
         })
@@ -160,6 +161,15 @@ export default {
 
 .bg-02 {
   background: #be7467
+}
+.pro {
+  min-width: 46.875rem  /* 750/16 */;
+  min-height: 25rem  /* 400/16 */;
+  margin-bottom: 1.875rem  /* 30/16 */;
+}
+.pro2{
+  min-width: 46.875rem  /* 750/16 */;
+  min-height: 31.25rem  /* 500/16 */;
 }
 
 </style>

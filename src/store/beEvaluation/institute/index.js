@@ -35,10 +35,11 @@ export default {
 
     },
     getDetail({commit}, tttId) {
+      console.log(tttId)
       return post(baseUrl+"beEvaluation/institute/detail", qs.stringify({tttId: tttId}), res => {
         commit("updateDetail", res.data)
         console.log("beEvaluation/institute/detail",res.data)
-        return true
+        return res.data.answers
       })
     },
     getProgress({commit}, tttId) {
@@ -46,7 +47,7 @@ export default {
       return post(baseUrl+"beEvaluation/institute/progress", qs.stringify({tttId: tttId}), res => {
         commit("updateProgress", res.data)
         console.log("beEvaluation/institute/progress", res.data)
-        return true
+        return res.data
       })
     }
   },

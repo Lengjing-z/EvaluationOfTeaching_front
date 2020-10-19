@@ -123,12 +123,12 @@ const routes = [
     component: QuestionnaireProgress,
     children: [
       {
-        path: 'student/:data',
+        path: 'student',
         name:'QuestionnaireProgressStudent',
         component:QuestionnaireProgressStudent
       },
       {
-        path: 'teacher/:data',
+        path: 'teacher',
         name:'QuestionnaireProgressTeacher',
         component:QuestionnaireProgressTeacher
       }
@@ -163,6 +163,12 @@ const routes = [
   }
 
 ]
+
+const originalPush = VueRouter.prototype.push
+
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const router = new VueRouter({
   mode: 'history',

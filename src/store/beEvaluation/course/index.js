@@ -7,8 +7,7 @@ export default {
   state: {
     all: [],
     detail: [],
-    progress: [],
-    currentRowTarget:[]
+    progress: []
   },
   mutations: {
     updateAll(state, data) {
@@ -35,9 +34,9 @@ export default {
     },
     getDetail({commit}, sttId) {
       return post(baseUrl + "beEvaluation/course/detail", qs.stringify({sttId}), res => {
-        commit("updateAll", res.data)
+        commit("updateDetail", res.data.answers)
         console.log("beEvaluation/course/detail", res.data)
-        return res.data
+        return res.data.answers
       })
     },
     getProgress({commit}, sttId) {

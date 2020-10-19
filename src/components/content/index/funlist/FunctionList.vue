@@ -8,7 +8,6 @@
         :icon="item.icon"
         :url="item.url"
         :powers="item.powers"
-
       />
 <!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
 <!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
@@ -61,7 +60,8 @@ export default {
         {
           "title": "权限管理",
           "url": "limits",
-          "icon": "#icon-kaowuguanligongzuo"
+          "icon": "#icon-kaowuguanligongzuo",
+          powers: this.hasAnyPower(1,2,3,5,6,7,8,9)
         },
         {
           "title": "评教管理",
