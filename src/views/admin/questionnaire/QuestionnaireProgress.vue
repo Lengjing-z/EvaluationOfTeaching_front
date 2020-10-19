@@ -4,16 +4,12 @@
     <manager-setting :manager = "manager"></manager-setting>
     <div class='all d-none d-lg-block'>
       <div class='box'>
-        <a href='#'>
           <div class='card bg-01'><span class='card-content' @click="toStudent">student
           </span></div>
-        </a>
       </div>
       <div class='box'>
-        <a href='#'>
           <div class='card bg-02'><span class='card-content' @click="toTeacher">teacher
           </span></div>
-        </a>
       </div>
     </div>
     <div class="container mt-3 mb-5">
@@ -52,19 +48,19 @@ export default {
       // console.log(res)
       let studentAll = this.$store.state.admin.evaluation.studentAllList;
       // 数据进行处理  加入进度
-      // studentAll.forEach(item => {
-      //   this.$store.dispatch("", item.sttId)
-      //     .then(re => {
-      //       let finishNum = 0;
-      //       re.forEach(ite => {
-      //         // console.log(ite);
-      //         if (ite.isFinished) finishNum++
-      //       });
-      //       // item.ppp = finishNum;
-      //       this.$set(item,'ppp',finishNum+"/"+re.length)
-      //     })
-      // })
-      // this.$store.commit("admin/evaluation/updateStudentAllList",studentAll)
+      studentAll.forEach(item => {
+        this.$store.dispatch("admin/evaluation/getStudentProgress", item.stId)
+          .then(re => {
+            let finishNum = 0;
+            re.forEach(ite => {
+              // console.log(ite);
+              if (ite.isFinished) finishNum++
+            });
+            // item.ppp = finishNum;
+            this.$set(item,'pro',finishNum+"/"+re.length)
+          })
+      })
+      this.$store.commit("admin/evaluation/updateStudentAllList",studentAll)
       this.$router.push({path:'/questionnaireProgress/student'})
     })
   },
@@ -77,15 +73,38 @@ export default {
     toStudent(){
       this.$store.dispatch("admin/evaluation/getStudentAllList")
         .then(res =>{
-          // console.log(res)
-          // this.progressQuestionnaires = this.$store.state.admin.evaluation.studentAllList
+          let studentAll = this.$store.state.admin.evaluation.studentAllList;
+          // 数据进行处理  加入进度
+          studentAll.forEach(item => {
+            this.$store.dispatch("admin/evaluation/getStudentProgress", item.stId)
+              .then(re => {
+                let finishNum = 0;
+                re.forEach(ite => {
+                  if (ite.isFinished) finishNum++
+                });
+                this.$set(item,'pro',finishNum+"/"+re.length)
+              })
+          })
+          this.$store.commit("admin/evaluation/updateStudentAllList",studentAll)
           this.$router.push({path:'/questionnaireProgress/student'})
         })
     },
     toTeacher(){
       this.$store.dispatch("admin/evaluation/getTeacherAllList")
         .then(res =>{
-          // console.log(res)
+          let teacherAll = this.$store.state.admin.evaluation.teacherAllList;
+          // 数据进行处理  加入进度
+          teacherAll.forEach(item => {
+            this.$store.dispatch("admin/evaluation/getTeacherProgress", item.id)
+              .then(re => {
+                let finishNum = 0;
+                re.forEach(ite => {
+                  if (ite.isFinished) finishNum++
+                });
+                this.$set(item,'pro',finishNum+"/"+re.length)
+              })
+          })
+          this.$store.commit("admin/evaluation/updateTeacherAllList",teacherAll)
           this.$router.push({path:'/questionnaireProgress/teacher'})
         })
     }
