@@ -125,7 +125,7 @@ header{
     color: #b1b1b1;
   }
 #nav_manager-department {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
 }
 </style>

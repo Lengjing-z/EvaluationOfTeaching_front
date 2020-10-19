@@ -3,7 +3,7 @@
     <div class="tableDiv">
       <div class="grxx">
         <div id = "xsxm">姓名</div>
-        <div>'黄天亮'</div>
+        <div>{{ this.user.name }}</div>
         <div id = "crouse">课程</div>
         <div>java</div>
         <div id = "fdyxm">老师</div>
@@ -81,7 +81,9 @@ name: "Form1",
           if (result==='success')
             console.log(3333333);
           this.ClassData =   this.$store.state.clazz.taught;
+          this.$XModal.message({ message: '评教成功', status: 'success' })
         }).then(()=>{
+
       })
       this.$bvModal.hide("function");
       /*this.$refs['function'].hide();*/
