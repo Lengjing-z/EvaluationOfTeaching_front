@@ -67,7 +67,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('admin/power/loadAll')
-    this.$store.dispatch('admin/power/loadQuery', {uId: 32}).then(() => {
+    console.log(this.$store.state.info.mine.id);
+    this.$store.dispatch('admin/power/loadQuery', {uId: this.$store.state.info.mine.id}).then(() => {
       // window.console.log(this.$store.state.admin.power.query)
     })
     TagCanvas.Start('myCanvas', 'tags', {

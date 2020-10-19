@@ -143,6 +143,10 @@ const routes = [
     path: '/teacherQuestionnaireFinish',
     name: 'TeacherQuestionnaireFinish',
     component: TeacherQuestionnaireFinish
+  },{
+    path: '/studentQuestionnaireFinish',
+    name: 'StudentQuestionnaireFinish',
+    component: StudentQuestionnaireFinish
   },
   {
     path: '/teacherQuestionnaireFinishStatistics',

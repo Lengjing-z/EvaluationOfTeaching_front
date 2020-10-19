@@ -80,7 +80,7 @@ export default {
         },
         {
           "title": "查看评价结果(学生)",
-          "url": "test",
+          "url": "studentQuestionnaireFinish",
           "icon": "#icon-tubiaozhizuomoban26"
         },
         {

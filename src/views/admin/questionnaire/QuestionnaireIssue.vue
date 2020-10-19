@@ -30,7 +30,10 @@
           </vxe-form-item>
           <vxe-form-item title="发布至" field="toPlace" span="24" class="mb-3">
             <template v-slot>
-              <b-form-select v-model="issueFormData.selected" :options="allSelect"></b-form-select>
+<!--              <b-form-select v-model="issueFormData.selected" :options="allSelect"></b-form-select>-->
+              <vxe-select v-model="issueFormData.selected" placeholder="多选可清除" multiple clearable>
+                <vxe-option v-for="item in allSelect" :value="item" :label="item.text"></vxe-option>
+              </vxe-select>
             </template>
           </vxe-form-item>
           <vxe-form-item title="开始时间" field="startTime" span="24" >
@@ -74,7 +77,7 @@ export default {
       allSelect: [],
       issueFormData: {
         status: '1',
-        selected: null,
+        selected: [],
         startTime: "",
         endTime: ""
       },
@@ -97,6 +100,9 @@ export default {
   methods: {
     // 发布问卷
     issueQuestionnaire() {
+      this.issueFormData.startTime = ""
+      this.issueFormData.endTime = ""
+      this.issueFormData.selected = []
       if (this.issueFormData.status == 0) {
         this.$store.dispatch("admin/questionnaire/queryAllInstitute")
         .then(res =>{
@@ -127,6 +133,7 @@ export default {
     },
     changeStatus() {
       this.allSelect = []
+      this.issueFormData.selected = []
       if (this.issueFormData.status == 0) {
         this.$store.dispatch("admin/questionnaire/queryAllInstitute")
           .then(res => {
@@ -148,6 +155,7 @@ export default {
                 let obj =  {value: item, text: item.className+"/"+item.coursceName+'/'+item.teacherName}
                 course.push(obj)
               })
+
               this.allSelect = course
             }
           })
@@ -158,7 +166,7 @@ export default {
     },
     submitIssue() {
       let selectRecords = this.$refs.chooseNaire.getCheckboxRecords()
-      console.log(this.issueFormData)
+      // console.log(this.issueFormData)
       this.issueFormData.naires = selectRecords
       this.$store.dispatch("admin/questionnaire/issueQuestionnaire",this.issueFormData)
       .then(res =>{

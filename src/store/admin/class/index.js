@@ -7,11 +7,15 @@ export default {
   state:{
     query:[],
     creations:[],
-    q:[]
+    q:[],
+    query2:[]
   },
   mutations:{
     updateQuery(state,data){
       state.query = data
+    },
+    updateQuery2(state,data){
+      state.query2 = data
     },
     addCreations(state,data){
       state.creations = data
@@ -47,6 +51,14 @@ export default {
       return post(baseUrl+'query',qs.stringify({name:''}),res=>{
         console.log("queryClazz",res.data);
         commit('updateQuery',res.data)
+        return res.data
+      })
+    },
+    queryC({commit},classname){
+      console.log(classname , 'classname');
+      return post(baseUrl+'query',qs.stringify(classname),res=>{
+        console.log("queryClazz",res.data);
+        commit('updateQuery2',res.data)
         return res.data
       })
     },

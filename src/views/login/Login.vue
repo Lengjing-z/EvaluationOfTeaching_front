@@ -155,6 +155,7 @@
           .dispatch('login')
           .then(result => {
             if (result==='success'){
+              console.log("login success");
               this.$XModal.message({ message: '登陆成功', status: 'success' })
               this.$router.push('index')
               return this.$store.dispatch('info/loadMyInfo')

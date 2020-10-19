@@ -167,7 +167,8 @@ export default {
         date: '2016-05-04',
         name: '软件工程',
         address: '上海市普陀区金沙江路 1517 弄'
-      }, {
+      },
+        {
         id:2,
         sex:"男",
         age: 18,

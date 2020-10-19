@@ -58,7 +58,7 @@ export default {
     loadQuery({commit},condition){
       return post(baseUrl+'query',condition,res=>{
         commit('updateQuery',res.data)
-        console.log("loadQuery",res.data)
+        // console.log("loadQuery",res.data)
         return true
       })
     },
