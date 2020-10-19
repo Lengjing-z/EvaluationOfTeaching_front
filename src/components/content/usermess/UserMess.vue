@@ -1,96 +1,69 @@
 <template>
-  <div style="width: 40%;margin: 20px auto">
-    <b-form @submit="onSubmit"  @reset="onReset" v-if="show">
+  <div style="width: 80%;margin:0 auto">
+    <b-card-group columns>
+      <b-card id="i"
+              title="个人信息"
+        img-src="https://placekitten.com/g/400/450"
+        img-alt="Image"
+        img-top
+      >
+        <b-card-text style="font-size: 15px">
+            {{ this.title }}
+        </b-card-text>
+      </b-card>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.name"
-          required
-          placeholder="Enter name"
-        ></b-form-input>
-      </b-form-group>
+      <b-card header="学院信息">
+        <blockquote class="blockquote mb-0">
+          <p>所在学院  : {{this.form.institute.name}}</p>
+        </blockquote>
+        <blockquote  v-if="isTeacher" class="blockquote mb-0">
+          <p>所教班级  : <span v-for="(item,index) in Data1">{{Data1[index].name}}</span></p>
+          <p>所教课程  : <span v-for="(item,index) in Data1">{{Data2[index].name}}</span></p>
+        </blockquote>
+        <blockquote  v-if="isStudent" class="blockquote mb-0">
+          <p>所属班级  : <span v-for="(item,index) in Data3">{{Data3[index].name}}</span></p>
+          <p>所属课程  : <span v-for="(item,index) in Data4">{{Data4[index].name}}</span></p>
+        </blockquote>
+      </b-card>
 
-      <b-form-group label="Your Code:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.code"
-          required
-          placeholder="Enter code"
-        ></b-form-input>
-      </b-form-group>
+      <b-card title="详细信息" img-src="https://placekitten.com/500/350" img-alt="Image" img-top>
+        <b-card-text>
+          <p>学号 : {{this.form.code}}</p>
+          <p>年龄 : {{this.form.age}}</p>
+          <p>身高 : {{this.form.height}}</p>
+        </b-card-text>
+        <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
+      </b-card>
 
-      <b-form-group label="Your Age:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.age"
-          required
-          placeholder="Enter code"
-        ></b-form-input>
-      </b-form-group>
+      <b-card bg-variant="primary" text-variant="white">
+        <blockquote class="card-blockquote">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+          <footer>
+            <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+          </footer>
+        </blockquote>
+      </b-card>
 
-      <b-form-group label="Your Code:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.sex"
-          required
-          placeholder="Enter code"
-        ></b-form-input>
-      </b-form-group>
+      <b-card>
+        <b-card-title>家庭住址</b-card-title>
+        <b-card-text>
+          {{ form.addr }}
+        </b-card-text>
+        <b-card-text class="small text-muted">Last updated 3 mins ago</b-card-text>
+      </b-card>
 
-      <b-form-group label="Your Height:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.height"
-          required
-          placeholder="Enter code"
-        ></b-form-input>
-      </b-form-group>
+      <b-card img-src="https://picsum.photos/400/400/?image=41" img-alt="Image" overlay></b-card>
 
-      <b-form-group label="Your college:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          v-model="form.institute.name"
-          required
-          placeholder="Enter code"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        label="Your introduce:"
-        label-for="input-1"
-        description="We'll never share your email with anyone else.">
-        <b-form-input
-          id="input-1"
-          v-model="form.intr1"
-          type="email"
-          required
-          placeholder="Enter email"></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-        <b-form-select
-          id="input-3"
-          v-model="form.intr"
-          :options="foods"
-          required
-        ></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="input-group-4">
-        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
+      <b-card img-src="https://picsum.photos/400/200/?image=41" img-alt="Image" img-top>
+        <b-card-text>
+          <p>个人介绍</p>
+          {{this.form.intr1}}
+        </b-card-text>
+        <template v-slot:footer>
+          <small class="text-muted">Footer Text</small>
+        </template>
+      </b-card>
+    </b-card-group>
   </div>
 </template>
 
@@ -100,8 +73,71 @@ export default {
   mounted() {
     this.init();
   },
+  created() {
+    console.log(this.$store.state.admin.power.query);
+    let pw = this.$store.state.admin.power.query;
+    this.form = this.$store.state.info.mine;
+    console.log(this.form.sex);
+    //老师
+    if(pw[0].pid == 2){
+      this.isTeacher = true;
+      this.$store
+        .dispatch('clazz/loadTaught')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.clazz.taught);
+          this.Data1 = this.$store.state.clazz.taught;
+          console.log(this.Data1);
+        }).then(()=>{
+
+      })
+      this.$store
+        .dispatch('course/loadTaught')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.course.taught);
+          this.Data2 = this.$store.state.course.taught;
+        }).then(()=>{
+      })
+    }
+    //学生
+    if(pw[0].pid == 1){
+      this.isStudent = true;
+      this.$store
+        .dispatch('clazz/loadEnrolled')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.clazz.taught);
+          this.Data3 = this.$store.state.clazz.enrolled;
+          console.log(this.Data1);
+        }).then(()=>{
+
+      })
+      this.$store
+        .dispatch('course/loadEnrolled')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.course.taught);
+          this.Data4 = this.$store.state.course.enrolled;
+        }).then(()=>{
+      })
+    }
+    if(this.form.sex == "女"){
+      this.title = "Hello,"+ this.form.name +" "+ "lady" + "This is your Message"
+    }else{
+      this.title = "Hello,"+ this.form.name +" "+ "genterman" + "This is your Message"
+    }
+  },
   data() {
     return {
+      Data1:[],
+      Data2:[],
+      Data3:[],
+      Data4:[],
+      isTeacher:false,
+      isStudent:false,
+      title:'',
+      isman:'',
       form: {
         email: '',
         institute:{

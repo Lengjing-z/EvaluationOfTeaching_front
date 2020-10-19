@@ -2,10 +2,10 @@
   <div class="test container">
     <header>
       <h3>课程管理</h3>
-      <b-button v-b-modal.my-modal1 @click="showModal2"
+      <b-button style="margin-top: 15px" v-b-modal.my-modal1 @click="showModal2"
                 variant="outline-primary">添加课程
       </b-button>
-      <b-button v-b-modal.my-modal4  variant="outline-success">批量导入
+      <b-button style="margin-top: 15px;margin-left: 10px" v-b-modal.my-modal4  variant="outline-success">批量导入
       </b-button>
       <!--搜索框-->
       <div class="seach_course">
@@ -123,9 +123,8 @@
       </b-modal>
     </div>
 
-
     <!--添加班级-->
-    <b-modal ref="my-modal1" hide-footer title="班级信息管理">
+    <b-modal ref="my-modal1" hide-footer title="课程信息管理">
       <div class="d-block text-center">
         <vxe-form
           ref="xForm"
@@ -136,19 +135,28 @@
           :rules="formRules2"
           @submit="submitEvent3(index)"
           @reset="resetEvent">
-          <!-- <vxe-form-item title="班级id" field="name" span="24">
-             <template v-slot="scope">
-               <vxe-input v-model="formData2.name" placeholder="请输入名称" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
-             </template>
-           </vxe-form-item>-->
           <vxe-form-item title="课程名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.name" id="classId" placeholder="请输入课程名" clearable
+              <vxe-input v-model="coName" id="classId" placeholder="请输入课程名" clearable
                          @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
-
-
+          <vxe-form-item style="margin-left: 45px"  title="是否为专业课" field="code" span="24">
+            <template v-slot="scope">
+              <vxe-radio-group v-model="is_major">
+                <vxe-radio-button label="true" content="是"></vxe-radio-button>
+                <vxe-radio-button label="false" content="否"></vxe-radio-button>
+              </vxe-radio-group>
+            </template>
+          </vxe-form-item>
+          <vxe-form-item style="margin-left: 45px"  title="是否为公开课" field="code" span="24">
+            <template v-slot="scope">
+              <vxe-radio-group v-model="is_public">
+                <vxe-radio-button label="true" content="是"></vxe-radio-button>
+                <vxe-radio-button label="false" content="否"></vxe-radio-button>
+              </vxe-radio-group>
+            </template>
+          </vxe-form-item>
           <vxe-form-item align="center" span="24">
             <template v-slot>
               <vxe-button type="submit" @click="create()" status="primary">提交信息</vxe-button>
@@ -201,6 +209,19 @@
 import XLSX from "xlsx";
 
 export default {
+  created() {
+    this.$store
+      .dispatch('admin/course/query', {name: this.coursename})
+      .then(result => {
+        if (result === 'success')
+          console.log('this' + '  ' + 'success');
+        this.ClassData = this.$store.state.admin.course.query;
+        // console.log(this.$store.state.admin.course.query);
+        /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+      }).then(() => {
+      /*this.$router.push('index')*/
+    })
+  },
   name: "Curriculum",
   methods: {
     serchCourse() {
@@ -300,7 +321,6 @@ export default {
       this.$bvModal.show('addCourseToTeacher');
     },
     addTeacherToClassBtn() {
-
       this.$store.dispatch("admin/insertInfo/segment/course/submit",
         Array({
           courseId: this.currentRowCourse.id,
@@ -337,19 +357,25 @@ export default {
       this.$refs['my-modal'].hide()
     },
     submitEvent3(index) {
+      console.log('is_major',this.is_major,'is_public',this.is_public);
       setTimeout(() => {
         this.$refs['my-modal1'].toggle('#toggle-btn')
         this.$XModal.message({message: '保存成功', status: 'success'})
         console.log(this.formData2.classname);
+        let courseMessage = [{
+          name:this.coName,
+          is_major:this.is_major,
+          is_public:this.is_public
+        }];
+        console.log(courseMessage);
         // 给后端发请求
         this.$store
-          .dispatch('admin/course/create', this.userMessage)
+          .dispatch('admin/course/create', courseMessage)
           .then(result => {
             if (result === 'success')
               console.log(3333333);
-            /*this.tableData = this.$store.state.admin.user.userForm;*/
           }).then(() => {
-          /*this.$router.push('index')*/
+
         })
       }, 1000)
     },
@@ -366,6 +392,9 @@ export default {
 
   data() {
     return {
+      coName:'',
+      is_major:'',
+      is_public:'',
       coursename: '',
       perPage: 15,//每页数据条数
       currentPage: 1,

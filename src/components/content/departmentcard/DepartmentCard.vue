@@ -132,7 +132,24 @@ import XLSX from "xlsx";
 
 export default {
 name: "DepartmentCard",
+  created() {
+    this.$store
+      .dispatch('admin/institute/query',{name:''})
+      .then(result => {
+        if (result==='success')
+          console.log('this' + '  ' + 'success');
+        this.DepartmentData = this.$store.state.admin.institute.query;
+        console.log(this.$store.state.admin.institute.query);
+        /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+      }).then(()=>{
+      /*this.$router.push('index')*/
+    })
+  },
   methods:{
+  s(){
+    console.log(this.classname);
+
+  },
     showModal(index){
       this.formData2.name = this.DepartmentData[index].name;
       this.$refs['my-modal'].show();

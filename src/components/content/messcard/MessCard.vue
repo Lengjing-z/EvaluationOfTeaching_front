@@ -213,6 +213,17 @@
 import XLSX from "xlsx";
 
 export default {
+  created() {
+    this.$store
+      .dispatch('admin/query', this.username)
+      .then(result => {
+        if (result === 'success')
+          console.log(3333333);
+        this.tableData = this.$store.state.admin.user.userForm;
+      }).then(() => {
+      /*this.$router.push('index')*/
+    })
+  },
   computed: {
     rows() {
       return this.userMessage.length
@@ -421,7 +432,7 @@ export default {
       fileReader.readAsBinaryString(files[0]);
     },
     addUser() {
-// 给后端发请求
+    // 给后端发请求
       this.$store.dispatch("admin/insertInfo/insertUser", this.userMessage)
         .then(res => {
           console.log(res)

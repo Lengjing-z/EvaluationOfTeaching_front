@@ -69,22 +69,6 @@
               <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>
             </vxe-table>
 
-            <!--<vxe-table
-              style="margin-top: 20px"
-              border
-              show-footer
-              ref="xTable1"
-              resizable
-              :data="allStudent">
-              <vxe-table-column type="checkbox" class="check" width="60"></vxe-table-column>
-              <vxe-table-column type="seq" width="60" fixed="left"></vxe-table-column>
-              <vxe-table-column field="name" title="Name" width="150"></vxe-table-column>
-              <vxe-table-column field="sex" title="Sex" width="150"></vxe-table-column>
-              <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
-              <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
-              <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
-              <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>
-            </vxe-table>-->
             <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>
           </template>
         </vxe-modal>
@@ -178,10 +162,17 @@
            </vxe-form-item>-->
           <vxe-form-item title="班级名" field="code" span="24">
             <template v-slot="scope">
-              <vxe-input v-model="formData2.classname" id="classId" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
+              <vxe-input v-model="Clname" id="classId" placeholder="请输入班级号" clearable @input="$refs.xForm.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-form-item>
-
+          <vxe-form-item style="margin-left: 45px"  title="是否为公开课" field="code" span="24">
+            <template v-slot="scope">
+              <vxe-radio-group v-model="pub">
+                <vxe-radio-button label="true" content="是"></vxe-radio-button>
+                <vxe-radio-button label="false" content="否"></vxe-radio-button>
+              </vxe-radio-group>
+            </template>
+          </vxe-form-item>
 
           <vxe-form-item align="center" span="24">
             <template v-slot>
@@ -235,7 +226,19 @@
 <script>
 import XLSX from "xlsx";
 export default {
-
+  created() {
+    this.$store
+      .dispatch('admin/class/query',{name:''})
+      .then(result => {
+        if (result==='success')
+          console.log('this' + '  ' + 'success');
+        this.ClassData = this.$store.state.admin.class.query;
+        console.log(this.$store.state.admin.class.query);
+        /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+      }).then(()=>{
+      /*this.$router.push('index')*/
+    })
+  },
   name: "ClassManager",
   methods:{
     SerchStudent(){
@@ -272,12 +275,12 @@ export default {
     serchClass(){
       console.log(this.classname);
       this.$store
-        .dispatch('admin/class/query',{name:''})
+        .dispatch('admin/class/queryC',{name:this.classname})
         .then(result => {
           if (result==='success')
             console.log('this' + '  ' + 'success');
-          this.ClassData = this.$store.state.admin.class.query;
-          console.log(this.$store.state.admin.class.query);
+          this.ClassData = this.$store.state.admin.class.query2;
+          console.log(this.$store.state.admin.class.query2);
           /*  this.ClassData = this.$store.state.admin.user.userForm;*/
         }).then(()=>{
         /*this.$router.push('index')*/
@@ -333,25 +336,24 @@ export default {
         name:this.formData2.classname,
         pub:this.formData2.pub
       }]
-
-      this.$store
-        .dispatch('admin/class/create',init)
-        .then(result => {
-          if (result==='success')
-            console.log(3333333);
-          this.tableData = this.$store.state.admin.user.userForm;
-        }).then(()=>{
-        /*this.$router.push('index')*/
-      })
     },
   submitEvent3 (index) {
+      let all = [{
+        name:this.Clname,
+        pub:this.pub
+      }]
+    console.log(all);
+    this.$store
+      .dispatch('admin/class/create',all)
+      .then(result => {
+        if (result==='success')
+          console.log(3333333);
+      }).then(()=>{
+
+    })
     setTimeout(() => {
       this.$refs['my-modal1'].toggle('#toggle-btn')
       this.$XModal.message({ message: '保存成功', status: 'success' })
-   /*   this.formData2.id= this.ClassData.length+1;
-      console.log(this.ClassData.length);
-      this.ClassData.push(this.formData2);
-*/
     }, 1000)
   },
   searchEvent () {
@@ -426,6 +428,8 @@ data(){
       claId: '',
       stId: '',
     }],*/
+    pub:'',
+    Clname:'',
     init: [],
     classId:'',
     stId:[],
