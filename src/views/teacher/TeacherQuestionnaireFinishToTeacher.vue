@@ -167,7 +167,7 @@ export default {
           //   .then(res =>{
           //     // console.log("JJJ",res,JSON.stringify(this.$store.state.admin.indicator.indicatorDetail))
           //   })
-          // console.log(JSON.stringify(res))
+          console.log(JSON.stringify(res))
         })
       this.$bvModal.show("analysis")
     }
