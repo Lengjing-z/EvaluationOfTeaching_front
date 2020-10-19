@@ -168,11 +168,16 @@ export default {
       let selectRecords = this.$refs.chooseNaire.getCheckboxRecords()
       // console.log(this.issueFormData)
       this.issueFormData.naires = selectRecords
-      this.$store.dispatch("admin/questionnaire/issueQuestionnaire",this.issueFormData)
-      .then(res =>{
-        console.log("admin/questionnaire/issueQuestionnaire",res)
-        this.$refs['issue'].hide()
-      })
+      this.$store.dispatch("admin/questionnaire/issueQuestionnaire", this.issueFormData)
+        .then(res => {
+          // console.log("admin/questionnaire/issueQuestionnaire",res)
+          if(res){
+            this.$XModal.message({ message: '发布问卷成功', status: 'success' })
+          }else {
+            this.$XModal.message({ message: '发布问卷失败', status: 'error' })
+          }
+          this.$refs['issue'].hide()
+        });
       // console.log(selectRecords)
     }
   }

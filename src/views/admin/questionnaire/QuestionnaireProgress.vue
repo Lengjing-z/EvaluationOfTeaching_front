@@ -99,7 +99,7 @@ export default {
               .then(re => {
                 let finishNum = 0;
                 re.forEach(ite => {
-                  if (ite.isFinished) finishNum++
+                  if (ite.is_finished) finishNum++
                 });
                 this.$set(item,'pro',finishNum+"/"+re.length)
               })

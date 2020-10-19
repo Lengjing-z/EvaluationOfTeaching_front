@@ -64,8 +64,7 @@ export default {
         this.$store.commit("beEvaluation/course/updateAll",courseAll)
         console.log("courseAll",courseAll)
         this.$router.push({
-          path: '/teacherQuestionnaireFinishStatistics/student',
-          query: {data: this.$store.state.beEvaluation.course.all}
+          path: '/teacherQuestionnaireFinishStatistics/student'
         })
       })
   },
@@ -89,8 +88,7 @@ export default {
           this.$store.commit("beEvaluation/course/updateAll",courseAll)
           console.log("courseAll",courseAll)
           this.$router.push({
-            path: '/teacherQuestionnaireFinishStatistics/student',
-            query: {data: this.$store.state.beEvaluation.course.all}
+            path: '/teacherQuestionnaireFinishStatistics/student'
           })
         })
     },
@@ -99,8 +97,7 @@ export default {
         .then(res => {
           // this.questionnaireList = this.$store.state.beEvaluation.institute.all
           this.$router.push({
-            path: '/teacherQuestionnaireFinishStatistics/teacher',
-            query: {data: this.$store.state.beEvaluation.institute.all}
+            path: '/teacherQuestionnaireFinishStatistics/teacher'
           })
           // console.log(this.questionnaireList)
         })

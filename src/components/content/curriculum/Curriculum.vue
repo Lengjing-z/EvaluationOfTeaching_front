@@ -90,14 +90,14 @@
           <vxe-form :data="fromData" @submit="addTeacherToClassBtn">
             <vxe-form-item title="老师" field="teacher">
               <template v-slot>
-                <vxe-select v-model="fromData.teacher" placeholder="请选择性别" clearable>
+                <vxe-select v-model="fromData.teacher" placeholder="请选择授课老师" clearable>
                   <vxe-option v-for="item in allTeacher" :key="item.id" :value="item" :label="item.name"></vxe-option>
                 </vxe-select>
               </template>
             </vxe-form-item>
             <vxe-form-item title="班级" field="clazz">
               <template v-slot>
-                <vxe-select v-model="fromData.clazz" placeholder="请选择性别" clearable>
+                <vxe-select v-model="fromData.clazz" placeholder="请选择授课班级" clearable>
                   <vxe-option v-for="item in allClazz" :key="item.id" :value="item" :label="item.name"></vxe-option>
                 </vxe-select>
               </template>
@@ -309,6 +309,8 @@ export default {
     },
     addTeacherToClass() {
       //  添加课程到老师到班级
+      this.fromData.teacher = ''
+      this.fromData.clazz = ''
       this.$store.dispatch("admin/users/queryAllTeacher")
         .then(res => {
           this.allTeacher = this.$store.state.admin.users.allTeacher
