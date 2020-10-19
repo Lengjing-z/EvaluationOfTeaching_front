@@ -16,6 +16,14 @@
         <blockquote class="blockquote mb-0">
           <p>所在学院  : {{this.form.institute.name}}</p>
         </blockquote>
+        <blockquote  v-if="isTeacher" class="blockquote mb-0">
+          <p>所教班级  : <span v-for="(item,index) in Data1">{{Data1[index].name}}</span></p>
+          <p>所教课程  : <span v-for="(item,index) in Data1">{{Data2[index].name}}</span></p>
+        </blockquote>
+        <blockquote  v-if="isStudent" class="blockquote mb-0">
+          <p>所属班级  : <span v-for="(item,index) in Data3">{{Data3[index].name}}</span></p>
+          <p>所属课程  : <span v-for="(item,index) in Data4">{{Data4[index].name}}</span></p>
+        </blockquote>
       </b-card>
 
       <b-card title="详细信息" img-src="https://placekitten.com/500/350" img-alt="Image" img-top>
@@ -66,8 +74,54 @@ export default {
     this.init();
   },
   created() {
+    console.log(this.$store.state.admin.power.query);
+    let pw = this.$store.state.admin.power.query;
     this.form = this.$store.state.info.mine;
     console.log(this.form.sex);
+    //老师
+    if(pw[0].pid == 2){
+      this.isTeacher = true;
+      this.$store
+        .dispatch('clazz/loadTaught')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.clazz.taught);
+          this.Data1 = this.$store.state.clazz.taught;
+          console.log(this.Data1);
+        }).then(()=>{
+
+      })
+      this.$store
+        .dispatch('course/loadTaught')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.course.taught);
+          this.Data2 = this.$store.state.course.taught;
+        }).then(()=>{
+      })
+    }
+    //学生
+    if(pw[0].pid == 1){
+      this.isStudent = true;
+      this.$store
+        .dispatch('clazz/loadEnrolled')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.clazz.taught);
+          this.Data3 = this.$store.state.clazz.enrolled;
+          console.log(this.Data1);
+        }).then(()=>{
+
+      })
+      this.$store
+        .dispatch('course/loadEnrolled')
+        .then(result => {
+          if (result==='success')
+            console.log(this.$store.state.course.taught);
+          this.Data4 = this.$store.state.course.enrolled;
+        }).then(()=>{
+      })
+    }
     if(this.form.sex == "女"){
       this.title = "Hello,"+ this.form.name +" "+ "lady" + "This is your Message"
     }else{
@@ -76,6 +130,12 @@ export default {
   },
   data() {
     return {
+      Data1:[],
+      Data2:[],
+      Data3:[],
+      Data4:[],
+      isTeacher:false,
+      isStudent:false,
       title:'',
       isman:'',
       form: {

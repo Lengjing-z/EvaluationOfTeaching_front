@@ -14,71 +14,32 @@
         </b-breadcrumb>
       </div>
       <UserMess></UserMess>
-        <b-button @click="query()">测试1</b-button>
-        <b-button @click="test1()">测试</b-button>
+
+      <footer>
+        <Footer></Footer>
+      </footer>
     </div>
+
 </template>
 <script>
 import Nav from "components/content/nav/NavBar";
 import Questionnaire from "components/content/questionnaire/Questionnaire";
 import XLSX from "xlsx";
 import UserMess from "components/content/usermess/UserMess";
+import Footer from "components/content/footer/Footer";
   export default {
 
     methods:{
       toIndex(){
         this.$router.push('./index');
       },
-      test1(){
-        let  init = [{
-          courseId:14,
-          claId:1040,
-          thId:19
-        }]
-        this.$store
-          .dispatch('course/loadTaught',init)
-          .then(result => {
-            if (result==='success')
-              console.log(3333333);
-          }).then(()=>{
-        })
-        console.log(this.$store.state.admin.userForm);
-      },
-      query() {
-        /*this.$store.commit('updateLoginForm',this.loginForm)*/
-        let init = [{
-          claId:1039,
-          stId:2
-        }]
-        this.$store
-          .dispatch('admin/insertInfo/segment/class/submit',init)
-          .then(result => {
-            if (result==='success')
-              console.log(3333333);
-          }).then(()=>{
-          /*this.$router.push('index')*/
-        })
-      },
-
-        showModal() {
-          this.$refs['my-modal'].show()
-        },
-        hideModal() {
-          this.$refs['my-modal'].hide()
-        },
-        toggleModal() {
-          // We pass the ID of the button that we want to return focus to
-          // when the modal has hidden
-          this.$refs['my-modal'].toggle('#toggle-btn')
-        },
-
-
     },
     name: "Mess",
     components:{
       Nav,
       Questionnaire,
-      UserMess
+      UserMess,
+      Footer
     },
     data() {
       return {
