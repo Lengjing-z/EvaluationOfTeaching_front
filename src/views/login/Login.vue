@@ -191,6 +191,6 @@
    height: 62.5rem  /* 1000/16 */;
  }
  #log{
-   margin: 50px auto;
+   margin: 3.125rem  /* 50/16 */ auto;
  }
 </style>

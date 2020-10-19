@@ -40,11 +40,11 @@ export default {
 
 <style scoped>
 .show{
-  padding-bottom: 900px;
+  padding-bottom: 56.25rem  /* 900/16 */;
 }
 header{
   background-color: #0a408a;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem  /* 20/16 */;
 }
 #nav_manager-user{
   width: 80%;

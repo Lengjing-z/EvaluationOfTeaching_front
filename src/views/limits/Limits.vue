@@ -210,11 +210,11 @@ button {
 }
 
 .my-dropdown1 {
-  height: 200px;
+  height: 12.5rem  /* 200/16 */;
   overflow: auto;
-  border-radius: 4px;
+  border-radius: 0.25rem  /* 4/16 */;
   background-color: #fff;
-  border: 1px solid #dcdfe6;
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
 }
 
 .list-item1:hover {
@@ -222,9 +222,9 @@ button {
 }
 
 .my-dropdown2 {
-  border-radius: 4px;
+  border-radius: 0.25rem  /* 4/16 */;
   background-color: #fff;
-  border: 1px solid #dcdfe6;
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
 }
 
 .list-item2:hover {
@@ -232,18 +232,18 @@ button {
 }
 
 .my-dropdown3 {
-  width: 400px;
+  width: 25rem  /* 400/16 */;
   background-color: #fff;
-  border: 1px solid #dcdfe6;
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
+  box-shadow: 0 0 0.375rem  /* 6/16 */ 0.125rem  /* 2/16 */ rgba(0, 0, 0, 0.1);
 }
 
 .my-dropdown4 {
-  width: 600px;
-  height: 300px;
+  width: 37.5rem  /* 600/16 */;
+  height: 18.75rem  /* 300/16 */;
   background-color: #fff;
-  border: 1px solid #dcdfe6;
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
+  box-shadow: 0 0 0.375rem  /* 6/16 */ 0.125rem  /* 2/16 */ rgba(0, 0, 0, 0.1);
 }
 
 </style>

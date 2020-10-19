@@ -41,7 +41,7 @@
   }
   .title2{
     color: #6a90c4;
-    margin-top: -10px;
+    margin-top: -0.625rem  /* -10/16 */;
   }
   .footerinfo {
     width: 18.75rem  /* 300/16 */ /* 150/16 */;

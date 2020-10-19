@@ -135,10 +135,10 @@ export default {
 
 <style scoped>
 .my-dropdown4 {
-  width: 600px;
-  height: 300px;
+  width: 37.5rem  /* 600/16 */;
+  height: 18.75rem  /* 300/16 */;
   background-color: #fff;
-  border: 1px solid #dcdfe6;
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
+  box-shadow: 0 0 0.375rem  /* 6/16 */ 0.125rem  /* 2/16 */ rgba(0, 0, 0, 0.1);
 }
 </style>

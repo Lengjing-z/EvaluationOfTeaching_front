@@ -330,25 +330,25 @@ export default {
 <style scoped>
 .container111 {
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem  /* 4/16 */;
   background-color: #409eff;
-  height: 35px;
-  width: 150px;
-  margin-top: 8px;
+  height: 2.1875rem  /* 35/16 */;
+  width: 9.375rem  /* 150/16 */;
+  margin-top: 0.5rem  /* 8/16 */;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  min-width: 80px;
+  padding: 0 0.9375rem  /* 15/16 */;
+  min-width: 5rem  /* 80/16 */;
   *zoom: 1;
 }
 
 .upload_file {
-  font-size: 20px;
+  font-size: 1.25rem  /* 20/16 */;
   opacity: 0;
   position: absolute;
   filter: alpha(opacity=0);
-  width: 60px;
+  width: 3.75rem  /* 60/16 */;
 }
 
 /*.test{*/
@@ -364,41 +364,41 @@ export default {
 }
 
 .my-domain.vxe-input {
-  height: 34px;
-  width: 300px;
+  height: 2.125rem  /* 34/16 */;
+  width: 18.75rem  /* 300/16 */;
 }
 
 .my-domain.vxe-input >>> .vxe-input--prefix {
-  width: 60px;
-  height: 32px;
-  top: 1px;
+  width: 3.75rem  /* 60/16 */;
+  height: 2rem  /* 32/16 */;
+  top: 0.0625rem  /* 1/16 */;
   text-align: center;
-  border-right: 1px solid #dcdfe6;
+  border-right: 0.0625rem  /* 1/16 */ solid #dcdfe6;
   background-color: #f5f7fa;
 }
 
 .my-domain.vxe-input >>> .vxe-input--inner {
-  padding-left: 72px;
-  border: 1px solid #dcdfe6;
+  padding-left: 4.5rem  /* 72/16 */;
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
 }
 
 .my-search.vxe-input {
-  height: 34px;
-  width: 300px;
+  height: 2.125rem  /* 34/16 */;
+  width: 18.75rem  /* 300/16 */;
 }
 
 .my-search.vxe-input >>> .vxe-input--suffix {
-  width: 60px;
-  height: 32px;
-  top: 1px;
+  width: 3.75rem  /* 60/16 */;
+  height: 2rem  /* 32/16 */;
+  top: 0.0625rem  /* 1/16 */;
   text-align: center;
-  border-left: 1px solid #dcdfe6;
+  border-left: 0.0625rem  /* 1/16 */ solid #dcdfe6;
   background-color: #f5f7fa;
   cursor: pointer;
 }
 
 .my-search.vxe-input >>> .vxe-input--inner {
-  padding-right: 72px;
-  border: 1px solid #dcdfe6;
+  padding-right: 4.5rem  /* 72/16 */;
+  border: 0.0625rem  /* 1/16 */ solid #dcdfe6;
 }
 </style>
