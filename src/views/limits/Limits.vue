@@ -183,6 +183,8 @@ export default {
     submitPower () {
       let selectRecords = this.$refs.limits.getCheckboxRecords()
       console.log(selectRecords)
+      // 过滤 自定义的root
+      selectRecords.splice(selectRecords.findIndex(item =>item.name === 'root'),1)
       let powers = []
       selectRecords.forEach(item=>{
         powers.push({
@@ -194,6 +196,7 @@ export default {
 
       this.$store.dispatch("admin/power/updateUserPowers")
       this.$bvModal.hide('limits')
+      this.$XModal.message({ message: '修改权限成功', status: 'success' })
     },
 
   }
