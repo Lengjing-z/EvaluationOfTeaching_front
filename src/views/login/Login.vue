@@ -7,7 +7,7 @@
           <div id="log" class="login-container">
             <div class="center">
               <h1>
-                <i class="ace-icon fa fa-leaf green"></i>
+                <i style="color: white;font-size: 25px;margin-right: 9px" class="vxe-icon--edit-outline"></i>
                 <span class="red">Ace</span>
                 <span class="white" id="id-text2">评价系统</span>
               </h1>
@@ -21,24 +21,23 @@
                 <div class="widget-body">
                   <div class="widget-main">
                     <h4 class="header blue lighter bigger">
-                      <i class="ace-icon fa fa-coffee green"></i>
+                      <i class="vxe-icon--info green"></i>
                       请输入您的信息
                     </h4>
                     <div class="space-6"></div>
-
                     <form>
                       <fieldset>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="text" class="form-control" v-model="loginForm.username" placeholder="Username" />
-														  <i class="glyphicon glyphicon-ok"></i>
-															<i class="ace-icon fa fa-user"></i>
+														  <i  style="float: right;margin-top: -23px;margin-right: 10px" class="vxe-icon--question blue"></i>
+															<i class=""></i>
 														</span>
                         </label>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
 															<input type="password" class="form-control" v-model="loginForm.password" placeholder="Password" />
-															<i class="ace-icon fa fa-lock"></i>
+															<i style="float: right;margin-top: -23px;margin-right: 10px" class="vxe-icon--eye-slash blue"></i>
 														</span>
                         </label>
                         <div style="color: red" v-if="succ">
@@ -47,12 +46,15 @@
                         <div class="space"></div>
                         <div class="clearfix">
                           <label class="inline">
-                            <input type="checkbox" class="ace" />
-                            <span class="lbl"> 记住</span>
+                            <vxe-checkbox style="margin-top: 10px" v-model="value1" class="ace" content="记住我"></vxe-checkbox>
                           </label>
-                          <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
-                            <i class="ace-icon fa fa-key"></i>
-                            <span class="bigger-110">登录</span>
+                         <!-- <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
+                            <i v-if="isLogin" class="vxe-icon&#45;&#45;refresh roll"></i>
+                            <span style="margin-left: 9px" class="bigger-110">登录</span>
+                          </button>-->
+                          <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="onload()">
+                            <i v-if="isLogin" class="vxe-icon--refresh roll"></i>
+                            <span style="margin-left: 9px" class="bigger-110">登录</span>
                           </button>
                         </div>
                         <div class="space-4"></div>
@@ -64,25 +66,12 @@
 
                     <div class="space-6"></div>
 
-                    <div class="social-login center">
-                      <a class="btn btn-primary">
-                        <i @click="login" id="btn" class="ace-icon fa fa-facebook"></i>
-                      </a>
-
-                      <a class="btn btn-info">
-                        <i @click="test" class="ace-icon fa fa-twitter"></i>
-                      </a>
-
-                      <a class="btn btn-danger">
-                        <i @click="test1" class="ace-icon fa fa-google-plus"></i>
-                      </a>
-                    </div>
                   </div><!-- /.widget-main -->
 
                   <div class="toolbar clearfix">
                     <div>
                       <a href="#" data-target="#forgot-box" class="forgot-password-link">
-                        <i class="ace-icon fa fa-arrow-left"></i>
+                        <i class="vxe-icon--search"></i>
                         忘记密码
                       </a>
                     </div>
@@ -90,7 +79,7 @@
                     <div>
                       <a href="#" data-target="#signup-box" class="user-signup-link">
                         了解详情
-                        <i class="ace-icon fa fa-arrow-right"></i>
+                        <i class="vxe-icon--success red"></i>
                       </a>
                     </div>
                   </div>
@@ -134,6 +123,7 @@
     name: "login",
     data() {
       return {
+        isLogin:false,
         succ:false,
         loginForm: {
           // username: 'admin',
@@ -149,6 +139,12 @@
       };
     },
     methods : {
+      onload(){
+        this.isLogin = true;
+        setTimeout(() => {
+          this.login();
+        }, 500)
+      },
       login() {
         this.$store.commit('updateLoginForm',this.loginForm)
         this.$store
@@ -159,12 +155,11 @@
               this.$XModal.message({ message: '登陆成功', status: 'success' })
               this.$router.push('index')
               return this.$store.dispatch('info/loadMyInfo')
-
             }else{
               this.$XModal.message({ message: 'error 用户名或密码错误', status: 'error' })
+              this.isLogin = false;
               this.$router.push('/login')
             }
-
           }).then(()=>{
 
         })

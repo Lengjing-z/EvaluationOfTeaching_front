@@ -23,7 +23,7 @@
               </div>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="login_out" href="#">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
 
         </b-navbar-nav>
@@ -39,6 +39,21 @@ export default {
   computed:{
     username(){
       return this.$store.state.info.mine.name
+    }
+  },
+  methods:{
+    login_out(){
+      this.$store
+        .dispatch('logout')
+        .then(result => {
+          if (result==='success')
+            console.log('this' + '  ' + 'success');
+         /* this.ClassData = this.$store.state.admin.class.query2;*/
+         /* console.log(this.$store.state.admin.class.query2);*/
+          /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
     }
   }
 }

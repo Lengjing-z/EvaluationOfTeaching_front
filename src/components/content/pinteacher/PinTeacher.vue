@@ -3,10 +3,10 @@
     <header>
       <NavBar></NavBar>
     </header>
-    <div>
+    <div style="width: 75%;margin: 0 auto">
       <manager-setting :manager="manager"></manager-setting>
-      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught()" variant="outline-primary">查询所属班级</b-button>
-      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught1()" variant="outline-primary">学生查询所属班级</b-button>
+      <!--<b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 200px" v-b-modal.my-modal1 @click="QueryloadTaught()" variant="outline-primary">查询所属班级</b-button>-->
+      <b-button style="margin-top: 30px;padding-left: 10px;padding-right: 10px; margin-left: 10px" v-b-modal.my-modal1 @click="QueryloadTaught1()" variant="outline-primary">学生查询所属班级</b-button>
     </div>
 
     <div class="course">

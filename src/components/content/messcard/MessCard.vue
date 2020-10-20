@@ -294,7 +294,6 @@ export default {
       /*老师ID*/  /*classId*/ /*courseid*/
       /*console.log(index);*///thID
       /*classid*/
-
       this.$store
         .dispatch('admin/course/query', {name: null})
         .then(result => {

@@ -11,14 +11,13 @@
           <b-input
             id="inline-form-input-name"
             class="mb-2 mr-sm-2 mb-sm-0"
-            v-model="classname"
             placeholder="Jane Doe"
           ></b-input>
           <label class="sr-only">Username</label>
           <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
             <b-input id="inline-form-input-username" placeholder="Username"></b-input>
           </b-input-group>
-          <b-button variant="primary" @click="serchClass()">Seach</b-button>
+          <b-button variant="primary">Seach</b-button>
         </b-form>
       </div>
     </header>
@@ -78,13 +77,12 @@
     </b-modal>
 
     <div>
-      <b-modal  ref="my-modal2" hide-footer title="ALl Class Message">
+      <b-modal ref="my-modal2" hide-footer title="ALl Class Message">
         <vxe-table
           border
           show-footer
           class="mytable-scrollbar"
           height="400"
-          :footer-method="footerMethod"
           :data="ClassData">
           <vxe-table-column type="seq" width="50%" fixed="left"></vxe-table-column>
           <vxe-table-column field="classname"  title="ClassName" width="50%"></vxe-table-column>
@@ -101,7 +99,7 @@
           title-width="100"
           :data="formData2"
           :rules="formRules2"
-          :loading="loading2"
+
           @submit="submitEvent2(index)"
           @reset="resetEvent">
           <vxe-form-item title="学院名称" field="name" span="24">
@@ -148,8 +146,10 @@ name: "DepartmentCard",
   methods:{
   s(){
     console.log(this.classname);
-
   },
+    hideModal111(){
+      this.$refs['my-modal'].hide();
+    },
     showModal(index){
       this.formData2.name = this.DepartmentData[index].name;
       this.$refs['my-modal'].show();
@@ -269,9 +269,9 @@ name: "DepartmentCard",
         ]
       },
       submitEvent2 (index) {
-        this.loading2 = true
+
         setTimeout(() => {
-          this.loading2 = false;
+
           this.$refs['my-modal'].toggle('#toggle-btn')
           this.$XModal.message({ message: '保存成功', status: 'success' })
           console.log(index);

@@ -7,6 +7,7 @@ import admin from "./admin";
 import course from './course'
 import evaluation from './evaluation'
 import beEvaluation from './beEvaluation'
+import logout from './logout'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     admin,
     course,
     evaluation,
-    beEvaluation
+    beEvaluation,
+    logout
   }
 })
