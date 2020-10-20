@@ -157,56 +157,12 @@ export default {
               }
             });
           })
-          var data = [
-            {
-            name: 'Grandpa',
-            children: [{
-              name: 'Uncle Leo',
-              value: 15,
-              children: [{
-                name: 'Cousin Jack',
-                value: 2
-              }, {
-                name: 'Cousin Mary',
-                value: 5,
-                children: [{
-                  name: 'Jackson',
-                  value: 2
-                }]
-              }, {
-                name: 'Cousin Ben',
-                value: 4
-              }]
-            }, {
-              name: 'Father',
-              value: 10,
-              children: [{
-                name: 'Me',
-                value: 5
-              }, {
-                name: 'Brother Peter',
-                value: 1
-              }]
-            }]
-          }, {
-            name: 'Nancy',
-            children: [{
-              name: 'Uncle Nike',
-              children: [{
-                name: 'Cousin Betty',
-                value: 1
-              }, {
-                name: 'Cousin Jenny',
-                value: 2
-              }]
-            }]
-          }];
 
           this.option2 = {
             series: {
               type: 'sunburst',
               // highlightPolicy: 'ancestor',
-              data: data,
+              data: [],
               radius: [0, '90%'],
               label: {
                 rotate: 'radial'
@@ -215,23 +171,19 @@ export default {
           };
           // 获取指标 制作第二个图标
           this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
-            .then(res =>{
-              // console.log("JJJ",res,JSON.stringify(this.$store.state.admin.indicator.indicatorDetail))
+            .then(result =>{
+               this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
+
             })
-          // console.log(JSON.stringify(this.option))
         })
       this.$bvModal.show("progressing")
 
-
-
     },
-
 
   }
 }
 </script>
 
 <style scoped>
-
 
 </style>

@@ -23,20 +23,7 @@ export default {
     })
   },
   methods: {
-      generateDiagramData(indecators, answers){
-        let data = []
-        (function dfs(indecators, answers,children){
-          indecators.forEach(indcator=>{
-            children.push({
-              name: indcator,
-              value:answers.filter(item=>indcator.indexId).reduce((total,current)=>total+Number(current.answer))*indcator.rate,
-              children:[]
-            })
-            dfs(indcator.children,answers,children[children.length-1].children)
-          })
-        })(indecators,answers,data)
-        return data
-      }
+
   }
 }
 </script>
