@@ -143,32 +143,32 @@ export default {
 
       // 展示数据分析
       // 进行人数统计
-      // this.$store.dispatch("beEvaluation/institute/getDetail", row.tttId)
-      //   .then(res => {
-      //     res.forEach(item => {
-      //       // 这里对图标进行初始化
-      //       if (!this.option.yAxis.data.includes(item.qId)) {
-      //         this.option.yAxis.data.push(item.qId)
-      //       }
-      //       // 遍历进行统计每个问题不同等级进行人数统计
-      //       this.option.series.forEach(ops => {
-      //         if (ops.name == parseInt(item.answer)) {
-      //           if (ops.data[this.option.yAxis.data.indexOf(item.qId)] == null) {
-      //             ops.data[this.option.yAxis.data.indexOf(item.qId)] = 1
-      //           } else {
-      //             ops.data[this.option.yAxis.data.indexOf(item.qId)]++
-      //           }
-      //         }
-      //       });
-      //     })
+      this.$store.dispatch("beEvaluation/institute/getDetail", row.tttId)
+        .then(res => {
+          res.forEach(item => {
+            // 这里对图标进行初始化
+            if (!this.option.yAxis.data.includes(item.qsId)) {
+              this.option.yAxis.data.push(item.qsId)
+            }
+            // 遍历进行统计每个问题不同等级进行人数统计
+            this.option.series.forEach(ops => {
+              if (ops.name == parseInt(item.answer)) {
+                if (ops.data[this.option.yAxis.data.indexOf(item.qsId)] == null) {
+                  ops.data[this.option.yAxis.data.indexOf(item.qsId)] = 1
+                } else {
+                  ops.data[this.option.yAxis.data.indexOf(item.qsId)]++
+                }
+              }
+            });
+          })
 
           // 获取指标 制作第二个图标
           // this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
           //   .then(res =>{
           //     // console.log("JJJ",res,JSON.stringify(this.$store.state.admin.indicator.indicatorDetail))
           //   })
-          // console.log(JSON.stringify(this.option))
-        // })
+          console.log(JSON.stringify(res))
+        })
       this.$bvModal.show("analysis")
     }
   }

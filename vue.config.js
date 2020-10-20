@@ -24,6 +24,7 @@ module.exports = {
       'back/': {
         target: 'http://121.89.205.249:9090',
         // target: 'http://192.168.43.2:9090',
+        // target: 'http://192.168.192.1:9090',
         // target: 'http://29175vv342.zicp.vip',
         changeOrigin: true,
         pathRewrite: {

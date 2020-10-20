@@ -20,7 +20,10 @@
       <header>
         <h3>查看结果</h3>
       </header>
-
+      <div class="mb-3 mt-3 d-md-block d-lg-none">
+        <b-button id="button-3" variant="outline-success" @click="toStudent">student</b-button>
+        <b-button id="button-2" variant="outline-success" @click="toTeacher">teacher</b-button>
+      </div>
       <router-view></router-view>
 
     </div>
@@ -49,7 +52,6 @@ export default {
     this.$store.dispatch("beEvaluation/course/getAll")
       .then(res => {
         let courseAll = this.$store.state.beEvaluation.course.all;
-        // 数据进行处理  加入进度
         courseAll.forEach(item => {
           this.$store.dispatch("beEvaluation/course/getProgress", item.sttId)
             .then(re => {
@@ -87,7 +89,7 @@ export default {
               })
           })
           this.$store.commit("beEvaluation/course/updateAll",courseAll)
-          // console.log("courseAll",courseAll)
+          console.log("courseAll",courseAll)
           this.$router.push({
             path: '/teacherQuestionnaireFinishStatistics/student'
           })
@@ -161,15 +163,6 @@ export default {
 
 .bg-02 {
   background: #be7467
-}
-.pro {
-  min-width: 46.875rem  /* 750/16 */;
-  min-height: 25rem  /* 400/16 */;
-  margin-bottom: 1.875rem  /* 30/16 */;
-}
-.pro2{
-  min-width: 46.875rem  /* 750/16 */;
-  min-height: 31.25rem  /* 500/16 */;
 }
 
 </style>

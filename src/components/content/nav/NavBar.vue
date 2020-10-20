@@ -62,15 +62,15 @@ export default {
 <style scoped>
 header{
   background-color: #0a408a;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem  /* 20/16 */;
 }
 .logo{
   text-align: center;
-  line-height: 50px;
+  line-height: 3.125rem  /* 50/16 */;
   /*margin-left: 40px;*/
 }
 .logo img{
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 3.125rem  /* 50/16 */;
+  max-height: 3.125rem  /* 50/16 */;
 }
 </style>

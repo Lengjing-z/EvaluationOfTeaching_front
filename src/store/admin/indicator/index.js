@@ -102,7 +102,7 @@ export default {
       // console.log("list", JSON.stringify(li));
       // return myAxios.post("admin/indicator/create", li)
         .then(res => {
-          console.log("createIndicator success")
+          // console.log("createIndicator success")
           return true
         }).catch(err => {
           console.log(err)
@@ -112,7 +112,7 @@ export default {
     createQuestionnaire({commit}, data) {
       return myAxios.post("admin/questionnaire/create", data)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           return true
         }).catch(err => {
           console.log(err);

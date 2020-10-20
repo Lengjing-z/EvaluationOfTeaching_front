@@ -2,7 +2,7 @@
   <div>
     <nav-bar></nav-bar>
     <manager-setting :manager="manager"></manager-setting>
-    <div class="container mt-3 mb-5">
+    <div class="container mt-3 mb-5" style="min-height: 564px">
       <header>
         <h3>发布问卷</h3>
       </header>
@@ -15,8 +15,14 @@
         <vxe-table-column type="checkbox" width="60"></vxe-table-column>
         <vxe-table-column type="seq" width="120"></vxe-table-column>
         <vxe-table-column field="title" title="Title"></vxe-table-column>
-
       </vxe-table>
+      <vxe-pager
+        background
+        :current-page.sync="page5.currentPage"
+        :page-size.sync="page5.pageSize"
+        :total="page5.totalResult"
+        :layouts="['PrevJump', 'PrevPage', 'JumpNumber', 'NextPage', 'NextJump', 'Sizes', 'FullJump', 'Total']">
+      </vxe-pager>
 
       <b-modal ref="issue" hide-footer title="发布问卷">
         <vxe-form :data="issueFormData">
@@ -30,7 +36,10 @@
           </vxe-form-item>
           <vxe-form-item title="发布至" field="toPlace" span="24" class="mb-3">
             <template v-slot>
-              <b-form-select v-model="issueFormData.selected" :options="allSelect"></b-form-select>
+<!--              <b-form-select v-model="issueFormData.selected" :options="allSelect"></b-form-select>-->
+              <vxe-select v-model="issueFormData.selected" placeholder="多选可清除" multiple clearable>
+                <vxe-option v-for="item in allSelect" :value="item" :label="item.text"></vxe-option>
+              </vxe-select>
             </template>
           </vxe-form-item>
           <vxe-form-item title="开始时间" field="startTime" span="24" >
@@ -74,11 +83,15 @@ export default {
       allSelect: [],
       issueFormData: {
         status: '1',
-        selected: null,
+        selected: [],
         startTime: "",
         endTime: ""
       },
-
+      page5: {
+        currentPage: 1,
+        pageSize: 10,
+        totalResult: 300
+      }
     }
   },
   created() {
@@ -97,6 +110,9 @@ export default {
   methods: {
     // 发布问卷
     issueQuestionnaire() {
+      this.issueFormData.startTime = ""
+      this.issueFormData.endTime = ""
+      this.issueFormData.selected = []
       if (this.issueFormData.status == 0) {
         this.$store.dispatch("admin/questionnaire/queryAllInstitute")
         .then(res =>{
@@ -127,6 +143,7 @@ export default {
     },
     changeStatus() {
       this.allSelect = []
+      this.issueFormData.selected = []
       if (this.issueFormData.status == 0) {
         this.$store.dispatch("admin/questionnaire/queryAllInstitute")
           .then(res => {
@@ -148,6 +165,7 @@ export default {
                 let obj =  {value: item, text: item.className+"/"+item.coursceName+'/'+item.teacherName}
                 course.push(obj)
               })
+
               this.allSelect = course
             }
           })
@@ -158,13 +176,18 @@ export default {
     },
     submitIssue() {
       let selectRecords = this.$refs.chooseNaire.getCheckboxRecords()
-      console.log(this.issueFormData)
+      // console.log(this.issueFormData)
       this.issueFormData.naires = selectRecords
-      this.$store.dispatch("admin/questionnaire/issueQuestionnaire",this.issueFormData)
-      .then(res =>{
-        console.log("admin/questionnaire/issueQuestionnaire",res)
-        this.$refs['issue'].hide()
-      })
+      this.$store.dispatch("admin/questionnaire/issueQuestionnaire", this.issueFormData)
+        .then(res => {
+          // console.log("admin/questionnaire/issueQuestionnaire",res)
+          if(res){
+            this.$XModal.message({ message: '发布问卷成功', status: 'success' })
+          }else {
+            this.$XModal.message({ message: '发布问卷失败', status: 'error' })
+          }
+          this.$refs['issue'].hide()
+        });
       // console.log(selectRecords)
     }
   }

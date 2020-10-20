@@ -151,11 +151,11 @@
 </script>
 <style  scoped="scoped">
 .show{
-  padding-bottom: 900px;
+  padding-bottom: 56.25rem  /* 900/16 */;
 }
 header{
   background-color: #0a408a;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem  /* 20/16 */;
 }
 #nav_manager-user,#nav_manager_subject,#nav_manager-department{
   width: 80%;
@@ -164,6 +164,6 @@ header{
 }
 #UserManager_right{
   text-align: right;
-  margin-left: 250px;
+  margin-left: 15.625rem  /* 250/16 */;
 }
 </style>

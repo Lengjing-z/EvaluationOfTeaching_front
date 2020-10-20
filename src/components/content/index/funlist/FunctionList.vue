@@ -8,6 +8,7 @@
         :icon="item.icon"
         :url="item.url"
         :powers="item.powers"
+
       />
 <!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
 <!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
@@ -60,8 +61,7 @@ export default {
         {
           "title": "权限管理",
           "url": "limits",
-          "icon": "#icon-kaowuguanligongzuo",
-          powers: this.hasAnyPower(1,2,3,5,6,7,8,9)
+          "icon": "#icon-kaowuguanligongzuo"
         },
         {
           "title": "评教管理",
@@ -80,7 +80,7 @@ export default {
         },
         {
           "title": "查看评价结果(学生)",
-          "url": "test",
+          "url": "studentQuestionnaireFinish",
           "icon": "#icon-tubiaozhizuomoban26"
         },
         {
@@ -131,27 +131,27 @@ export default {
 
 <style scoped>
 #functionlist {
-  padding: 10px;
+  padding: 0.625rem  /* 10/16 */;
   background-color: #ffffff;
-  border-radius: 5px;
-  min-height: 400px;
+  border-radius: 0.3125rem  /* 5/16 */;
+  min-height: 25rem  /* 400/16 */;
 }
 
 .title {
-  font-size: 20px;
-  line-height: 40px;
-  border-bottom: 1px solid #eee;
+  font-size: 1.25rem  /* 20/16 */;
+  line-height: 2.5rem  /* 40/16 */;
+  border-bottom: 0.0625rem  /* 1/16 */ solid #eee;
   color: #484848;
   font-weight: normal;
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem  /* 10/16 */;
 }
 
 .title:after {
   content: "";
   position: absolute;
-  width: 60px;
-  height: 2px;
+  width: 3.75rem  /* 60/16 */;
+  height: 0.125rem  /* 2/16 */;
   background: #000;
   left: 0;
   bottom: 0;
@@ -161,11 +161,11 @@ export default {
 }
 
 .title:hover:after {
-  width: 220px;
+  width: 13.75rem  /* 220/16 */;
 }
 
 #list > div {
-  height: 150px;
+  height: 9.375rem  /* 150/16 */;
   display: flex;
   justify-content: center;
   align-items: center;

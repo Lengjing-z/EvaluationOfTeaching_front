@@ -18,7 +18,7 @@ export default {
       state.teacherAllList = data
     },
     updateStudentDetail(state,data){
-      state.teacherAllList = data
+      state.studentDetail = data
     },
     updateTeacherDetail(state,data){
       state.teacherDetail = data
@@ -42,20 +42,32 @@ export default {
         })
     },
     getStudentDetail({commit},id){
-      return myAxios.post(baseUrl+"evaluation/student/detail",qs.stringify({sttId:id}))
+      return myAxios.post(baseUrl+"admin/student/evaluation/detail",qs.stringify({sttId:id}))
         .then(res =>{
           commit("updateStudentDetail",res.data)
-          console.log("evaluation/student/detail",res.data)
-          return true
+          console.log("admin/student/evaluation/detail",res.data)
+          return res.data
         })
     },
-    getTeacherDetail({commit}){
-      return myAxios.post(baseUrl+"evaluation/teacher/detail",qs.stringify({id:id}))
+    getTeacherDetail({commit},id){
+      return myAxios.post(baseUrl+"admin/teacher/evaluation/detail",qs.stringify({tttId:id}))
         .then(res =>{
           commit("updateTeacherDetail",res.data)
-          console.log("evaluation/teacher/detail",res.data)
-          return true
+          console.log("admin/teacher/evaluation/detail",res.data)
+          return res.data
         })
+    },
+    getStudentProgress({commit}, sttId) {
+      return post(baseUrl + "admin/student/evaluation/progress", qs.stringify({sttId: sttId}), res => {
+        console.log("admin/student/evaluation/progress", res.data)
+        return res.data
+      })
+    },
+    getTeacherProgress({commit}, tttId) {
+      return post(baseUrl + "admin/teacher/evaluation/progress", qs.stringify({tttId: tttId}), res => {
+        console.log("admin/teacher/evaluation/progress", res.data)
+        return res.data
+      })
     },
   },
   modules:{},

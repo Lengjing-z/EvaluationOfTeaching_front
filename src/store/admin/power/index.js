@@ -58,7 +58,7 @@ export default {
     loadQuery({commit},condition){
       return post(baseUrl+'query',condition,res=>{
         commit('updateQuery',res.data)
-        console.log("loadQuery",res.data)
+        // console.log("loadQuery",res.data)
         return true
       })
     },
@@ -68,9 +68,10 @@ export default {
       let add = state.update.filter(up=> !state.query.some(item=>{return (up.pid==item.pid)&&(up.uid == item.uid) }))
       console.log("del",del)
       console.log("add",add)
+
       return Promise.all([
-        post(baseUrl+'del',del,res=>res.data),
-        post(baseUrl+'add',add,res=>res.data)
+        post(baseUrl+'del',del,res=>res.data).catch(err => console.log("del fail")),
+        post(baseUrl+'add',add,res=>res.data).catch(err => console.log("add fail"))
       ])
     }
   },

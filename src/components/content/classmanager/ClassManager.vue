@@ -629,33 +629,33 @@ data(){
 
 <style scoped>
 .seach_class{
-  margin-top: 20px;
+  margin-top: 1.25rem  /* 20/16 */;
 }
 .container111 {
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem  /* 4/16 */;
   background-color: #409eff;
-  height: 40px;
-  width: 220px;
-  margin-top: 8px;
+  height: 2.5rem  /* 40/16 */;
+  width: 13.75rem  /* 220/16 */;
+  margin-top: 0.5rem  /* 8/16 */;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  min-width: 80px;
+  padding: 0 0.9375rem  /* 15/16 */;
+  min-width: 5rem  /* 80/16 */;
   *zoom: 1;
 }
 .upload_file {
-  font-size: 20px;
+  font-size: 1.25rem  /* 20/16 */;
   opacity: 0;
   position: absolute;
   filter: alpha(opacity=0);
-  width: 200px;
+  width: 12.5rem  /* 200/16 */;
 }
 /*滚动条整体部分*/
 .mytable-scrollbar div::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 0.625rem  /* 10/16 */;
+  height: 0.625rem  /* 10/16 */;
 }
 /*滚动条的轨道*/
 .mytable-scrollbar div::-webkit-scrollbar-track {
@@ -664,9 +664,9 @@ data(){
 /*滚动条里面的小方块，能向上向下移动*/
 .mytable-scrollbar div::-webkit-scrollbar-thumb {
   background-color: #bfbfbf;
-  border-radius: 5px;
-  border: 1px solid #F1F1F1;
-  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  border-radius: 0.3125rem  /* 5/16 */;
+  border: 0.0625rem  /* 1/16 */ solid #F1F1F1;
+  box-shadow: inset 0 0 0.375rem  /* 6/16 */ rgba(0,0,0,.3);
 }
 .mytable-scrollbar div::-webkit-scrollbar-thumb:hover {
   background-color: #A8A8A8;
@@ -679,17 +679,17 @@ data(){
   background-color: #FFFFFF;
 }
 .mt-3{
-  height: 35px;
+  height: 2.1875rem  /* 35/16 */;
 }
 .member-info p{
-  margin-top: -15px;
+  margin-top: -0.9375rem  /* -15/16 */;
 }
 b-icon{
-  width: 250px;
+  width: 15.625rem  /* 250/16 */;
 }
 body{
   font-family:Lato,'Open Sans', sans-sarif;
-  font-size:16px;
+  font-size:1rem  /* 16/16 */;
 }
 *{
   margin: 0;
@@ -701,14 +701,14 @@ body{
 }
 .test {
   width: 80%;
-  height: 1300px;
+  height: 81.25rem  /* 1300/16 */;
   margin:0 auto;
 }
 /*= common css to all effects =*/
 .single-member{
-  width: 280px;
+  width: 17.5rem  /* 280/16 */;
   float: left;
-  margin: 30px 2.5%;
+  margin: 1.875rem  /* 30/16 */ 2.5%;
   background-color: #fff;
   text-align: center;
   position: relative;
@@ -716,34 +716,34 @@ body{
 .member-image #img {
   max-width: 100%;
   vertical-align: middle;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 1.5625rem  /* 25/16 */;
+  padding-right: 1.5625rem  /* 25/16 */;
   color: white;
 }
-h3 {font-size: 24px;
+h3 {font-size: 1.5rem  /* 24/16 */;
   font-weight: normal;
-  margin: 10px 0 0;
+  margin: 0.625rem  /* 10/16 */ 0 0;
   text-transform: uppercase;
 }
 h5 {
-  font-size: 16px;
+  font-size: 1rem  /* 16/16 */;
   font-weight: 300;
-  margin: 0 0 15px;
-  line-height: 22px;
+  margin: 0 0 0.9375rem  /* 15/16 */;
+  line-height: 1.375rem  /* 22/16 */;
 }
 p {
-  font-size: 14px;
+  font-size: 0.875rem  /* 14/16 */;
   font-weight: 300;
-  line-height: 22px;
-  padding: 0 30px;
-  margin-bottom: 10px;
+  line-height: 1.375rem  /* 22/16 */;
+  padding: 0 1.875rem  /* 30/16 */;
+  margin-bottom: 0.625rem  /* 10/16 */;
 }
 .social-touch a{
   display: inline-block;
-  width: 27px;
-  height: 26px;
+  width: 1.6875rem  /* 27/16 */;
+  height: 1.625rem  /* 26/16 */;
   vertical-align: middle;
-  margin: 0 2px; /*background-image: url(../img/logo.png);*/
+  margin: 0 0.125rem  /* 2/16 */; /*background-image: url(../img/logo.png);*/
   background-repeat: no-repeat;
   opacity: 0.7;
   transition: 0.3s;
@@ -752,9 +752,9 @@ p {
   opacity: 1;
   transition: 0.3s;
 }
-.icon-colored .fb-touch{background-position: 0 -27px;}
-.icon-colored .tweet-touch{background-position: -35px -27px;}
-.icon-colored .linkedin-touch{background-position: -71px -27px;}
+.icon-colored .fb-touch{background-position: 0 -1.6875rem  /* -27/16 */;}
+.icon-colored .tweet-touch{background-position: -2.1875rem  /* -35/16 */ -1.6875rem  /* -27/16 */;}
+.icon-colored .linkedin-touch{background-position: -4.4375rem  /* -71/16 */ -1.6875rem  /* -27/16 */;}
 /*= common css to all effects end =*/
 
 *,
@@ -782,30 +782,30 @@ body, html { font-size: 100%; 	padding: 0; margin: 0;}
 a{ color: rgba(255, 255, 255, 0.6);outline: none;text-decoration: none;-webkit-transition: 0.2s;transition: 0.2s;}
 a:hover,a:focus{color:#74777b;text-decoration: none;}
 #dosomeThing{
-  height: 35px;
+  height: 2.1875rem  /* 35/16 */;
 }
 
 /*= effect-1 css =*/
-.effect-1{border-radius: 5px 5px 0 0; padding-bottom: 40px;}
-.effect-1 .member-image {border: 2px solid #fff; background: #1b6aaa; border-radius: 60px 0; display: inline-block; margin-top: -72px; overflow: hidden; transition: 0.3s;}
-.effect-1 .social-touch{background-color: #e13157; position: absolute; left: 0; bottom: 0; height: 5px; overflow: hidden; padding: 5px 0 0; width: 100%; transition: 0.3s;}
-.effect-1 .member-image #img{transition: 0.3s; height:30px; /*background-color: #2a91d8;*/ border-radius: 60px 0;}
+.effect-1{border-radius: 0.3125rem  /* 5/16 */ 0.3125rem  /* 5/16 */ 0 0; padding-bottom: 2.5rem  /* 40/16 */;}
+.effect-1 .member-image {border: 0.125rem  /* 2/16 */ solid #fff; background: #1b6aaa; border-radius: 3.75rem  /* 60/16 */ 0; display: inline-block; margin-top: -4.5rem  /* -72/16 */; overflow: hidden; transition: 0.3s;}
+.effect-1 .social-touch{background-color: #e13157; position: absolute; left: 0; bottom: 0; height: 0.3125rem  /* 5/16 */; overflow: hidden; padding: 0.3125rem  /* 5/16 */ 0 0; width: 100%; transition: 0.3s;}
+.effect-1 .member-image #img{transition: 0.3s; height:1.875rem  /* 30/16 */; /*background-color: #2a91d8;*/ border-radius: 3.75rem  /* 60/16 */ 0;}
 .effect-1:hover .member-image{border-color: #e13157; transition: 0.3s; border-radius: 50%;}
-.effect-1:hover .social-touch{padding: 6px 0; height: 38px; transition: 0.3s;}
+.effect-1:hover .social-touch{padding: 0.375rem  /* 6/16 */ 0; height: 2.375rem  /* 38/16 */; transition: 0.3s;}
 /*= effect-1 css end =*/
 
 /*= Media Query
 =============== */
-@media only screen and (max-width: 980px){
-  .row{width: 100%; margin: 50px 0;}
+@media only screen and (max-width: 61.25rem  /* 980/16 */){
+  .row{width: 100%; margin: 3.125rem  /* 50/16 */ 0;}
   .team-members{text-align: center;}
   .single-member{float: none; display: inline-block; vertical-align: bottom;}
 }
 /*= Media Query End
 =================== */
-@media screen and (max-width:1300px){
+@media screen and (max-width:81.25rem  /* 1300/16 */){
   .single-member{
-    width: 250px;
+    width: 15.625rem  /* 250/16 */;
   }
 }/*宽度小于500px时 绿色*/
 </style>

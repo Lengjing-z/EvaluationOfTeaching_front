@@ -37,7 +37,7 @@ export default {
         res => {
           // console.log(res.data);
           commit("updateUserList", res.data)
-          console.log("queryUserByCode success")
+          // console.log("queryUserByCode success")
           return res.data
         });
 

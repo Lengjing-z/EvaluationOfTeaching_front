@@ -218,7 +218,6 @@ export default {
       .dispatch('admin/query', this.username)
       .then(result => {
         if (result === 'success')
-          console.log(3333333);
         this.tableData = this.$store.state.admin.user.userForm;
       }).then(() => {
       /*this.$router.push('index')*/
@@ -523,49 +522,49 @@ export default {
 
 <style scoped>
 .mt-31 {
-  margin-top: 20px;
-  width: 500px;
+  margin-top: 1.25rem  /* 20/16 */;
+  width: 31.25rem  /* 500/16 */;
 }
 
 .mt-3 {
   margin: 0 auto;
-  width: 400px;
+  width: 25rem  /* 400/16 */;
 }
 
 .container111 {
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem  /* 4/16 */;
   background-color: #409eff;
-  height: 40px;
-  width: 90px;
-  margin-top: 8px;
+  height: 2.5rem  /* 40/16 */;
+  width: 5.625rem  /* 90/16 */;
+  margin-top: 0.5rem  /* 8/16 */;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
-  min-width: 80px;
+  padding: 0 0.9375rem  /* 15/16 */;
+  min-width: 5rem  /* 80/16 */;
   *zoom: 1;
 }
 
 .upload_file {
-  font-size: 20px;
+  font-size: 1.25rem  /* 20/16 */;
   opacity: 0;
   position: absolute;
   filter: alpha(opacity=0);
-  width: 60px;
+  width: 3.75rem  /* 60/16 */;
 }
 
 .member-info p {
-  margin-top: -15px;
+  margin-top: -0.9375rem  /* -15/16 */;
 }
 
 b-icon {
-  width: 250px;
+  width: 15.625rem  /* 250/16 */;
 }
 
 body {
   font-family: Lato, 'Open Sans', sans-sarif;
-  font-size: 16px;
+  font-size: 1rem  /* 16/16 */;
 }
 
 * {
@@ -586,9 +585,9 @@ body {
 
 /*= common css to all effects =*/
 .single-member {
-  width: 280px;
+  width: 17.5rem  /* 280/16 */;
   float: left;
-  margin: 30px 2.5%;
+  margin: 1.875rem  /* 30/16 */ 2.5%;
   background-color: #fff;
   text-align: center;
   position: relative;
@@ -600,33 +599,33 @@ body {
 }
 
 h3 {
-  font-size: 24px;
+  font-size: 1.5rem  /* 24/16 */;
   font-weight: normal;
-  margin: 10px 0 0;
+  margin: 0.625rem  /* 10/16 */ 0 0;
   text-transform: uppercase;
 }
 
 h5 {
-  font-size: 16px;
+  font-size: 1rem  /* 16/16 */;
   font-weight: 300;
-  margin: 0 0 15px;
-  line-height: 22px;
+  margin: 0 0 0.9375rem  /* 15/16 */;
+  line-height: 1.375rem  /* 22/16 */;
 }
 
 p {
-  font-size: 14px;
+  font-size: 0.875rem  /* 14/16 */;
   font-weight: 300;
-  line-height: 22px;
-  padding: 0 30px;
-  margin-bottom: 10px;
+  line-height: 1.375rem  /* 22/16 */;
+  padding: 0 1.875rem  /* 30/16 */;
+  margin-bottom: 0.625rem  /* 10/16 */;
 }
 
 .social-touch a {
   display: inline-block;
-  width: 27px;
-  height: 26px;
+  width: 1.6875rem  /* 27/16 */;
+  height: 1.625rem  /* 26/16 */;
   vertical-align: middle;
-  margin: 0 2px; /*background-image: url(../img/logo.png);*/
+  margin: 0 0.125rem  /* 2/16 */; /*background-image: url(../img/logo.png);*/
   background-repeat: no-repeat;
   opacity: 0.7;
   transition: 0.3s;
@@ -636,13 +635,13 @@ p {
   transition: 0.3s;
 }
 .icon-colored .fb-touch{
-  background-position: 0 -27px;
+  background-position: 0 -1.6875rem  /* -27/16 */;
 }
 .icon-colored .tweet-touch{
-  background-position: -35px -27px;
+  background-position: -2.1875rem  /* -35/16 */ -1.6875rem  /* -27/16 */;
 }
 .icon-colored .linkedin-touch{
-  background-position: -71px -27px;
+  background-position: -4.4375rem  /* -71/16 */ -1.6875rem  /* -27/16 */;
 }
 /*= common css to all effects end =*/
 
@@ -687,21 +686,21 @@ a:hover,a:focus{
 
 /*= effect-3 css =*/
 .effect-3{
-  max-height: 270px;
-  min-height: 260px;
+  max-height: 16.875rem  /* 270/16 */;
+  min-height: 16.25rem  /* 260/16 */;
   width: 20%;
-  border-radius: 15px;
+  border-radius: 0.9375rem  /* 15/16 */;
   overflow: hidden;
 }
 .effect-3 h3{
-  padding-top: 7px;
-  line-height: 33px;
+  padding-top: 0.4375rem  /* 7/16 */;
+  line-height: 2.0625rem  /* 33/16 */;
 }
 .effect-3 .member-image{
-  border-bottom: 5px solid #e5642b;
+  border-bottom: 0.3125rem  /* 5/16 */ solid #e5642b;
   transition: 0.5s;
   background-color: rebeccapurple;
-  height: 200px;
+  height: 12.5rem  /* 200/16 */;
   width: 100%;
   display: inline-block;
   float: none;
@@ -720,30 +719,30 @@ a:hover,a:focus{
   left: 0;
   bottom: 0;
   overflow: hidden;
-  padding: 5px 0;
+  padding: 0.3125rem  /* 5/16 */ 0;
   width: 100%;
   transition: 0.5s;
 }
 .effect-3:hover .member-image{
   border-bottom: 0;
-  border-radius: 0 0 50px 50px;
-  height: 81px;
+  border-radius: 0 0 3.125rem  /* 50/16 */ 3.125rem  /* 50/16 */;
+  height: 5.0625rem  /* 81/16 */;
   display: inline-block;
   overflow: hidden;
-  width: 109px;
+  width: 6.8125rem  /* 109/16 */;
   transition: 0.5s;
 }
 /*= effect-3 css end =*/
 .effect-3:hover{
-  height: 270px;
+  height: 16.875rem  /* 270/16 */;
 }
 
 /*= Media Query
 =============== */
-@media only screen and (max-width: 980px) {
+@media only screen and (max-width: 61.25rem  /* 980/16 */) {
   .row {
     width: 100%;
-    margin: 50px 0;
+    margin: 3.125rem  /* 50/16 */ 0;
   }
 
   .team-members {
@@ -759,9 +758,9 @@ a:hover,a:focus{
 
 /*= Media Query End
 =================== */
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 81.25rem  /* 1300/16 */) {
   .single-member {
-    width: 250px;
+    width: 15.625rem  /* 250/16 */;
   }
 }
 

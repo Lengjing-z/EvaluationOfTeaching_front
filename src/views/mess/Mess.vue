@@ -67,7 +67,7 @@ import Footer from "components/content/footer/Footer";
 <style scoped>
 header{
   background-color: #0a408a;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem  /* 20/16 */;
 }
   table {
     width: 70%;
@@ -76,7 +76,7 @@ header{
   }
   table th{
     width: 33.3%;
-    height: 50px;
+    height: 3.125rem  /* 50/16 */;
     text-align: left;
   }
   table tr{

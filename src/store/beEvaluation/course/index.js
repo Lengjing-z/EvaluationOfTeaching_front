@@ -42,7 +42,7 @@ export default {
     getProgress({commit}, sttId) {
       return post(baseUrl + "beEvaluation/course/progress", qs.stringify({sttId: sttId}), res => {
         commit("updateProgress", res.data)
-        // console.log("beEvaluation/course/progress", res.data)
+        console.log("beEvaluation/course/progress", res.data)
         return res.data
       })
     }

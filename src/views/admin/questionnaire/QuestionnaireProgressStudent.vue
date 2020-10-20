@@ -12,7 +12,7 @@
       <vxe-table-column field="couName" title="课程"></vxe-table-column>
       <vxe-table-column field="begin_time" title="开始时间" :formatter="formatterTime"></vxe-table-column>
       <vxe-table-column field="end_time" title="结束时间" :formatter="formatterTime"></vxe-table-column>
-      <vxe-table-column field="ppp" title="进度"></vxe-table-column>
+      <vxe-table-column field="pro" title="进度"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <vxe-button @click="dataAnalysis(row)">查看数据统计</vxe-button>
@@ -138,24 +138,24 @@ export default {
 
       // 展示数据分析
       // 进行人数统计
-      this.$store.dispatch("admin/evaluation/getStudentDetail", row.sttId)
+      this.$store.dispatch("admin/evaluation/getStudentDetail", row.stId)
         .then(res => {
-          // res.forEach(item => {
-          //   // 这里对图标进行初始化
-          //   if (!this.option.yAxis.data.includes(item.qId)) {
-          //     this.option.yAxis.data.push(item.qId)
-          //   }
-          //   // 遍历进行统计每个问题不同等级进行人数统计
-          //   this.option.series.forEach(ops => {
-          //     if (ops.name == parseInt(item.answer)) {
-          //       if (ops.data[this.option.yAxis.data.indexOf(item.qId)] == null) {
-          //         ops.data[this.option.yAxis.data.indexOf(item.qId)] = 1
-          //       } else {
-          //         ops.data[this.option.yAxis.data.indexOf(item.qId)]++
-          //       }
-          //     }
-          //   });
-          // })
+          res.forEach(item => {
+            // 这里对图标进行初始化
+            if (!this.option.yAxis.data.includes(item.qId)) {
+              this.option.yAxis.data.push(item.qId)
+            }
+            // 遍历进行统计每个问题不同等级进行人数统计
+            this.option.series.forEach(ops => {
+              if (ops.name == parseInt(item.answer)) {
+                if (ops.data[this.option.yAxis.data.indexOf(item.qId)] == null) {
+                  ops.data[this.option.yAxis.data.indexOf(item.qId)] = 1
+                } else {
+                  ops.data[this.option.yAxis.data.indexOf(item.qId)]++
+                }
+              }
+            });
+          })
 
           // 获取指标 制作第二个图标
           // this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})

@@ -126,11 +126,11 @@
         isLogin:false,
         succ:false,
         loginForm: {
-          // username: 'admin',
-          // password: '123456'
-
-          username: '10001011',
+          username: 'admin',
           password: '123456'
+
+          // username: '10001011',
+          // password: '123456'
 
           // username: '179000501',
           // password: '123456'
@@ -187,6 +187,6 @@
    height: 62.5rem  /* 1000/16 */;
  }
  #log{
-   margin: 50px auto;
+   margin: 3.125rem  /* 50/16 */ auto;
  }
 </style>
