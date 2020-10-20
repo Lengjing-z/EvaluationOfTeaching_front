@@ -74,10 +74,10 @@ export default {
     this.init();
   },
   created() {
-    console.log(this.$store.state.admin.power.query);
+    // console.log(this.$store.state.admin.power.query);
     let pw = this.$store.state.admin.power.query;
     this.form = this.$store.state.info.mine;
-    console.log(this.form.sex);
+    // console.log(this.form.sex);
     //老师
     if(pw[0].pid == 2){
       this.isTeacher = true;
@@ -166,7 +166,7 @@ export default {
       this.form = this.$store.state.info.mine;
       this.form.name = this.$store.state.info.mine.name;
       this.form.intr1 = this.$store.state.info.mine.intr;
-      console.log(this.$store.state.info.mine.intr)
+      // console.log(this.$store.state.info.mine.intr)
     },
     onReset(evt) {
       evt.preventDefault()

@@ -68,9 +68,10 @@ export default {
       let add = state.update.filter(up=> !state.query.some(item=>{return (up.pid==item.pid)&&(up.uid == item.uid) }))
       console.log("del",del)
       console.log("add",add)
+
       return Promise.all([
-        post(baseUrl+'del',del,res=>res.data),
-        post(baseUrl+'add',add,res=>res.data)
+        post(baseUrl+'del',del,res=>res.data).catch(err => console.log("del fail")),
+        post(baseUrl+'add',add,res=>res.data).catch(err => console.log("add fail"))
       ])
     }
   },

@@ -20,7 +20,10 @@
       <header>
         <h3>查看结果</h3>
       </header>
-
+      <div class="mb-3 mt-3 d-md-block d-lg-none">
+        <b-button id="button-3" variant="outline-success" @click="toStudent">student</b-button>
+        <b-button id="button-2" variant="outline-success" @click="toTeacher">teacher</b-button>
+      </div>
       <router-view></router-view>
 
     </div>

@@ -218,7 +218,6 @@ export default {
       .dispatch('admin/query', this.username)
       .then(result => {
         if (result === 'success')
-          console.log(3333333);
         this.tableData = this.$store.state.admin.user.userForm;
       }).then(() => {
       /*this.$router.push('index')*/
