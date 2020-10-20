@@ -5,8 +5,8 @@
         <div class="grxx">
           <div id="xsxm">被评教的老师</div>
           <div>{{ teacher.teacherName }}</div>
-          <div id="crouse">课程</div>
-          <div>{{ teacher.institute }}</div>
+<!--          <div id="crouse">课程</div>-->
+<!--          <div>{{ teacher.institute }}</div>-->
         </div>
         <div class="wenjuan">
           <table border="1" cellspacing="0" cellpadding="0">
@@ -20,9 +20,15 @@
             <tr v-for="(item,index) in finishedlist" :key="index">
               <td colspan="2">
                 <span>{{ index + 1 }}.{{ item.content }}</span>
-                <b-form-rating v-model="item.answer" show-value variant="warning" size="md"
-                               class="choose"></b-form-rating>
-                <!--                                <span class="layui-inline">0分</span>-->
+                <b-input-group>
+                  <b-form-rating v-model="item.answer" variant="warning" size="md"
+                                 disabled></b-form-rating>
+                  <b-input-group-append>
+                    <b-input-group-text class="justify-content-center" style="min-width: 3em;">
+                      {{ result[item.answer - 1] }}
+                    </b-input-group-text>
+                  </b-input-group-append>
+                </b-input-group>
               </td>
             </tr>
             </tbody>
@@ -41,6 +47,7 @@ export default {
   name: "TeacherQuestionnaire",
   data() {
     return {
+      result : ['不满意', '有点差', '一般般', '满意', '非常满意'],
     }
   },
   props: ['finishedlist', 'teacher'],

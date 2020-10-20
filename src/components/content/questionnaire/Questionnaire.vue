@@ -9,6 +9,7 @@
         <vxe-button v-b-modal.targetlist @click="queryAllTarget">指标管理</vxe-button>
         <b-modal id="targetlist" size="xl" title="指标管理" ok-only>
           <vxe-table
+            :loading="targetlistloading"
             :data="targetlist">
             <vxe-table-column type="seq" min-width="60"></vxe-table-column>
             <vxe-table-column field="name" title="Name"></vxe-table-column>
@@ -19,6 +20,7 @@
               </template>
             </vxe-table-column>
           </vxe-table>
+
           <b-modal id="targetmanage" size="lg" title="指标列表" ok-only>
             <target-management :target-data-children="targetDataChildren" :mid="maxid"></target-management>
             <template v-slot:modal-footer v-if="{showFooter}">
@@ -46,6 +48,7 @@
       highlight-hover-row
       ref="allques"
       height="500"
+      :loading="loading"
       :data="allquestionnaire">
       <vxe-table-column type="seq" width="60"></vxe-table-column>
       <vxe-table-column field="title" title="课程名"></vxe-table-column>
@@ -55,13 +58,15 @@
         </template>
       </vxe-table-column>
     </vxe-table>
+    <vxe-pager
+      background
+      :loading="loading"
+      :current-page.sync="page5.currentPage"
+      :page-size.sync="page5.pageSize"
+      :total="page5.totalResult"
+      :layouts="['PrevJump', 'PrevPage', 'JumpNumber', 'NextPage', 'NextJump', 'Sizes', 'FullJump', 'Total']">
+    </vxe-pager>
 
-    <vxe-modal v-model="showEdit" :title="selectRow ? '编辑&保存' : '新增&保存'" width="800" min-width="600" min-height="300"
-               :loading="submitLoading" resize destroy-on-close>
-      <template v-slot>
-        <!--        <vxe-form :data="formData" :items="formItems" :rules="formRules" title-align="right" title-width="100" @submit="submitEvent"></vxe-form>-->
-      </template>
-    </vxe-modal>
 
     <!--导入问卷按钮-->
     <b-modal id="my-modal1" size="xl" title="导入用户信息" ok-only>
@@ -74,7 +79,7 @@
           @change="readExcel($event)"
         />
       </div>
-      <vxe-select v-model="targetTempName" placeholder="选择指标模板">
+      <vxe-select v-model="targetTempName" placeholder="选择指标模板" class="mb-3">
         <vxe-option v-for="num in targetlist" :key="num.id" :value="num" :label="`${num.name}`"></vxe-option>
       </vxe-select>
         <template v-slot:modal-footer>
@@ -150,8 +155,14 @@ export default {
       targetTempTree: [],
       fatherTarget: [],
       targetlist: [],
+      targetlistloading:false,
       targetDataChildren: [],
-      maxid: 0
+      maxid: 0,
+      page5: {
+        currentPage: 1,
+        pageSize: 10,
+        totalResult: 300
+      }
     }
   },
   watch: {
@@ -173,7 +184,7 @@ export default {
       .dispatch("admin/questionnaire/loadGetAllNaire")
       .then(res => {
         this.allquestionnaire = this.$store.state.admin.questionnaire.questionnaireAll
-        console.log(res)
+        // console.log(res)
       })
 
   },
@@ -213,11 +224,13 @@ export default {
     },
     // 查询所有指标
     queryAllTarget(){
+      this.targetlistloading = true
       this.$store
         .dispatch("admin/indicator/getAll")
         .then(res => {
           this.targetlist = this.$store.state.admin.indicator.indicatorAll
-          console.log(res)
+          this.targetlistloading = false
+          // console.log(res)
         })
     },
     // 添加、删除指标后进行提交操作
@@ -289,7 +302,8 @@ export default {
         return false;
       } else {
         // 更新获取文件名
-        that.upload_file = files[0].name;
+        // let str = files[0].name
+        that.upload_file = files[0].name.split(".")[0];
       }
 
       const fileReader = new FileReader();
@@ -316,17 +330,13 @@ export default {
           });
           // 给后端发请求
           /*提交数据*/
-          this.submit_form();
         } catch (e) {
           return false;
         }
       };
       fileReader.readAsBinaryString(files[0]);
     },
-    /*保存问卷*/
-    submit_form() {
-      console.log("假装给后端发了个请求...");
-    },
+
   }
 }
 </script>

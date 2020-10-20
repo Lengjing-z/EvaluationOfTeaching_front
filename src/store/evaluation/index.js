@@ -25,8 +25,7 @@ export default {
         .post('evaluation/finishedList')
         .then(res => {
           commit('updateNaire', res.data)
-          console.log(res)
-          // console.log(JSON.stringify(res))
+          console.log(res.data)
           return true
         }).catch(reason => {
           return false

@@ -37,7 +37,7 @@
 
     <div>
       <b-modal id="functionform" size="lg"  hide-footer title="进行评教">
-        <Form :qwe="qnId" :currentFormData = "currentFormData"></Form>
+        <Form :qwe="qnId"></Form>
       </b-modal>
     </div>
 
@@ -78,7 +78,14 @@ import ManagerSetting from "components/common/Manager/ManagerSetting";
 
 export default {
   created() {
-
+    this.$store
+      .dispatch('clazz/loadEnrolled')
+      .then(result => {
+        if (result==='success')
+          console.log(3333333);
+        this.ClassData =   this.$store.state.clazz.enrolled;
+      }).then(()=>{
+    })
   },
   methods:{
     editRowEvent(row){
@@ -115,7 +122,7 @@ export default {
       })
     },
     showModal3(index) {
-      console.log(index);
+      // console.log(index);
       this.$store
         .dispatch('clazz/allEvaluations',index)
         .then(result => {
@@ -125,10 +132,9 @@ export default {
             return item.finished === false
           });
         }).then(()=>{
+        // this.$refs['my-modal2'].show();
+        this.$bvModal.show('my-modal2');
       })
-      // this.$refs['my-modal2'].show();
-      this.$bvModal.show('my-modal2');
-      this.$store.dispatch("evaluation/getStudentDetail",1);
     },
     close(){
       this.$refs['my-modal2'].hide()
@@ -159,89 +165,9 @@ export default {
         date3: null,
         address: null
       },
-      ClassData:[
-        {
-          id:1,
-          teacher:'刘洋',
-          name: '数据库从删库到跑路',
-        },
-        {
-          id:2,
-          teacher:'刘洋',
-          name: 'Android从入门到改行',
-        },
-        {
-          id:3,
-          teacher:'刘洋',
-          name: 'C#从入门到放弃',
-        },
-      ],
+      ClassData:[],
       /*问卷列表*/
-      tableData: [{
-        id:1,
-        sex:"男",
-        qnId: '',
-        password:'123456',
-        height: 175,
-        code: '179000505',
-        date: '2016-05-04',
-        name: '软件工程',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:2,
-        sex:"男",
-        age: 18,
-        password:'123456',
-        height: 175,
-        code: '179000506',
-        date: '2016-05-04',
-        name: '任然',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-        {
-          id:3,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000507',
-          date: '2016-05-04',
-          name: '李宇蔚',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          id:4,
-          sex:"男",
-          password:'123456',
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '张三',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          id:5,
-          password:'123456',
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '杨过',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          password:'123456',
-          id:6,
-          sex:"男",
-          age: 18,
-          height: 175,
-          code: '179000520',
-          date: '2016-05-04',
-          name: '黄天亮',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-      ],
+      tableData: [],
     }
   }
 }

@@ -46,7 +46,7 @@
                         <div class="space"></div>
                         <div class="clearfix">
                           <label class="inline">
-                            <vxe-checkbox style="margin-top: 10px" v-model="value1" class="ace" content="记住我"></vxe-checkbox>
+                            <vxe-checkbox style="margin-top: 10px" class="ace" content="记住我"></vxe-checkbox>
                           </label>
                          <!-- <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
                             <i v-if="isLogin" class="vxe-icon&#45;&#45;refresh roll"></i>

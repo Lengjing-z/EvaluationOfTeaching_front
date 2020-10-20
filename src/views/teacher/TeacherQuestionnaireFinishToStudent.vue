@@ -73,7 +73,7 @@ export default {
         },
         legend: {
           top: 30,
-          data: ['1', '2', '3', '4', '5']
+          data: ['不满意', '有点差', '一般般', '满意', '非常满意']
         },
         grid: {
           left: '3%',
@@ -90,7 +90,7 @@ export default {
         },
         series: [
           {
-          name: 1,
+          name: '不满意',
           type: 'bar',
           stack: '总量',
           label: {
@@ -99,7 +99,7 @@ export default {
           },
           data: []
         }, {
-          name: 2,
+          name: '有点差',
           type: 'bar',
           stack: '总量',
           label: {
@@ -108,7 +108,7 @@ export default {
           },
           data: []
         }, {
-          name: 3,
+          name: '一般般',
           type: 'bar',
           stack: '总量',
           label: {
@@ -117,7 +117,7 @@ export default {
           },
           data: []
         }, {
-          name: 4,
+          name:  '满意',
           type: 'bar',
           stack: '总量',
           label: {
@@ -126,7 +126,7 @@ export default {
           },
           data: []
         }, {
-          name: 5,
+          name:  '非常满意',
           type: 'bar',
           stack: '总量',
           label: {
@@ -141,6 +141,7 @@ export default {
       // 进行人数统计
       this.$store.dispatch("beEvaluation/course/getDetail", row.sttId)
         .then(res => {
+          let leg = ['不满意', '有点差', '一般般', '满意', '非常满意']
           res.forEach(item => {
             // 这里对图标进行初始化
             if (!this.option.yAxis.data.includes(item.qId)) {
@@ -148,7 +149,7 @@ export default {
             }
             // 遍历进行统计每个问题不同等级进行人数统计
             this.option.series.forEach(ops => {
-              if (ops.name == parseInt(item.answer)) {
+              if (ops.name == leg[parseInt(item.answer)-1]) {
                 if (ops.data[this.option.yAxis.data.indexOf(item.qId)] == null) {
                   ops.data[this.option.yAxis.data.indexOf(item.qId)] = 1
                 } else {
@@ -175,8 +176,9 @@ export default {
                this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
 
             })
-        })
-      this.$bvModal.show("progressing")
+        }).then(res =>{
+        this.$bvModal.show("progressing")
+      })
 
     },
 

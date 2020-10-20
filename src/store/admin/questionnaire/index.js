@@ -30,7 +30,7 @@ export default {
   },
   actions: {
     loadGetAllNaire({commit}) {
-      return myAxios.post("admin/questionnaire/all/0/100")
+      return myAxios.post("admin/questionnaire/all/0/1000")
         .then(res => {
           commit("updateQuestionnaireAll", res.data)
           console.log("get questionnaireAll", res.data)

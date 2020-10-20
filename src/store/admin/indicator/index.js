@@ -69,7 +69,7 @@ export default {
       return myAxios.post("admin/indicator/all")
         .then(res => {
           commit("updateindicatorAll", res.data)
-          console.log("indicatorAll", res.data)
+          // console.log("indicatorAll", res.data)
           return "get indicatorAll success"
         })
     },
@@ -78,7 +78,7 @@ export default {
       return myAxios.post("http://localhost:8080/back/admin/indicator/detail", root)
         .then(res => {
           commit("updateindicatorDetail", res.data)
-          console.log(res.data)
+          // console.log(res.data)
           let maxid = 0
           res.data.forEach(item => {
             if (Number(item.id) > maxid)

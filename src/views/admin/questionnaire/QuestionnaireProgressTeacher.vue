@@ -71,7 +71,7 @@ name: "QuestionnaireProgressTeacher",
         },
         legend: {
           top: 30,
-          data: ['1', '2', '3', '4', '5']
+          data: ['不满意', '有点差', '一般般', '满意', '非常满意']
         },
         grid: {
           left: '3%',
@@ -88,7 +88,7 @@ name: "QuestionnaireProgressTeacher",
         },
         series: [
           {
-            name: 1,
+            name: '不满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -97,7 +97,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name: 2,
+            name: '有点差',
             type: 'bar',
             stack: '总量',
             label: {
@@ -106,7 +106,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name: 3,
+            name: '一般般',
             type: 'bar',
             stack: '总量',
             label: {
@@ -115,7 +115,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name: 4,
+            name:  '满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -124,7 +124,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name: 5,
+            name:  '非常满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -139,6 +139,7 @@ name: "QuestionnaireProgressTeacher",
       // 进行人数统计
       this.$store.dispatch("admin/evaluation/getTeacherDetail", row.id)
         .then(res => {
+          let leg = ['不满意', '有点差', '一般般', '满意', '非常满意']
           res.forEach(item => {
             // 这里对图标进行初始化
             if (!this.option.yAxis.data.includes(item.qsId)) {
@@ -146,7 +147,7 @@ name: "QuestionnaireProgressTeacher",
             }
             // 遍历进行统计每个问题不同等级进行人数统计
             this.option.series.forEach(ops => {
-              if (ops.name == parseInt(item.answer)) {
+              if (ops.name == leg[parseInt(item.answer)-1]) {
                 if (ops.data[this.option.yAxis.data.indexOf(item.qsId)] == null) {
                   ops.data[this.option.yAxis.data.indexOf(item.qsId)] = 1
                 } else {
@@ -155,68 +156,26 @@ name: "QuestionnaireProgressTeacher",
               }
             });
           })
-      var data = [
-        {
-          name: 'Grandpa',
-          children: [{
-            name: 'Uncle Leo',
-            value: 15,
-            children: [{
-              name: 'Cousin Jack',
-              value: 2
-            }, {
-              name: 'Cousin Mary',
-              value: 5,
-              children: [{
-                name: 'Jackson',
-                value: 2
-              }]
-            }, {
-              name: 'Cousin Ben',
-              value: 4
-            }]
-          }, {
-            name: 'Father',
-            value: 10,
-            children: [{
-              name: 'Me',
-              value: 5
-            }, {
-              name: 'Brother Peter',
-              value: 1
-            }]
-          }]
-        }, {
-          name: 'Nancy',
-          children: [{
-            name: 'Uncle Nike',
-            children: [{
-              name: 'Cousin Betty',
-              value: 1
-            }, {
-              name: 'Cousin Jenny',
-              value: 2
-            }]
-          }]
-        }];
+          this.option2 = {
+            series: {
+              type: 'sunburst',
+              // highlightPolicy: 'ancestor',
+              data: [],
+              radius: [0, '90%'],
+              label: {
+                rotate: 'radial'
+              }
+            }
+          };
+          // 获取指标 制作第二个图标
+          this.$store.dispatch("admin/indicator/getDetail", {id:row.index_root_id})
+            .then(result =>{
+              this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
 
-      this.option2 = {
-        series: {
-          type: 'sunburst',
-          // highlightPolicy: 'ancestor',
-          data: data,
-          radius: [0, '90%'],
-          label: {
-            rotate: 'radial'
-          }
-        }
-      };
-      // 获取指标 制作第二个图标
-      // this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
-      //   .then(res =>{
-      //   })
+            })
+      }).then(res =>{
+        this.$bvModal.show("progressing")
       })
-      this.$bvModal.show("progressing")
     }
   }
 }
