@@ -138,11 +138,11 @@ export default {
     // 模糊查询用户 （code）
     selectUserByCode() {
       // console.log(this.people);
-      // this.loading = true
+      this.loading = true
       this.$store.dispatch("admin/users/queryUserByCode", this.code)
         .then(res => {
           // console.log(this.$store.state["admin/power/all"]);
-          // this.loading = false
+          this.loading = false
           // console.log(res)
           this.people = this.$store.state.admin.users.userList;
           // setInterval(function (){

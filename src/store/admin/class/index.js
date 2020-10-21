@@ -33,15 +33,15 @@ export default {
     create({state},init){
       console.log(init);
       return post(baseUrl+'create',init,res=>{
-        console.log('success');
+        // console.log('success');
         return res.data
       })
     },
     allStudent({commit},cid){
-      console.log(cid);
+      // console.log(cid);
       return post('admin/class/allStudent',qs.stringify({cid:cid}),res=>{
-        console.log('success');
-        console.log(res.data);
+        // console.log('success');
+        // console.log(res.data);
         commit('updateQuery1',res.data)
         return res.data
       })
@@ -49,7 +49,7 @@ export default {
     query({commit},classname){
       // console.log(classname + '1111');
       return post(baseUrl+'query',qs.stringify({name:''}),res=>{
-        console.log("queryClazz",res.data);
+        // console.log("queryClazz",res.data);
         commit('updateQuery',res.data)
         return res.data
       })
@@ -57,7 +57,7 @@ export default {
     queryC({commit},classname){
       console.log(classname , 'classname');
       return post(baseUrl+'query',qs.stringify(classname),res=>{
-        console.log("queryClazz",res.data);
+        // console.log("queryClazz",res.data);
         commit('updateQuery2',res.data)
         return res.data
       })

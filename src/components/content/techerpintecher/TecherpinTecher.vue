@@ -111,8 +111,8 @@ export default {
       this.$store
         .dispatch('beEvaluation/institute/getProgress',index)
         .then(result => {
-          if (result==='success')
-            console.log(3333333);
+          // if (result==='success')
+          //   console.log(3333333);
           let all3 = [];
           this.tableData =  this.$store.state.beEvaluation.institute.progress;
           for(let i in this.tableData){
@@ -125,7 +125,7 @@ export default {
         }).then(()=>{
       })
       this.$refs['my-modal2'].show();
-      this.$store.dispatch("evaluation/getStudentDetail",1);
+      // this.$store.dispatch("evaluation/getStudentDetail",1);
     },
     close(){
       this.$refs['my-modal2'].hide()

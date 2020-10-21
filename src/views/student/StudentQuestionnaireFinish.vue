@@ -4,7 +4,7 @@
   <manager-setting :manager="manager"></manager-setting>
   <div class="container mt-3 mb-5">
     <header>
-      <h3>评教老师</h3>
+      <h3>评教老师结果</h3>
     </header>
     <vxe-table
       stripe

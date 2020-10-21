@@ -21,12 +21,42 @@
               </canvas>
             </div>
             <div id="tags">
-              <ul>
-                <li><a href="http://www.google.com" target="_blank">Google</a></li>
-                <li><a href="/fish">Fish</a></li>
-                <li><a href="/chips">Chips</a></li>
-                <li><a href="/salt">Salt</a></li>
-                <li><a href="/vinegar">Vinegar</a></li>
+              <ul class="weighted" style="font-size: 50%" id="weightTags">
+                <li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
+                <li><a href="#" data-weight="18" style="font-size: 3.61ex">background</a></li>
+                <li><a href="#" data-weight="40" style="font-size: 9.64ex">canvas</a></li>
+                <li><a href="#" data-weight="22" style="font-size: 4.47ex">chart</a></li>
+                <li><a href="#" data-weight="18" style="font-size: 3.46ex">charts</a></li>
+                <li><a href="#" data-weight="60" style="font-size: 12.32ex">cloud</a></li>
+                <li><a href="#" data-weight="18" style="font-size: 3.74ex">clouds</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.16ex">example</a></li>
+                <li><a href="#" data-weight="18" style="font-size: 3.74ex">goat</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.16ex">goat1000</a></li>
+                <li><a href="#" data-weight="30" style="font-size: 8.36ex">graph</a></li>
+                <li><a href="#" data-weight="21" style="font-size: 4.36ex">graphs</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.32ex">html</a></li>
+                <li><a href="#" data-weight="50" style="font-size: 10.68ex">html5</a></li>
+                <li><a href="#" data-weight="23" style="font-size: 4.69ex">image</a></li>
+                <li><a href="#" data-weight="24" style="font-size: 4.8ex">javascript</a></li>
+                <li><a href="#" data-weight="26" style="font-size: 5.47ex">jpeg</a></li>
+                <li><a href="#" data-weight="13" style="font-size: 2.65ex">jpegsaver</a></li>
+                <li><a href="#" data-weight="32" style="font-size: 8.77ex">jquery</a></li>
+                <li><a href="#" data-weight="13" style="font-size: 2.65ex">lib</a></li>
+                <li><a href="#" data-weight="27" style="font-size: 5.92ex">library</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.32ex">link</a></li>
+                <li><a href="#" data-weight="65" style="font-size: 13.23ex">php</a></li>
+                <li><a href="#" data-weight="14" style="font-size: 2.83ex">plugin</a></li>
+                <li><a href="#" data-weight="22" style="font-size: 4.58ex">saver</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.32ex">screensaver</a></li>
+                <li><a href="#" data-weight="13" style="font-size: 2.65ex">script</a></li>
+                <li><a href="#" data-weight="65" style="font-size: 13ex">svg</a></li>
+                <li><a href="#" data-weight="21" style="font-size: 4.47ex">svggraph</a></li>
+                <li><a href="#" data-weight="62" style="font-size: 12.44ex">tag</a></li>
+                <li><a href="#" data-weight="13" style="font-size: 2.65ex">tagcanvas</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.46ex">tagcloud</a></li>
+                <li><a href="#" data-weight="13" style="font-size: 2.65ex">text</a></li>
+                <li><a href="#" data-weight="17" style="font-size: 3.16ex">word</a></li>
+
               </ul>
             </div>
           </div>
@@ -62,9 +92,6 @@ export default {
   data() {
     return {}
   },
-  created: function () {
-
-  },
   mounted() {
     this.$store.dispatch('admin/power/loadAll')
     // console.log(this.$store.state.info.mine.id);
@@ -78,6 +105,7 @@ export default {
       depth: 0.8,
       maxSpeed: 0.05
     });
+
 
   }
 };

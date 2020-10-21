@@ -43,6 +43,7 @@ export default {
     }
   },
   created() {
+
     this.$store.dispatch("evaluation/getFinishedList").then(res => {
       if (res) {
         this.questionnaire = this.$store.state.evaluation.questionnairefinishedList

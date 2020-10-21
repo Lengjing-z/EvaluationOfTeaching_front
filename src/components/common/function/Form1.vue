@@ -21,8 +21,16 @@
           <tr v-for="(item,index) in finishedlist" :key="index">
             <td colspan="2">
               <span>{{index+1}}.{{item.content}}</span>
-              <b-form-rating v-model="item.answer" show-value variant="warning" size="md" class="choose"></b-form-rating>
-              <!--                <span class="layui-inline">0分</span>-->
+<!--              <b-form-rating v-model="item.answer" show-value variant="warning" size="md" class="choose"></b-form-rating>-->
+              <b-input-group>
+                <b-form-rating v-model="item.answer" variant="warning" size="md"
+                               class="choose"></b-form-rating>
+                <b-input-group-append>
+                  <b-input-group-text class="justify-content-center" style="min-width: 3em;">
+                    {{ resultTip[item.answer - 1] }}
+                  </b-input-group-text>
+                </b-input-group-append>
+              </b-input-group>
             </td>
           </tr>
           </tbody>
@@ -44,6 +52,7 @@ name: "Form1",
       value: 0,
       it:[],
       user:[],
+      resultTip : ['不满意', '有点差', '一般般', '满意', '非常满意'],
       AnswerData:[
         {
           sttId:'',

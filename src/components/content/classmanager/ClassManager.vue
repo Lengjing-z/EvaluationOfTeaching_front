@@ -2,24 +2,21 @@
   <div class="test">
     <header>
       <h3>班级管理</h3>
-      <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
-      <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px;
-      margin-left: 15px;
+      <b-button  v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
+      <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px; margin-left: 15px;
       " variant="outline-success">批量导入</b-button>
       <div class="seach_class">
         <b-form inline>
-          <label class="sr-only">Name</label>
-          <b-input
-            id="inline-form-input-name"
-            class="mb-2 mr-sm-2 mb-sm-0"
-            v-model="classname"
-            placeholder="Jane Doe"
-          ></b-input>
-          <label class="sr-only">Username</label>
-          <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
-            <b-input id="inline-form-input-username" placeholder="Username"></b-input>
+
+          <b-input-group prepend="搜索班级" class="mb-2 mr-sm-2 mb-sm-0">
+            <b-input
+              id="inline-form-input-name"
+              class="mb-2 mr-sm-2 mb-sm-0"
+              v-model="classname"
+              placeholder="班级名"
+            ></b-input>
           </b-input-group>
-          <b-button variant="primary" @click="serchClass()">Seach</b-button>
+          <b-button variant="primary" @click="serchClass()">搜索</b-button>
         </b-form>
       </div>
     </header>
@@ -50,9 +47,9 @@
     </div>
 
     <div>
-      <b-modal size="xl" ref="my-modal2" hide-footer title="ALl Students Message">
-        <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="SerchStudent()"  variant="outline-primary">添加学生</b-button>
-        <vxe-modal v-model="value5" width="100%" show-footer>
+      <b-modal size="xl" ref="my-modal2" hide-footer title="所有学生信息">
+        <b-button  v-b-modal.my-modal1 @click="SerchStudent()"  class="mb-3" variant="outline-primary">添加学生</b-button>
+        <vxe-modal v-model="value5" show-footer>
           <template v-slot>
             <vxe-table
               border
@@ -69,7 +66,7 @@
               <vxe-table-column field="addr" title="Address" show-overflow></vxe-table-column>
             </vxe-table>
 
-            <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>
+            <b-button  v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>
           </template>
         </vxe-modal>
         <vxe-table
@@ -84,7 +81,7 @@
           <vxe-table-column field="age" title="Age" width="150"></vxe-table-column>
           <vxe-table-column field="code" title="Code" width="150"></vxe-table-column>
           <vxe-table-column field="height" title="Height" width="150"></vxe-table-column>
-          <vxe-table-column field="address" title="Address" width="350" show-overflow></vxe-table-column>
+          <vxe-table-column field="addr" title="Address" width="350" show-overflow></vxe-table-column>
         </vxe-table>
       </b-modal>
     </div>
@@ -230,10 +227,10 @@ export default {
     this.$store
       .dispatch('admin/class/query',{name:''})
       .then(result => {
-        if (result==='success')
-          console.log('this' + '  ' + 'success');
+        // if (result==='success')
+          // console.log('this' + '  ' + 'success');
         this.ClassData = this.$store.state.admin.class.query;
-        console.log(this.$store.state.admin.class.query);
+        // console.log(this.$store.state.admin.class.query);
         /*  this.ClassData = this.$store.state.admin.user.userForm;*/
       }).then(()=>{
       /*this.$router.push('index')*/
@@ -288,12 +285,12 @@ export default {
     },
     showModal3(index) {
       this.classId = index;
-      console.log(index);
+      // console.log(index);
       this.$store
         .dispatch('admin/class/allStudent',this.classId)
         .then(result => {
-          if (result === 'success')
-            console.log(3333333);
+          // if (result === 'success')
+            // console.log(3333333);
           this.tableData = this.$store.state.admin.class.q
           let all = [];
           for(let i in this.tableData){
@@ -456,172 +453,8 @@ data(){
         { min: 3, max: 5, message: '长度在 3 到 5 个字符' }
       ]
     },
-    tableData: [{
-      id:1,
-      sex:"男",
-      age: 18,
-      password:'123456',
-      height: 175,
-      code: '179000505',
-      date: '2016-05-04',
-      name: '周海洋',
-      address: '上海市普陀区金沙江路 1517 弄'
-    }, {
-      id:2,
-      sex:"男",
-      age: 18,
-      password:'123456',
-      height: 175,
-      code: '179000506',
-      date: '2016-05-04',
-      name: '任然',
-      address: '上海市普陀区金沙江路 1517 弄'
-    },
-      {
-        id:3,
-        password:'123456',
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000507',
-        date: '2016-05-04',
-        name: '李宇蔚',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:4,
-        sex:"男",
-        password:'123456',
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '张三',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        id:5,
-        password:'123456',
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '杨过',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:6,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '黄天亮',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:1,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000505',
-        date: '2016-05-04',
-        name: '周搜索',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        password:'123456',
-        id:2,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000506',
-        date: '2016-05-04',
-        name: '任天',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        password:'123456',
-        id:3,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000507',
-        date: '2016-05-04',
-        name: '李小龙',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:4,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '张文',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:5,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '杨林',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:6,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '黄撒旦',
-        address: '上海市普陀区金沙江路 1517 弄'
-      },
-      {
-        password:'123456',
-        id:6,
-        sex:"男",
-        age: 18,
-        height: 175,
-        code: '179000520',
-        date: '2016-05-04',
-        name: '黄撒旦',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }],
-    ClassData:[
-      {
-        id:1,
-       name: '1790001',
-      },
-      {
-        id:2,
-        name: '1790002',
-      },
-      {
-        id:3,
-        name: '1790003',
-      },
-      {
-        id:4,
-        name: '1790004',
-      },
-      {
-        id:5,
-        name: '1790005',
-
-      },
-      {
-        id:6,
-        name: '1790006',
-      }
-    ],
+    tableData: [],
+    ClassData:[],
   }
 }
 }
@@ -701,7 +534,7 @@ body{
 }
 .test {
   width: 80%;
-  height: 81.25rem  /* 1300/16 */;
+  min-height:38.25rem  /* 612/16 */ ;
   margin:0 auto;
 }
 /*= common css to all effects =*/
