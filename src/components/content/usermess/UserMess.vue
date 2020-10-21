@@ -1,5 +1,6 @@
 <template>
-  <div style="width: 80%;margin:0 auto">
+
+  <div  style="width: 80%;margin:0 auto">
     <b-card-group columns>
       <b-card id="i"
               title="个人信息"
@@ -127,9 +128,12 @@ export default {
     }else{
       this.title = "Hello,"+ this.form.name +" "+ "genterman" + "This is your Message"
     }
+
   },
   data() {
     return {
+      isLogin:true,
+      isshow:false,
       Data1:[],
       Data2:[],
       Data3:[],

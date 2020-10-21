@@ -4,7 +4,7 @@
       <div>
         <h3>学生信息管理</h3>
         <b-button  v-b-modal.my-modal1 style="display: inline;margin-top: 20px" variant="outline-success">批量导入</b-button>
-        <b-input-group  prepend="请输入姓名或者学号" class="mt-31">
+        <b-input-group  prepend="请输入工号或者学号" class="mt-31">
           <b-form-input id="username" v-model="username"></b-form-input>
           <b-input-group-append >
             <b-button @click="query()" variant="outline-success"><span style="padding-left: 20px;padding-right: 20px">搜索</span></b-button>

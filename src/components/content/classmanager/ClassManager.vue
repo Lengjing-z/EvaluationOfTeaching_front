@@ -66,7 +66,7 @@
               <vxe-table-column type="checkbox" class="check" width="60"></vxe-table-column>
               <vxe-table-column field="name" title="Name" sortable></vxe-table-column>
               <vxe-table-column field="sex" title="Sex" :filters="sexList" :filter-multiple="false" :formatter="formatterSex"></vxe-table-column>
-              <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>
+              <vxe-table-column field="addr" title="Address" show-overflow></vxe-table-column>
             </vxe-table>
 
             <b-button style="margin-top: 20px" v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>

@@ -12,7 +12,7 @@
           </span></div>
       </div>
     </div>
-    <div class="container mt-3 mb-5">
+    <div class="container d mt-3 mb-5">
       <header>
         <h3>评教管理</h3>
       </header>
@@ -22,9 +22,10 @@
       </div>
 
       <router-view></router-view>
+
     </div>
 
-
+    <div class="d"></div>
     <Footer></Footer>
   </div>
 </template>
@@ -114,6 +115,9 @@ export default {
 </script>
 
 <style scoped>
+.d{
+  height: 350px;
+}
 .all {
   position: fixed;
   width: 0;
