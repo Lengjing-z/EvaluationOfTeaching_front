@@ -23,11 +23,13 @@
 
       <router-view></router-view>
 
-    </div>
 
-    <div class="d"></div>
-    <Footer></Footer>
+    </div>
+    <div class="d1">
+      <Footer></Footer>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -116,7 +118,7 @@ export default {
 
 <style scoped>
 .d{
-  height: 350px;
+  padding-bottom:100px;
 }
 .all {
   position: fixed;
