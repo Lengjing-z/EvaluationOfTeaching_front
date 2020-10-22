@@ -78,7 +78,7 @@ export default {
       return myAxios.post("http://localhost:8080/back/admin/indicator/detail", root)
         .then(res => {
           commit("updateindicatorDetail", res.data)
-          // console.log(res.data)
+          console.log(res.data)
           let maxid = 0
           res.data.forEach(item => {
             if (Number(item.id) > maxid)
@@ -100,7 +100,7 @@ export default {
       let li = [];
       translateTreeToList(newIndicator[0], li)
       // console.log("list", JSON.stringify(li));
-      // return myAxios.post("admin/indicator/create", li)
+      return myAxios.post("admin/indicator/create", li)
         .then(res => {
           // console.log("createIndicator success")
           return true

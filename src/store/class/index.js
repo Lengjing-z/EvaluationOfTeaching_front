@@ -37,7 +37,7 @@ export default {
     },
     allEvaluations({commit},cId){
       return post(baseUrl+'allEvaluations',qs.stringify({cId}),res=>{
-        console.log('success');
+        // console.log('success');
         console.log(res.data);
         commit('updateQuery',res.data)
         return res.data

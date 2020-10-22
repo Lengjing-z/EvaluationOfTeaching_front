@@ -6,9 +6,8 @@ body {
   margin-bottom: 10px;
 }
 
-.span2{
-  width: 270px;
-  height: 400px;
+.span2 div{
+  /*height: 400px;*/
   background-color: #fdfdfd;
 }
 main{

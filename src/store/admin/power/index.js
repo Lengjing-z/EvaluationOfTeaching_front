@@ -56,6 +56,7 @@ export default {
     },
     //  查询用户权限 根据uid
     loadQuery({commit},condition){
+      commit('updateQuery',[])
       return post(baseUrl+'query',condition,res=>{
         commit('updateQuery',res.data)
         // console.log("loadQuery",res.data)

@@ -37,7 +37,7 @@
 
     <div>
       <b-modal id="functionform" size="lg"  hide-footer title="进行评教">
-        <Form :qwe="qnId"></Form>
+        <Form :qwe="qnId" :index="index" @onChangeData="onChangeData"></Form>
       </b-modal>
     </div>
 
@@ -45,6 +45,7 @@
       <b-modal  id="my-modal2" hide-footer title="ALl Students Message">
         <vxe-table
           border
+          :loading="tab"
           show-footer
           height="400"
           :data="tableData">
@@ -123,6 +124,7 @@ export default {
     },
     showModal3(index) {
       // console.log(index);
+      this.index = index
       this.$store
         .dispatch('clazz/allEvaluations',index)
         .then(result => {
@@ -135,6 +137,14 @@ export default {
         // this.$refs['my-modal2'].show();
         this.$bvModal.show('my-modal2');
       })
+    },
+    onChangeData(data) {
+      console.log("data2",data)
+      this.$bvModal.hide('my-modal2');
+
+      this.tableData = data;
+      this.$bvModal.show('my-modal2');
+      // this.tab = true
     },
     close(){
       this.$refs['my-modal2'].hide()
@@ -168,6 +178,8 @@ export default {
       ClassData:[],
       /*问卷列表*/
       tableData: [],
+      index:'',
+      tab:false
     }
   }
 }

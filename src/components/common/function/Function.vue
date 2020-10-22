@@ -1,5 +1,5 @@
 <template>
-   <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="jumpViews(url)">
+   <div class="col-lg-3 col-md-4 col-sm-6 col-6 card" @click="jumpViews(url)" >
      <svg class="icon" aria-hidden="true">
        <use :xlink:href="icon"></use>
      </svg>

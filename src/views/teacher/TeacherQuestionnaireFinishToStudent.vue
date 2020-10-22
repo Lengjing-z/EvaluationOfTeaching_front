@@ -136,6 +136,7 @@ export default {
           data: []
         }]
       }
+      this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
 
       // 展示数据分析
       // 进行人数统计
@@ -171,11 +172,8 @@ export default {
             }
           };
           // 获取指标 制作第二个图标
-          this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
-            .then(result =>{
-               this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
 
-            })
+          this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
         }).then(res =>{
         this.$bvModal.show("progressing")
       })

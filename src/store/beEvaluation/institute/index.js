@@ -37,7 +37,7 @@ export default {
     getDetail({commit}, tttId) {
       console.log(tttId)
       return post(baseUrl+"beEvaluation/institute/detail", qs.stringify({tttId: tttId}), res => {
-        commit("updateDetail", res.data)
+        commit("updateDetail", res.data.answers)
         console.log("beEvaluation/institute/detail",res.data)
         return res.data.answers
       })

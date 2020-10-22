@@ -8,18 +8,19 @@
     </aside>
     <!--  main start  -->
     <main>
-      <div class="container">
+      <div class="container-lg overflow-hidden">
         <div class="row">
           <div class="span10 col-md-12 col-lg-9">
             <!--主体内容-->
             <function-list></function-list>
           </div>
-          <div class="span2 d-none d-lg-block ">
-            <div id="myCanvasContainer">
-              <canvas width="270" height="400" id="myCanvas">
+          <div class="span2 col-md-12 col-lg-3 d-none pl-0 d-lg-block overflow-hidden">
+            <div>
+              <canvas class="w-100" height="400" id="myCanvas">
                 <p>Anything in here will be replaced on browsers that support the canvas element</p>
               </canvas>
             </div>
+
             <div id="tags">
               <ul class="weighted" style="font-size: 50%" id="weightTags">
                 <li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
@@ -95,9 +96,7 @@ export default {
   mounted() {
     this.$store.dispatch('admin/power/loadAll')
     // console.log(this.$store.state.info.mine.id);
-    this.$store.dispatch('admin/power/loadQuery', {uId: this.$store.state.info.mine.id}).then(() => {
-      // window.console.log(this.$store.state.admin.power.query)
-    })
+
     TagCanvas.Start('myCanvas', 'tags', {
       textColour: '#ff0000',
       outlineColour: '#ff00ff',

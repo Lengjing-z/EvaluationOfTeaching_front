@@ -1,18 +1,19 @@
 <template>
   <div id="functionlist">
-    <h2 class="title">服务</h2>
     <div id="list" class="row container">
       <Function v-for="item in functionDataList"
-        :key="item.title"
-        :title="item.title"
-        :icon="item.icon"
-        :url="item.url"
-        :powers="item.powers"
-
+                :key="item.title"
+                :title="item.title"
+                :icon="item.icon"
+                :url="item.url"
+                :powers="item.powers"
+                v-show="item.powers != null && item.powers.length>0"
       />
-<!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
-<!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
+
+      <!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
+      <!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
     </div>
+    <h2 class="title">服务</h2>
   </div>
 
 </template>
@@ -35,78 +36,92 @@ export default {
           "title": "用户管理",
           "url": "usermanager",
           "icon": "#icon-tuanxuezhaoxin",
-          powers: this.hasAnyPower(1,2,3,5,6,7,8,9)
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "课程管理",
           "url": "coursemanager",
-          "icon": "#icon-tubiaozhizuomoban28"
+          "icon": "#icon-tubiaozhizuomoban28",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "班级管理",
           "url": "classmana",
-          "icon": "#icon-tubiaozhizuomoban7"
+          "icon": "#icon-tubiaozhizuomoban7",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "问卷/指标管理",
           "url": "questionnaireManager",
-          "icon": "#icon-kaowuguanligongzuo"
+          "icon": "#icon-kaowuguanligongzuo",
+          "powers": this.hasAnyPower(3)
         },
 
         {
           "title": "学院管理",
           "url": "departmentmana",
-          "icon": "#icon-zhuantixuexihui"
+          "icon": "#icon-zhuantixuexihui",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "权限管理",
           "url": "limits",
-          "icon": "#icon-kaowuguanligongzuo"
+          "icon": "#icon-kaowuguanligongzuo",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "评教管理",
           "url": "questionnaireProgress",
-          "icon": "#icon-gongcheguanli"
+          "icon": "#icon-gongcheguanli",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "发布问卷",
           "url": "questionnaireIssue",
-          "icon": "#icon-gonghuichengyuanzhuce"
+          "icon": "#icon-gonghuichengyuanzhuce",
+          "powers": this.hasAnyPower(3)
         },
         {
           "title": "评教老师",
           "url": "pinteacher",
-          "icon": "#icon-banxuepinggu"
+          "icon": "#icon-banxuepinggu",
+          "powers": this.hasAnyPower(1)
         },
         {
           "title": "查看评价结果(学生)",
           "url": "studentQuestionnaireFinish",
-          "icon": "#icon-tubiaozhizuomoban26"
+          "icon": "#icon-tubiaozhizuomoban26",
+          "powers": this.hasAnyPower(1)
         },
         {
           "title": "查看个人信息",
           "url": "mess",
-          "icon": "#icon-xueshengdangan"
+          "icon": "#icon-xueshengdangan",
+          "powers": this.hasAnyPower(1,2)
         },
         {
           "title": "评教同行",
           "url": "techerpintecher",
-          "icon": "#icon-banxuepinggu"
+          "icon": "#icon-banxuepinggu",
+          "powers": this.hasAnyPower(2)
         },
         {
           "title": "查看评价结果(老师)",
           "url": "teacherQuestionnaireFinish",
-          "icon": "#icon-chengjishouji"
+          "icon": "#icon-chengjishouji",
+          "powers": this.hasAnyPower(2)
         },
         {
           "title": "问卷统计（老师）",
           "url": "teacherQuestionnaireFinishStatistics",
-          "icon": "#icon-tubiaozhizuomoban28"
+          "icon": "#icon-tubiaozhizuomoban28",
+          "powers": this.hasAnyPower(2)
         },
         {
           "title": "所授班级和课程",
           "url": "bethclass",
-          "icon": "#icon-tubiaozhizuomoban28"
+          "icon": "#icon-tubiaozhizuomoban28",
+          "powers": this.hasAnyPower(2)
         }
 
       ]
