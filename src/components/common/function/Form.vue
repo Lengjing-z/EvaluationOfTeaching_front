@@ -98,11 +98,17 @@
                   return item.finished === false
                 });
               })
+            this.$XModal.message({ message: '提交成功', status: 'success' })
             this.$bvModal.hide("functionform");
 
           }).then(()=>{
         })
-        this.$bvModal.hide("functionform");
+        setTimeout(() => {
+          this.$XModal.message({ message: '提交成功', status: 'success' })
+          this.$bvModal.hide("functionform");
+          this.$bvModal.hide("my-modal2");
+        }, 1000)
+
       }
     }
   }

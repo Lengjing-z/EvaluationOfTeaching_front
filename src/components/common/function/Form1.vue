@@ -94,7 +94,12 @@ name: "Form1",
         }).then(()=>{
         this.$bvModal.hide("function");
       })
-      this.$bvModal.hide("function");
+
+      setTimeout(() => {
+        this.$XModal.message({ message: '提交成功', status: 'success' })
+        this.$bvModal.hide("function");
+        this.$bvModal.hide("hi");
+      }, 1000)
       /*this.$refs['function'].hide();*/
     }
   }
