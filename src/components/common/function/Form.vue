@@ -89,59 +89,59 @@ export default {
             console.log(3333333);
           this.ClassData = this.$store.state.clazz.taught;
 
+            this.$store
+              .dispatch('clazz/allEvaluations',index)
+              .then(result => {
+                if (result==='success')
+                  console.log(3333333);
+                this.tableData =  this.$store.state.clazz.query.filter(function (item) {
+                  return item.finished === false
+                });
+              })
+            this.$XModal.message({ message: '提交成功', status: 'success' })
+            this.$bvModal.hide("functionform");
 
-        }).then(res => {
-        this.$store
-          .dispatch('clazz/allEvaluations', this.index)
-          .then(result => {
-            let data = result.filter(function (item) {
-              return item.finished === false
-            });
-            console.log("data", data)
-            this.$emit("onChangeData", data);
-          })
-        this.$bvModal.hide("functionform");
-      })
+          }).then(()=>{
+        })
+        setTimeout(() => {
+          this.$XModal.message({ message: '提交成功', status: 'success' })
+          this.$bvModal.hide("functionform");
+          this.$bvModal.hide("my-modal2");
+        }, 1000)
 
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-.tableDiv {
-  margin: 0 auto;
+.tableDiv{
+  margin:0 auto;
   max-width: 800px;
 }
-
-table th {
+table th{
   text-align: center;
 }
-
-table th, table td {
+table th,table td{
   padding: 8px 5px;
 }
-
-.grxx {
+.grxx{
   display: flex;
   border: 1px solid #d0d0d0;
   width: 100%;
   box-sizing: border-box;
 }
-
-.grxx > div {
+.grxx>div{
   flex: 1;
-  border-right: 1px solid #d0d0d0;
+  border-right:1px solid #d0d0d0;
   padding: 5px 3px;
   text-align: center;
   font-size: 14px;
 }
-
-.grxx > div:last-child {
+.grxx>div:last-child{
   border-right: none;
 }
-
-.wenjuan {
+.wenjuan{
   border: 1px solid #d0d0d0;
   padding: 5px;
   border-top: 0;
@@ -149,25 +149,22 @@ table th, table td {
   width: 100%;
   box-sizing: border-box;
 }
-
-.wenjuan table {
+.wenjuan table{
   width: 100%;
   border: 1px solid #d0d0d0;
 }
-
-p {
+p{
   margin: 0;
 }
 
 
-.subbtn {
+.subbtn{
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
-
-.choose {
+.choose{
   width: 85%;
 }
 </style>

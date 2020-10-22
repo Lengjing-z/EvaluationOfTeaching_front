@@ -22,7 +22,7 @@
                 <span class="mr-auto">{{username}}</span>
               </div>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item @click="showMessage()" href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="login_out" href="#">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
 
@@ -43,17 +43,10 @@ export default {
   },
   methods:{
     login_out(){
-      this.$store
-        .dispatch('logout')
-        .then(result => {
-          if (result==='success')
-            console.log('this' + '  ' + 'success');
-         /* this.ClassData = this.$store.state.admin.class.query2;*/
-         /* console.log(this.$store.state.admin.class.query2);*/
-          /*  this.ClassData = this.$store.state.admin.user.userForm;*/
-        }).then(()=>{
-        /*this.$router.push('index')*/
-      })
+      this.$router.push('./login')
+    },
+    showMessage(){
+      this.$router.push('./mess')
     }
   }
 }

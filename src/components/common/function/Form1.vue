@@ -92,9 +92,14 @@ name: "Form1",
           this.ClassData =   this.$store.state.clazz.taught;
           this.$XModal.message({ message: '评教成功', status: 'success' })
         }).then(()=>{
-
+        this.$bvModal.hide("function");
       })
-      this.$bvModal.hide("function");
+
+      setTimeout(() => {
+        this.$XModal.message({ message: '提交成功', status: 'success' })
+        this.$bvModal.hide("function");
+        this.$bvModal.hide("hi");
+      }, 1000)
       /*this.$refs['function'].hide();*/
     }
   }

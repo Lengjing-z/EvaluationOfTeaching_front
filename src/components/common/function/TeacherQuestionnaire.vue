@@ -99,6 +99,7 @@ table th, table td {
   box-sizing: border-box;
 }
 
+
 .wenjuan table {
   width: 100%;
   border: 1px solid #d0d0d0;

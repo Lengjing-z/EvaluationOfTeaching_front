@@ -19,7 +19,7 @@
       <teacher-questionnaire :finishedlist="detailData" :teacher="rowData"></teacher-questionnaire>
 
     </div>
-
+    <div style="height: 400px"></div>
 
     <Footer></Footer>
   </div>

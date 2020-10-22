@@ -3,16 +3,8 @@
     <header>
       <NavBar></NavBar>
     </header>
-    <div id="nav_manager-user">
-      <b-breadcrumb>
-        <b-breadcrumb-item @click="toIndex()" href="#home">
-          <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
-          首页
-        </b-breadcrumb-item>
-        <b-breadcrumb-item href="#foo">班级管理</b-breadcrumb-item>
-      </b-breadcrumb>
-    </div>
-    <ClassManager></ClassManager>
+    <manager-setting style="width: 75%;margin: 0 auto" :manager="manager"></manager-setting>
+    <ClassManager style="width: 70%;margin: 0 auto"></ClassManager>
     <footer>
       <Footer></Footer>
     </footer>
@@ -23,12 +15,19 @@
 import ClassManager from "components/content/classmanager/ClassManager";
 import NavBar from "components/content/nav/NavBar";
 import Footer from "components/content/footer/Footer";
+import ManagerSetting from "components/common/Manager/ManagerSetting";
 export default {
   name: "ClassMana",
+  data(){
+    return{
+      manager: [{name: "班级管理"}],
+    }
+  },
   components:{
     ClassManager,
     NavBar,
-    Footer
+    Footer,
+    ManagerSetting
   },
   methods:{
     toIndex(){

@@ -64,7 +64,7 @@
         </vxe-table>
       </b-modal>
     </div>
-
+    <div style="height: 400px"></div>
     <footer>
       <Footer></Footer>
     </footer>
@@ -84,7 +84,7 @@ export default {
       .then(result => {
         if (result==='success')
           console.log(3333333);
-        this.ClassData =   this.$store.state.clazz.enrolled;
+        this.ClassData = this.$store.state.clazz.enrolled;
       }).then(()=>{
     })
   },

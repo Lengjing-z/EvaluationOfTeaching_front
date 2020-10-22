@@ -36,6 +36,20 @@ export default {
           return err
         })
     },
-
+    allTeacher({commit}){
+      // console.log(11111);
+      /* '2020100108'*/
+      return myAxios
+        .post('admin/user/allTeacher')
+        .then(res=>{
+          console.log(res.data);
+          commit('updateLoginForm',res.data)
+          return 'success'
+          /*return res.data*/
+        }).catch(err=>{
+          console.log(err)
+          return err
+        })
+    },
   }
 }

@@ -2,7 +2,7 @@
   <div class="test">
     <header>
       <h3>班级管理</h3>
-      <b-button  v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
+      <b-button style="margin-top: 20px;"  v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
       <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px; margin-left: 15px;
       " variant="outline-success">批量导入</b-button>
       <div class="seach_class">
@@ -62,14 +62,15 @@
               <vxe-table-column type="seq" width="60"></vxe-table-column>
               <vxe-table-column type="checkbox" class="check" width="60"></vxe-table-column>
               <vxe-table-column field="name" title="Name" sortable></vxe-table-column>
-              <vxe-table-column field="sex" title="Sex"  :filter-multiple="false" ></vxe-table-column>
-              <vxe-table-column field="address" title="Address" show-overflow></vxe-table-column>
+              <vxe-table-column field="sex" title="Sex" :filters="sexList" :filter-multiple="false" :formatter="formatterSex"></vxe-table-column>
+              <vxe-table-column field="addr" title="Address" show-overflow></vxe-table-column>
             </vxe-table>
 
             <b-button  v-b-modal.my-modal1 @click="subClassStudent()"  variant="outline-primary">添加学生</b-button>
           </template>
         </vxe-modal>
         <vxe-table
+          style="margin-top: 20px"
           border
           show-footer
           height="400"
@@ -291,18 +292,18 @@ export default {
           // if (result === 'success')
             // console.log(3333333);
           this.tableData = this.$store.state.admin.class.q
-          // let all = [];
-          // for(let i in this.tableData){
-          //   all.push(this.tableData[i])
-          // }
-          // console.log(all);
-          // this.tableData = all
+          let all = [];
+          for(let i in this.tableData){
+            all.push(this.tableData[i])
+          }
+          console.log(all);
+          this.tableData = all
           console.log(this.$store.state.admin.users.q);
         }).then(() => {
           this.$refs['my-modal2'].show();
       })
 
-      // console.log(index);
+      console.log(index);
 
 
     },
@@ -420,6 +421,10 @@ export default {
 
 data(){
   return{
+    /*init: [{
+      claId: '',
+      stId: '',
+    }],*/
     pub:'',
     Clname:'',
     init: [],

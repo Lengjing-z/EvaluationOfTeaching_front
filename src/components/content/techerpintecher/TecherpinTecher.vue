@@ -46,7 +46,7 @@
     </div>
 
     <div>
-      <b-modal  ref="my-modal2" hide-footer title="ALl Students Message">
+      <b-modal  ref="my-modal2"  id="hi" hide-footer title="ALl Students Message">
         <vxe-table
           border
           show-footer
@@ -62,7 +62,7 @@
         </vxe-table>
       </b-modal>
     </div>
-
+    <div style="height: 400px"></div>
     <footer>
       <Footer></Footer>
     </footer>

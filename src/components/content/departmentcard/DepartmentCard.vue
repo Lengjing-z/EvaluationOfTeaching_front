@@ -156,6 +156,17 @@ name: "DepartmentCard",
     },
     showModal3(){
       this.$refs['my-modal2'].show();
+      this.$store
+        .dispatch('admin/users/queryAllTeacher')
+        .then(result => {
+          if (result==='success')
+            console.log('this' + '  ' + 'success');
+          this.DepartmentData = this.$store.state.admin.institute.query;
+          console.log(this.$store.state.admin.institute.query);
+          /*  this.ClassData = this.$store.state.admin.user.userForm;*/
+        }).then(()=>{
+        /*this.$router.push('index')*/
+      })
     },
     test(index){
       console.log(this.DepartmentData[index].code[0]);
