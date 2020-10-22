@@ -182,11 +182,12 @@ export default {
     // 提交权限的更改
     submitPower () {
       let selectRecords = this.$refs.limits.getCheckboxRecords()
-      console.log(selectRecords)
+      // console.log(selectRecords)
       // 过滤 自定义的root
-      selectRecords.splice(selectRecords.findIndex(item =>item.name === 'root'),1)
+      let res = selectRecords.filter(item =>{return item.name != "root"})
       let powers = []
-      selectRecords.forEach(item=>{
+      console.log("res",res)
+      res.forEach(item=>{
         powers.push({
           pid:item.id,
           uid:this.currentUser.id

@@ -1,5 +1,6 @@
 <template>
   <div id="functionlist">
+    <h2 class="title">服务</h2>
     <div id="list" class="row container">
       <Function v-for="item in functionDataList"
                 :key="item.title"
@@ -13,7 +14,6 @@
       <!--      //  开发时 可去掉 v-show="item.powers != null && item.powers.length>0"-->
       <!--      //  整合此功能加上 v-show="item.powers != null && item.powers.length>0"-->
     </div>
-    <h2 class="title">服务</h2>
   </div>
 
 </template>
