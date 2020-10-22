@@ -1,5 +1,5 @@
 <template>
-<!--  老师  学院 问卷名 开始时间  结束时间 -->
+  <!--  老师  学院 问卷名 开始时间  结束时间 -->
   <div>
     <vxe-table
       stripe
@@ -9,8 +9,10 @@
       <vxe-table-column type="seq" width="60"></vxe-table-column>
       <vxe-table-column field="title" title="问卷名" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column field="name" title="学院"></vxe-table-column>
-      <vxe-table-column field="begin_time" title="开始时间" show-overflow="tooltip" :formatter="formatterTime"></vxe-table-column>
-      <vxe-table-column field="end_time" title="结束时间" show-overflow="tooltip" :formatter="formatterTime"></vxe-table-column>
+      <vxe-table-column field="begin_time" title="开始时间" show-overflow="tooltip"
+                        :formatter="formatterTime"></vxe-table-column>
+      <vxe-table-column field="end_time" title="结束时间" show-overflow="tooltip"
+                        :formatter="formatterTime"></vxe-table-column>
       <vxe-table-column field="pro" title="进度"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
@@ -19,6 +21,7 @@
       </vxe-table-column>
     </vxe-table>
     <b-modal id="progressing" size="lg" hide-footer title="进度">
+      <div>总分：{{ total }} 得分：{{ score }}</div>
       <v-chart class="pro" :options="option"/>
       <v-chart class="pro2" :options="option2"/>
     </b-modal>
@@ -29,12 +32,14 @@
 import XEUtils from "xe-utils";
 
 export default {
-name: "QuestionnaireProgressTeacher",
+  name: "QuestionnaireProgressTeacher",
   data() {
     return {
-      progressQuestionnaires:[],
+      progressQuestionnaires: [],
       option: {},
       option2: {},
+      total: 0,
+      score: 0
     }
   },
   mounted() {
@@ -43,7 +48,7 @@ name: "QuestionnaireProgressTeacher",
   beforeUpdate() {
     this.progressQuestionnaires = this.$store.state.admin.evaluation.teacherAllList
   },
-  methods:{
+  methods: {
     showTooltipMethod({type, column, row, items, _columnIndex}) {
       // 重写默认的提示内容
       if (column.property == 'begin_time' || column.property == 'end_time') {
@@ -115,7 +120,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name:  '满意',
+            name: '满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -124,7 +129,7 @@ name: "QuestionnaireProgressTeacher",
             },
             data: []
           }, {
-            name:  '非常满意',
+            name: '非常满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -134,7 +139,7 @@ name: "QuestionnaireProgressTeacher",
             data: []
           }]
       }
-      this.$store.dispatch("admin/indicator/getDetail", {id:row.index_root_id})
+      this.$store.dispatch("admin/indicator/getDetail", {id: row.index_root_id})
 
       // 展示数据分析
       // 进行人数统计
@@ -148,7 +153,7 @@ name: "QuestionnaireProgressTeacher",
             }
             // 遍历进行统计每个问题不同等级进行人数统计
             this.option.series.forEach(ops => {
-              if (ops.name == leg[parseInt(item.answer)-1]) {
+              if (ops.name == leg[parseInt(item.answer) - 1]) {
                 if (ops.data[this.option.yAxis.data.indexOf(item.qsId)] == null) {
                   ops.data[this.option.yAxis.data.indexOf(item.qsId)] = 1
                 } else {
@@ -169,9 +174,11 @@ name: "QuestionnaireProgressTeacher",
             }
           };
           // 获取指标 制作第二个图标
-              this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
+          this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res)
+          this.total = this.$store.getters["admin/getScore"](this.$store.getters["admin/getTotal"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res))
+          this.score = this.$store.getters["admin/getScore"](this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res))
 
-      }).then(res =>{
+        }).then(res => {
         this.$bvModal.show("progressing")
       })
     }

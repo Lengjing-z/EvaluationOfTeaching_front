@@ -9,8 +9,10 @@
       <vxe-table-column type="seq" width="60"></vxe-table-column>
       <vxe-table-column field="qTitle" title="问卷名" show-overflow="tooltip"></vxe-table-column>
       <vxe-table-column field="iName" title="学院" width="100" show-overflow="tooltip"></vxe-table-column>
-      <vxe-table-column field="begainTime" title="开始时间" show-overflow="tooltip" :formatter="formatterTime"></vxe-table-column>
-      <vxe-table-column field="endTime" title="结束时间" show-overflow="tooltip" :formatter="formatterTime"></vxe-table-column>
+      <vxe-table-column field="begainTime" title="开始时间" show-overflow="tooltip"
+                        :formatter="formatterTime"></vxe-table-column>
+      <vxe-table-column field="endTime" title="结束时间" show-overflow="tooltip"
+                        :formatter="formatterTime"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <vxe-button @click="dataAnalysis(row)">查看数据分析</vxe-button>
@@ -18,6 +20,7 @@
       </vxe-table-column>
     </vxe-table>
     <b-modal id="analysis" size="lg" hide-footer title="进度">
+      <div>总分：{{ total }} 得分：{{ score }}</div>
       <v-chart class="pro" :options="option"/>
       <v-chart class="pro2" :options="option2"/>
     </b-modal>
@@ -35,8 +38,10 @@ export default {
   data() {
     return {
       questionnaireList: [],
-      option:{},
+      option: {},
       option2: {},
+      total: 0,
+      score: 0
     }
 
   },
@@ -121,7 +126,7 @@ export default {
             },
             data: []
           }, {
-            name:  '满意',
+            name: '满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -130,7 +135,7 @@ export default {
             },
             data: []
           }, {
-            name:  '非常满意',
+            name: '非常满意',
             type: 'bar',
             stack: '总量',
             label: {
@@ -140,7 +145,7 @@ export default {
             data: []
           }]
       }
-      this.$store.dispatch("admin/indicator/getDetail", {id:row.indexRootId})
+      this.$store.dispatch("admin/indicator/getDetail", {id: row.indexRootId})
 
       // 展示数据分析
       // 进行人数统计
@@ -154,7 +159,7 @@ export default {
             }
             // 遍历进行统计每个问题不同等级进行人数统计
             this.option.series.forEach(ops => {
-              if (ops.name == leg[parseInt(item.answer)-1]) {
+              if (ops.name == leg[parseInt(item.answer) - 1]) {
                 if (ops.data[this.option.yAxis.data.indexOf(item.qsId)] == null) {
                   ops.data[this.option.yAxis.data.indexOf(item.qsId)] = 1
                 } else {
@@ -177,9 +182,12 @@ export default {
             }
           };
           // 获取指标 制作第二个图标
-              this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
+          this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res)
+          this.total = this.$store.getters["admin/getScore"](this.$store.getters["admin/getTotal"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res))
+          this.score = this.$store.getters["admin/getScore"](this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children, res))
 
-        }).then(() =>{
+
+        }).then(() => {
         this.$bvModal.show("analysis")
       })
     }

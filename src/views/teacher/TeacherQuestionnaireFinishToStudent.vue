@@ -21,6 +21,7 @@
       </vxe-table-column>
     </vxe-table>
     <b-modal id="progressing" size="lg" hide-footer title="进度">
+      <div>总分：{{total}} 得分：{{score}}</div>
       <v-chart class="pro" :options="option"/>
       <v-chart class="pro2" :options="option2"/>
     </b-modal>
@@ -36,6 +37,8 @@ export default {
       questionnaireList: [],
       option: {},
       option2: {},
+      total:0,
+      score:0
     }
   },
   mounted() {
@@ -161,6 +164,11 @@ export default {
           })
 
           this.option2 = {
+            title: {
+              text: '指标权重统计',
+              left: 'center',
+              align: 'right'
+            },
             series: {
               type: 'sunburst',
               // highlightPolicy: 'ancestor',
@@ -172,8 +180,11 @@ export default {
             }
           };
           // 获取指标 制作第二个图标
-
           this.option2.series.data = this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res)
+          console.log(this.option2.series.data)
+
+          this.total = this.$store.getters["admin/getScore"](this.$store.getters["admin/getTotal"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res))
+          this.score = this.$store.getters["admin/getScore"](this.$store.getters["admin/generateDiagramData"](this.$store.getters["admin/indicator/getTndicatorTree"].children,res))
         }).then(res =>{
         this.$bvModal.show("progressing")
       })
