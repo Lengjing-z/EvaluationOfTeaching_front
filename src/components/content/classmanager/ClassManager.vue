@@ -2,7 +2,7 @@
   <div class="test">
     <header>
       <h3>班级管理</h3>
-      <b-button  v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
+      <b-button style="margin-top: 20px;"  v-b-modal.my-modal1 @click="showModal2" variant="outline-primary">添加班级</b-button>
       <b-button  v-b-modal.my-modal4 style="display: inline;margin-top: 20px; margin-left: 15px;
       " variant="outline-success">批量导入</b-button>
       <div class="seach_class">

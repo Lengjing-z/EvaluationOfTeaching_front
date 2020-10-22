@@ -68,7 +68,6 @@ export default {
     })
   },
   data(){
-
     return{
       manager: [{name: "所授班级和所教课程"}],
       ClassData:[],

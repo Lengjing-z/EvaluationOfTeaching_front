@@ -102,7 +102,7 @@
 
           }).then(()=>{
         })
-        this.$refs['function'].hide();
+        this.$bvModal.hide("functionform");
       }
     }
   }
