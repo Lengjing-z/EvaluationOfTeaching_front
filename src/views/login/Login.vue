@@ -1,6 +1,6 @@
 <template>
   <body id="con" class="login-layout">
-  <div class="main-container">
+  <div  class="main-container">
     <div class="main-content">
       <div class="row">
         <div class="col-sm-12 col-sm-offset-1">
@@ -29,19 +29,15 @@
                       <fieldset>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" v-model="loginForm.username"
-                                     placeholder="Username"/>
-														  <i style="float: right;margin-top: -23px;margin-right: 10px"
-                                 class="vxe-icon--question blue"></i>
+															<input type="text" class="form-control" v-model="loginForm.username" placeholder="Username" />
+														  <i  style="float: right;margin-top: -23px;margin-right: 10px" class="vxe-icon--question blue"></i>
 															<i class=""></i>
 														</span>
                         </label>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" v-model="loginForm.password"
-                                     placeholder="Password"/>
-															<i style="float: right;margin-top: -23px;margin-right: 10px"
-                                 class="vxe-icon--eye-slash blue"></i>
+															<input type="password" class="form-control" v-model="loginForm.password" placeholder="Password" />
+															<i style="float: right;margin-top: -23px;margin-right: 10px" class="vxe-icon--eye-slash blue"></i>
 														</span>
                         </label>
                         <div style="color: red" v-if="succ">
@@ -52,10 +48,10 @@
                           <label class="inline">
                             <vxe-checkbox style="margin-top: 10px" class="ace" content="记住我"></vxe-checkbox>
                           </label>
-                          <!-- <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
-                             <i v-if="isLogin" class="vxe-icon&#45;&#45;refresh roll"></i>
-                             <span style="margin-left: 9px" class="bigger-110">登录</span>
-                           </button>-->
+                         <!-- <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="login()">
+                            <i v-if="isLogin" class="vxe-icon&#45;&#45;refresh roll"></i>
+                            <span style="margin-left: 9px" class="bigger-110">登录</span>
+                          </button>-->
                           <button type="button" class="width-35 pull-right btn btn-sm btn-primary" @click="onload()">
                             <i v-if="isLogin" class="vxe-icon--refresh roll"></i>
                             <span style="margin-left: 9px" class="bigger-110">登录</span>
@@ -91,10 +87,12 @@
               </div><!-- /.login-box -->
 
 
+
+
             </div><!-- /.position-relative -->
 
             <div class="navbar-fixed-top align-right">
-              <br/>
+              <br />
               &nbsp;
               <a id="btn-login-dark" href="#">Dark</a>
               &nbsp;
@@ -116,70 +114,72 @@
   </body>
 
 
+
 </template>
 
 <script>
 import qs from 'qs'
 
-export default {
-  name: "login",
-  data() {
-    return {
-      isLogin: false,
-      succ: false,
-      loginForm: {
-        username: 'admin',
-        password: '123456'
+  export default {
+    name: "login",
+    data() {
+      return {
+        isLogin:false,
+        succ:false,
+        loginForm: {
+          username: 'admin',
+          password: '123456'
 
-        // username: '10001011',
-        // password: '123456'
+          // username: '10001011',
+          // password: '123456'
 
-        // username: '179000501',
-        // password: '123456'
+          // username: '179000501',
+          // password: '123456'
+        },
+        responseResult: []
+      };
+    },
+    methods : {
+      onload(){
+        this.isLogin = true;
+        setTimeout(() => {
+          this.login();
+        }, 500)
       },
-      responseResult: []
-    };
-  },
-  methods: {
-    onload() {
-      this.isLogin = true;
-      setTimeout(() => {
-        this.login();
-      }, 500)
-    },
-    login() {
-      this.$store.commit('updateLoginForm', this.loginForm)
-      this.$store
-        .dispatch('login')
-        .then(result => {
-          if (result === 'success') {
-            console.log("login success");
-            this.$XModal.message({message: '登陆成功', status: 'success'})
+      login() {
+        this.$store.commit('updateLoginForm',this.loginForm)
+        this.$store
+          .dispatch('login')
+          .then(result => {
+            if (result==='success'){
+              console.log("login success");
+              this.$XModal.message({ message: '登陆成功', status: 'success' })
 
-
-            return this.$store.dispatch('info/loadMyInfo')
-          } else {
-            this.$XModal.message({message: 'error 用户名或密码错误', status: 'error'})
-            this.isLogin = false;
-            this.$router.push('/login')
-          }
-        })
-        .then(() => {
-          return this.$store.dispatch('admin/power/loadQuery', {"uId": this.$store.state.info.mine.id})
-        })
-        .then(() => {
-          this.$router.push('index')
-          window.console.log(this.$store.state.admin.power.query)
-        })
-    },
-    test() {
-      this.$router.push('./manager');
-    },
-    test1() {
-      this.$router.push('./mess');
+              this.$store.dispatch('info/loadMyInfo').then(re=>{
+                this.$store.dispatch('admin/power/loadQuery',   {uId: this.$store.state.info.mine.id,pId:null}).then(() => {
+                  // window.console.log(this.$store.state.admin.power.query)
+                  this.$router.push('index')
+                })
+              })
+            }else{
+              this.$XModal.message({ message: 'error 用户名或密码错误', status: 'error' })
+              this.isLogin = false;
+              this.$router.push('/login')
+            }
+          })
+      },
+      test(){
+        this.$router.push('./manager');
+      },
+      test1(){
+        this.$router.push('./mess');
+      }
     }
   }
-}
+
+
+
+
 
 
 </script>
@@ -187,11 +187,10 @@ export default {
 <style src="assets/css/ace-rtl.min.css" scoped></style>
 <style src="assets/font-awesome/4.2.0/css/font-awesome.min.css" scoped></style>
 <style scoped>
-#con {
-  height: 62.5rem /* 1000/16 */;
-}
-
-#log {
-  margin: 3.125rem /* 50/16 */ auto;
-}
+ #con{
+   height: 62.5rem  /* 1000/16 */;
+ }
+ #log{
+   margin: 3.125rem  /* 50/16 */ auto;
+ }
 </style>

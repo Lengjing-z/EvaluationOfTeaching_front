@@ -79,7 +79,7 @@ export default {
           "title": "发布问卷",
           "url": "questionnaireIssue",
           "icon": "#icon-gonghuichengyuanzhuce",
-          "powers": this.hasAnyPower(3)
+          "powers": this.hasAnyPower(3,90,91)
         },
         {
           "title": "评教老师",

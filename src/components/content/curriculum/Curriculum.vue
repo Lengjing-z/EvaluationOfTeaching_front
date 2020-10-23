@@ -284,6 +284,7 @@ export default {
             .then(result => {
               if (result === 'success')
                 console.log(3333333);
+              this.$XModal.message({ message: '导入成功', status: 'success' })
               /*this.tableData = this.$store.state.admin.user.userForm;*/
             }).then(() => {
             /*this.$router.push('index')*/

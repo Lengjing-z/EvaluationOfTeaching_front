@@ -18,12 +18,14 @@ export default {
   },
   actions:{
     login({commit,state}){
+      console.log(qs.stringify(state.loginForm))
       return myAxios
-        .post('login',qs.stringify(state.loginForm))
+        .post('/login',qs.stringify(state.loginForm))
         .then(res=>{
           commit('updateLoginStatus',res.data)
           return res.data
         }).catch(err=>{
+          console.log(err)
           return err
       })
     },
